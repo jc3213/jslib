@@ -13,4 +13,4 @@
 
 ## Dragable Element
 
-- [How To Use](/readme/dragable.md)
+- [How To Use](/readme/draggable.md)
