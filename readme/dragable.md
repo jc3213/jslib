@@ -9,7 +9,7 @@
 ```
 ## Syntax
 ```javascript
-draggableElement(element, ondragend);
+dragableElement(element, ondragend);
 ```
 ### element `*required`
 A DOM **element**
