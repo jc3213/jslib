@@ -1,17 +1,17 @@
 ## How to Use
 ### HTML
 ```HTML
-<script src="meta4.js"></script>
+<script src="metalink4.js"></script>
 ```
 ### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/src/meta4.js
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/src/metalink4.js
 ```
 ## Syntax
 ```javascript
-const metalink = new JSLib_Meta4(input);
+const meta4 = metalink4(array);
 ```
-### `input`
+### `array`
 An array of object `[ object0, object1, ... ]`
 #### `object`
 Syntax `{ url, name, size, version, language, hash, metaurl }`
@@ -29,14 +29,5 @@ The language of the file
 An Array of object `[ {type, hash}, {type, hash} ]`, both **type** and **hash** are required. `<hash type="sha-256">40a51...1e1d7</hash>`
 #### metaurl `Optional`
 An Array of object `[ {type, url, {type, url} ]`, both **type** and **url** are required. `<metaurl type="torrent">http://sa.pl/e.torrent</metaurl>`
-### metalink
-An object `{text, blob}`
-#### `text`
-a text string of metalink file content
-#### `blob`
-A blob object of metalink file
-## Method
-```javascript
-metalink.saveAs(filename);
-```
-Save the result into a local file. If `filename` is not defined, default filename is **metalink**
+### meta4
+The result of metalink file content as text `string`
