@@ -1,11 +1,11 @@
 ## How to implement
 ### HTML
 ```HTML
-<script src="dragable.js"></script>
+<script src="draggable.js"></script>
 ```
 ### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/src/dragable.js
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/src/draggable.js
 ```
 ## Syntax
 ```javascript
