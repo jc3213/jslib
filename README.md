@@ -10,3 +10,7 @@
 ## JSLib FileReader
 
 - [How To Use](/readme/filereader.md)
+
+## Dragable Element
+
+- [How To Use](/readme/dragable.md)
