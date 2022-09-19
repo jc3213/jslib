@@ -1,8 +1,6 @@
 class JSLib_Meta4 {
     constructor (array) {
-        var header = '<?xml version="1.0" encoding="UTF-8"?><metalink xmlns="urn:ietf:params:xml:ns:metalink">';
-        var footer = '</metalink>';
-        var arraybuffer = [header];
+        var meta4 = '<?xml version="1.0" encoding="UTF-8"?><metalink xmlns="urn:ietf:params:xml:ns:metalink">';
         array.forEach(function (json) {
             var {name, size, version, language, hash, url, metaurl} = json;
             if (name) {
@@ -42,13 +40,11 @@ class JSLib_Meta4 {
                     file += '<metaurl metatype="' + type + '">' + url + '</metaurl>';
                 });
             }
-            file += '</file>';
-            arraybuffer.push(file);
+            meta4 += file + '</file>';
         });
-        arraybuffer.push(footer);
-        this.arraybuffer = arraybuffer;
-        this.text = arraybuffer.join('');
-        this.blob = new Blob(arraybuffer, {type: 'application/metalink+xml; charset=utf-8'});
+        meta4 += '</metalink>';
+        this.text = meta4;
+        this.blob = new Blob([meta4], {type: 'application/metalink+xml; charset=utf-8'});
     }
     saveAs (name) {
         var anchor = document.createElement('a');
