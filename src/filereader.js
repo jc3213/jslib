@@ -1,7 +1,11 @@
-class JSLib_FileReader {
-    constructor (file) {
-        var reader = function (method) {
-            return new Promise((resolve, reject) => {
+class PromiseFileReader {
+    constructor (files) {
+        this.files = files;
+    }
+    reader (method) {
+        var files = [...this.files];
+        var promises = files.map(function (file) {
+            return new Promise(function (resolve, reject) {
                 var reader = new FileReader();
                 reader.onload = function (event) {
                     resolve(reader.result);
@@ -9,28 +13,33 @@ class JSLib_FileReader {
                 reader.onerror = reject;
                 reader[method](file);
             });
-        }
-        this.text = function () {
-            return reader('readAsText');
-        };
-        this.dataURL = function () {
-            return reader('readAsDataURL');
-        };
-        this.arrayBuffer = function () {
-            return reader('readAsArrayBuffer');
-        };
-        this.binaryString = function () {
-            return reader('readAsBinaryString');
-        };
-        this.json = function () {
-            return reader('readAsText').then(function (string) {
+        });
+        return Promise.all(promises);
+    }
+    text () {
+        return this.reader('readAsText');
+    }
+    dataURL () {
+        return this.reader('readAsDataURL');
+    }
+    arrayBuffer () {
+        return this.reader('readAsArrayBuffer');
+    }
+    binaryString () {
+        return this.reader('readAsBinaryString');
+    }
+    json () {
+        return this.reader('readAsText').then(function (array) {
+            return array.map(function (string) {
                 return JSON.parse(string);
             });
-        };
-        this.base64 = function () {
-            return reader('readAsDataURL').then(function (string) {
+        });
+    }
+    base64 () {
+        return this.reader('readAsDataURL').then(function (array) {
+            return array.map(function (string) {
                 return string.slice(string.indexOf(',') + 1);
             });
-        };
+        });
     }
 }
