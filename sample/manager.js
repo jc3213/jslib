@@ -5,7 +5,7 @@ var jsNotify = new JSUI_Notify();
 jsNotify.cssText = '.jsui_manager {border: 1px solid #000; width: 500px; margin: 0px auto;}\
 .jsui_manager > * {width: 100%; resize: none;}\
 .jsui_table {height: 400px; border: none;}\
-.jsui_menu_btn, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}';
+.jsui_menu_item, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}';
 
 var menu = jsMenu.menu([
     {label: '按钮1', onclick: clickBtnA},
