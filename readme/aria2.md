@@ -5,7 +5,7 @@
 ```
 ### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/src/aria2.js
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/lib/aria2.js
 ```
 ## Syntax
 ```javascript
