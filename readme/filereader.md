@@ -5,7 +5,7 @@
 ```
 ### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/lib/filereader.js
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/js/filereader.js
 ```
 ## Syntax
 ```javascript

@@ -5,7 +5,7 @@
 ```
 ### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/lib/draggable.js
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/js/draggable.js
 ```
 ## Syntax
 ```javascript
