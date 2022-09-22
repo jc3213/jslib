@@ -1,11 +1,29 @@
 var jsMenu = new JSUI_Menu();
 var jsTable = new JSUI_Table(['测试标题', 'Test Title', 'テストタイトル']);
 var jsNotify = new JSUI_Notify();
+var filereader = new PromiseFileReader();
 
-jsNotify.cssText = '.jsui_manager {border: 1px solid #000; width: 500px; margin: 0px auto;}\
-.jsui_manager > * {width: 100%; resize: none;}\
-.jsui_table {height: 400px; border: none;}\
-.jsui_menu_item, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}';
+jsNotify.cssText = `body {margin: auto; width: 600px;}
+#dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
+textarea {width: 100%; resize: none;}
+.jsui_manager {border: 1px solid #000;}
+.jsui_table {height: 400px; border: none;}
+.jsui_menu_item, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}`;
+
+document.querySelector('#filereader').addEventListener('change', async function (event) {
+    filereader.files = event.target.files;
+    [{test_en, test_ch, test_ja}] = await filereader.json();
+    entry.innerText = test_en + '\r\n' + test_ch + '\r\n' + test_ja;
+    event.target.value = '';
+})
+
+var dropzone = document.querySelector('#dropzone');
+dropzone.addEventListener('dragover', function (event) {
+    event.preventDefault();
+});
+dropzone.addEventListener('drop', function (event) {
+    dropzone.appendChild(entry);
+});
 
 var menu = jsMenu.menu([
     {label: '按钮1', onclick: clickBtnA},
@@ -32,10 +50,20 @@ function clickBtnC(event) {
 
 var entry = document.createElement('textarea');
 entry.rows = '6';
+var draggable = new DraggableElement(entry, true);
+draggable.ondragdrop = function (event) {
+    entry.value = 'Drag\'n\'Drop Complete\n拖拽成功\nドラッグドロップ成功'
+}
 
 var manager = document.createElement('div');
 manager.className = 'jsui_manager';
 manager.append(menu, entry /*, jsTable.table*/);
+manager.addEventListener('dragover', function (event) {
+    event.preventDefault();
+});
+manager.addEventListener('drop', function (event) {
+    menu.after(entry);
+});
 
 jsTable.parentNode = manager;
 
