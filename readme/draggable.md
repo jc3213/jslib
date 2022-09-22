@@ -24,9 +24,9 @@ draggable.ondragdrop = function (position) {
 }
 ```
 #### top
-Current `top` position of **element**
+Fixed `top` position of **element**
 #### left
-Current `left` position of **element**
+Fixed `left` position of **element**
 #### height
 Available `height` for drag'n'drop event. `top` can not exceed `height`
 #### width
