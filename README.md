@@ -12,7 +12,7 @@
 - [JSUI Notify](/readme/notify.md)
 
 ## Code Sample
-- [Simple Manager](/sample/manager.html)
+- [Simple Manager](/sample)
     - **JSUI Menu**
     - **JSUI Table**
     - **JSUI Notify**
