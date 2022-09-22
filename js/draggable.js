@@ -55,7 +55,7 @@ class DraggableElement {
         target.style.top = top + 'px';
         target.style.left = left + 'px';
         if (typeof draggable.ondragdrop === 'function') {
-            draggable.ondragdrop(event);
+            draggable.ondragdrop({top, left, height, width});
         }
     }
 }
