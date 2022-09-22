@@ -9,7 +9,7 @@ class DraggableElement {
             draggable.ondragend(event, draggable);
         });
         if (global) {
-            element.style.position = 'absolute';
+            element.style.position = 'fixed';
             document.addEventListener('dragover', function (event) {
                 event.preventDefault();
             });
