@@ -16,6 +16,8 @@ A DOM **element**
 ### global `Optional`
 A **boolean** that defines whether the DOM element can be dragged over the whole document
 ## Event
+### ondragdrop
+An **Event** that triggers when the **element** is dropped
 ```javascript
 draggable.ondragdrop = function (position) {
     const {top, left, height, width} = position;
