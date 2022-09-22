@@ -9,22 +9,23 @@
 ```
 ## Syntax
 ```javascript
-draggableElement(element, ondragend);
+const draggable = new DraggableElement(element, global);
 ```
 ### element `*required`
 A DOM **element**
-### ondragend `Optional`
-A callback function that is triggerd when drag'n'drop event ends
+#### global `Optional`
+Define whether the DOM element can be dragged over the whole document
+## Event
 ```javascript
-function ondragend(position) {
-    const {offsetTop, offsetLeft, availHeight, availWidth} = position;
+draggable.ondragdrop = function (position) {
+    const {top, left, height, width} = position;
 }
 ```
-#### offsetTop
+#### top
 Current `top` position of **element**
-#### offsetLeft
+#### left
 Current `left` position of **element**
-#### availHeight
-Available `height` for drag'n'drop event. `offsetTop` can not exceed `availHeight`
-#### availWidth
-Available `width` for drag'n'drop event. `offsetLeft` can not exceed `availWidth`
+#### height
+Available `height` for drag'n'drop event. `top` can not exceed `height`
+#### width
+Available `width` for drag'n'drop event. `left` can not exceed `width`
