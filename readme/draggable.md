@@ -13,8 +13,8 @@ const draggable = new DraggableElement(element, global);
 ```
 ### element `*required`
 A DOM **element**
-#### global `Optional`
-Define whether the DOM element can be dragged over the whole document
+### global `Optional`
+A **boolean** that defines whether the DOM element can be dragged over the whole document
 ## Event
 ```javascript
 draggable.ondragdrop = function (position) {
