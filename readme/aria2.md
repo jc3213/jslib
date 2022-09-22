@@ -20,7 +20,7 @@ Secret token of aria2 JSON-RPC
 const result = aria2.message(method, params);
 ```
 ### `result`
-Promise object, returns an `object` if fulfilled
+Promise object, returns the response from jsonrpc as an `object` if fulfilled
 ### `method` `*required`
 Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 ### `params` `Optional`
