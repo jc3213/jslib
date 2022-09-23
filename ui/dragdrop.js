@@ -2,7 +2,7 @@ class DragDrop {
     constructor (source, target) {
         this.source = source;
         source.draggable = true;
-        if ([undefined, document, document.body].includes(target)) {
+        if (target === undefined) {
             this.draganddrop();
         }
         else {
@@ -24,7 +24,7 @@ class DragDrop {
         });
     }
     set dropover (target) {
-        var source = this.source;
+        var {source} = this;
         target.addEventListener('dragover', function (event) {
             event.preventDefault();
         });
