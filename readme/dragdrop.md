@@ -35,6 +35,3 @@ const dragdrop.dropover = target;
 ### target
 The **target** element where **source** is dragged over and dropped on
 The **source** will be appended as childnode of the **target**
-## Event
-### ondragend
-An **Event** that triggers when the **srouce** is dropped
