@@ -18,12 +18,6 @@ document.querySelector('#filereader').addEventListener('change', async function 
 })
 
 var dropzone = document.querySelector('#dropzone');
-dropzone.addEventListener('dragover', function (event) {
-    event.preventDefault();
-});
-dropzone.addEventListener('drop', function (event) {
-    dropzone.appendChild(entry);
-});
 
 var menu = jsMenu.menu([
     {label: '按钮1', onclick: clickBtnA},
@@ -50,7 +44,7 @@ function clickBtnC(event) {
 
 var entry = document.createElement('textarea');
 entry.rows = '6';
-var draggable = new DraggableElement(entry);
+var draggable = new DragDrop(entry, dropzone);
 draggable.ondragdrop = function (event) {
     entry.value = 'Drag\'n\'Drop Complete\n拖拽成功\nドラッグドロップ成功'
 }
@@ -58,12 +52,7 @@ draggable.ondragdrop = function (event) {
 var manager = document.createElement('div');
 manager.className = 'jsui_manager';
 manager.append(menu, entry /*, jsTable.table*/);
-manager.addEventListener('dragover', function (event) {
-    event.preventDefault();
-});
-manager.addEventListener('drop', function (event) {
-    menu.after(entry);
-});
+draggable.dragdrop = manager;
 
 jsTable.parentNode = manager;
 

@@ -1,21 +1,36 @@
-class DraggableElement {
+class DragDrop {
     constructor (source, target) {
-        if ([undefined, document, document.body].includes(target)) {
-            source.style.position = 'fixed';
-            target = document;
-        }
         this.source = source;
-        this.target = target;
-        var draggable = this;
         source.draggable = true;
+        if ([undefined, document, document.body].includes(target)) {
+            this.draganddrop();
+        }
+        else {
+            this.dragdrop = target;
+        }
+    }
+    draganddrop () {
+        var draggable = this;
+        var {source} = this;
+        source.style.position = 'fixed';
         source.addEventListener('dragstart', function (event) {
             draggable.ondragstart(draggable, event);
         });
+        document.addEventListener('dragover', function (event) {
+            event.preventDefault();
+        });
+        document.addEventListener('drop', function (event) {
+            draggable.ondragend(draggable, event);
+        });
+    }
+    set dragdrop (target) {
+        var source = this.source;
         target.addEventListener('dragover', function (event) {
             event.preventDefault();
         });
         target.addEventListener('drop', function (event) {
-            draggable.ondragend(draggable, event);
+            event.preventDefault();
+            target.appendChild(source);
         });
     }
     ondragstart (draggable, event) {
