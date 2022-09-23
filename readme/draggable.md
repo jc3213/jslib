@@ -9,15 +9,16 @@
 ```
 ## Syntax
 ```javascript
-const draggable = new DraggableElement(element, global);
+const draggable = new DraggableElement(source, target);
 ```
-### element `*required`
+### source `*required`
 A DOM **element**
-### global `Optional`
-A **boolean** that defines whether the DOM element can be dragged over the whole document
+### target `Optional`
+The **target** element that the **source** element will be dragged over and dropped on.\
+If **target** is not defined, the **source** will be dropped on the `Document` element
 ## Event
 ### ondragdrop
-An **Event** that triggers when the **element** is dropped
+An **Event** that triggers when the **srouce** is dropped
 ```javascript
 draggable.ondragdrop = function (position) {
     const {top, left, height, width} = position;
