@@ -1,9 +1,5 @@
 class PromiseFileReader {
-    constructor (file) {
-        this.file = file;
-    }
-    reader (method) {
-        var {file} = this;
+    reader (file, method) {
         return new Promise(function (resolve, reject) {
             var reader = new FileReader();
             reader.onload = function (event) {
@@ -13,25 +9,25 @@ class PromiseFileReader {
             reader[method](file);
         });
     }
-    text () {
-        return this.reader('readAsText');
+    text (file) {
+        return this.reader(file, 'readAsText');
     }
-    dataURL () {
-        return this.reader('readAsDataURL');
+    dataURL (file) {
+        return this.reader(file, 'readAsDataURL');
     }
-    arrayBuffer () {
-        return this.reader('readAsArrayBuffer');
+    arrayBuffer (file) {
+        return this.reader(file, 'readAsArrayBuffer');
     }
-    binaryString () {
-        return this.reader('readAsBinaryString');
+    binaryString (file) {
+        return this.reader(file, 'readAsBinaryString');
     }
-    json () {
-        return this.reader('readAsText').then(function (string) {
+    json (file) {
+        return this.reader(file, 'readAsText').then(function (string) {
             return JSON.parse(string);
         });
     }
-    base64 () {
-        return this.reader('readAsDataURL').then(function (string) {
+    base64 (file) {
+        return this.reader(file, 'readAsDataURL').then(function (string) {
             return string.slice(string.indexOf(',') + 1);
         });
     }
