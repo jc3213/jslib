@@ -33,9 +33,6 @@ class DragDrop {
         });
         element.addEventListener('drop', function (event) {
             element.appendChild(source);
-            if (typeof self.ondragend === 'function') {
-                self.ondragend(event);
-            }
         });
     }
     ondrag (self, event) {
