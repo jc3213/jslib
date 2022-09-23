@@ -18,7 +18,7 @@ draggable.ondragend = function (position) {
 ### source
 The DOM **element** to be dragged and dropped
 ### ondragend
-An **Event** that triggers when the **srouce** is dropped
+An **Event** that triggers when the **source** is dropped
 #### top
 Fixed `top` position of **element**
 #### left
@@ -33,5 +33,4 @@ const dragdrop = new DragDrop(source, target);
 const dragdrop.dropover = target;
 ```
 ### target
-The **target** element where **source** is dragged over and dropped on.\
-The **source** will be appended as childnode of the **target**
+The **source** will be appended as child node of the **target**
