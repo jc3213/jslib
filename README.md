@@ -16,7 +16,7 @@
     - **JSUI Menu**
     - **JSUI Table**
     - **JSUI Notify**
+    - **DragDrop**
     - **Promise File Reader**
-    - **Draggable Element**
 - [Download With Aria2](//github.com/jc3213/download_with_aria2) - Browser Extension
     - **Aria2 JSON RPC**
