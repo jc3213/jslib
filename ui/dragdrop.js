@@ -6,7 +6,7 @@ class DragDrop {
             this.draganddrop();
         }
         else {
-            this.dragdrop = target;
+            this.dropover = target;
         }
     }
     draganddrop () {
@@ -20,10 +20,10 @@ class DragDrop {
             event.preventDefault();
         });
         document.addEventListener('drop', function (event) {
-            draggable.ondragend(draggable, event);
+            draggable.ondrop(draggable, event);
         });
     }
-    set dragdrop (target) {
+    set dropover (target) {
         var source = this.source;
         target.addEventListener('dragover', function (event) {
             event.preventDefault();
@@ -50,7 +50,7 @@ class DragDrop {
         draggable.height = height;
         draggable.width = width;
     }
-    ondragend (draggable, event) {
+    ondrop (draggable, event) {
         var {clientX, clientY} = event;
         var {top, left, height, width, source} = draggable;
         var {offsetTop, offsetLeft} = source;
@@ -72,8 +72,8 @@ class DragDrop {
         draggable.left = left;
         source.style.top = top + 'px';
         source.style.left = left + 'px';
-        if (typeof draggable.ondragdrop === 'function') {
-            draggable.ondragdrop({top, left, height, width});
+        if (typeof draggable.ondragend === 'function') {
+            draggable.ondragend({top, left, height, width});
         }
     }
 }
