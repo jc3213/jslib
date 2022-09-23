@@ -1,20 +1,17 @@
 class PromiseFileReader {
-    constructor (files) {
-        this.files = files;
+    constructor (file) {
+        this.file = file;
     }
     reader (method) {
-        var files = [...this.files];
-        var promises = files.map(function (file) {
-            return new Promise(function (resolve, reject) {
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    resolve(reader.result);
-                };
-                reader.onerror = reject;
-                reader[method](file);
-            });
+        var {file} = this;
+        return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                resolve(reader.result);
+            };
+            reader.onerror = reject;
+            reader[method](file);
         });
-        return Promise.all(promises);
     }
     text () {
         return this.reader('readAsText');
@@ -29,17 +26,13 @@ class PromiseFileReader {
         return this.reader('readAsBinaryString');
     }
     json () {
-        return this.reader('readAsText').then(function (array) {
-            return array.map(function (string) {
-                return JSON.parse(string);
-            });
+        return this.reader('readAsText').then(function (string) {
+            return JSON.parse(string);
         });
     }
     base64 () {
-        return this.reader('readAsDataURL').then(function (array) {
-            return array.map(function (string) {
-                return string.slice(string.indexOf(',') + 1);
-            });
+        return this.reader('readAsDataURL').then(function (string) {
+            return string.slice(string.indexOf(',') + 1);
         });
     }
 }

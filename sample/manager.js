@@ -13,8 +13,8 @@ textarea {width: 100%; resize: none;}
 document.head.appendChild(css)
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
-    filereader.files = event.target.files;
-    [{test_en, test_ch, test_ja}] = await filereader.json();
+    filereader.file = event.target.files[0];
+    var {test_en, test_ch, test_ja} = await filereader.json();
     entry.value = test_en + '\r\n' + test_ch + '\r\n' + test_ja;
     event.target.value = '';
 })
