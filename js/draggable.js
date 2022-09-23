@@ -1,21 +1,24 @@
 class DraggableElement {
-    constructor (element, global) {
-        var draggable = this;
-        element.draggable = true;
-        element.addEventListener('dragstart', function (event) {
-            draggable.ondragstart(event, draggable);
-        });
-        element.addEventListener('dragend', function (event) {
-            draggable.ondragend(event, draggable);
-        });
-        if (global) {
-            element.style.position = 'fixed';
-            document.addEventListener('dragover', function (event) {
-                event.preventDefault();
-            });
+    constructor (source, target) {
+        if ([undefined, document, document.body].includes(target)) {
+            source.style.position = 'fixed';
+            target = document;
         }
+        this.source = source;
+        this.target = target;
+        var draggable = this;
+        source.draggable = true;
+        source.addEventListener('dragstart', function (event) {
+            draggable.ondragstart(draggable, event);
+        });
+        target.addEventListener('dragover', function (event) {
+            event.preventDefault();
+        });
+        target.addEventListener('drop', function (event) {
+            draggable.ondragend(draggable, event);
+        });
     }
-    ondragstart (event, draggable) {
+    ondragstart (draggable, event) {
         var {clientHeight, clientWidth} = document.documentElement;
         var {clientX, clientY, target} = event;
         var {offsetHeight, offsetWidth} = target;
@@ -32,10 +35,10 @@ class DraggableElement {
         draggable.height = height;
         draggable.width = width;
     }
-    ondragend (event, draggable) {
-        var {clientX, clientY, target} = event;
-        var {offsetTop, offsetLeft} = target;
-        var {top, left, height, width} = draggable;
+    ondragend (draggable, event) {
+        var {clientX, clientY} = event;
+        var {top, left, height, width, source} = draggable;
+        var {offsetTop, offsetLeft} = source;
         top = offsetTop + clientY - top;
         left = offsetLeft + clientX - left;
         if (top < 0) {
@@ -52,8 +55,8 @@ class DraggableElement {
         }
         draggable.top = top;
         draggable.left = left;
-        target.style.top = top + 'px';
-        target.style.left = left + 'px';
+        source.style.top = top + 'px';
+        source.style.left = left + 'px';
         if (typeof draggable.ondragdrop === 'function') {
             draggable.ondragdrop({top, left, height, width});
         }

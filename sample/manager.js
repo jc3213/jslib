@@ -50,7 +50,7 @@ function clickBtnC(event) {
 
 var entry = document.createElement('textarea');
 entry.rows = '6';
-var draggable = new DraggableElement(entry, true);
+var draggable = new DraggableElement(entry);
 draggable.ondragdrop = function (event) {
     entry.value = 'Drag\'n\'Drop Complete\n拖拽成功\nドラッグドロップ成功'
 }
