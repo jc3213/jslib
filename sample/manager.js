@@ -1,5 +1,5 @@
-var jsMenu = new JSUI_Menu();
-var jsTable = new JSUI_Table(['测试标题', 'Test Title', 'テストタイトル']);
+var jsMenu = new MenuItem();
+var jsTable = new FlexTable(['测试标题', 'Test Title', 'テストタイトル']);
 var jsNotify = new Notify();
 var filereader = new PromiseFileReader();
 
@@ -7,9 +7,9 @@ var css = document.createElement('style');
 css.innerText = `body {margin: auto; width: 600px;}
 #dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
 textarea {width: 100%; resize: none;}
-.jsui_manager {border: 1px solid #000;}
-.jsui_table {height: 400px; border: none;}
-.jsui_menu_item, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}`;
+.jsui-manager {border: 1px solid #000;}
+.jsui-table {height: 400px; border: none;}
+.jsui-menu-item, .jsui-click-cell {background-color: #23ade5; color: #fff; line-height: 24px;}`;
 document.head.appendChild(css)
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
@@ -52,7 +52,7 @@ dragdrop.ondragend = function (event) {
 }
 
 var manager = document.createElement('div');
-manager.className = 'jsui_manager';
+manager.className = 'jsui-manager';
 manager.append(menu, entry /*, jsTable.table*/);
 dragdrop.dropover = manager;
 manager.addEventListener('drop', function (event) {
@@ -68,7 +68,7 @@ jsTable.add([
     'English1',
     '日本語1'
 ]);
-jsTable.add(['中文2', 'English2', '日本語2']);
+jsTable.add(['中文2', 'English2', '日本語2', 'Español2']);
 
 function clickTabCelA(event) {
     jsNotify.popup({message:'测试1\nTest 1\nテスト1'});

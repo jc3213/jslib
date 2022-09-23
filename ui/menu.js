@@ -1,23 +1,23 @@
-class JSUI_Menu {
+class MenuItem {
     constructor () {
         this.css = document.createElement('style');
         this.css.type = 'text/css';
         this.css.innerText = `
-        .jsui_menu_item {padding: 5px; margin: 1px; cursor: pointer; text-align: center;}
-        .jsui_menu_item:hover {filter: contrast(80%);}
-        .jsui_menu_item:active {filter: contrast(40%);}
-        .jsui_basic_menu, .jsui_dropdown_menu {margin: 0px; padding: 0px; user-select: none;}
-        .jsui_basic_menu {display: flex; gap: 1px;}
-        .jsui_basic_menu > * {flex: 1;}`;
+        .jsui-menu-item {padding: 5px; margin: 1px; cursor: pointer; text-align: center;}
+        .jsui-menu-item:hover {filter: contrast(80%);}
+        .jsui-menu-item:active {filter: contrast(40%);}
+        .jsui-basic-menu, .jsui-drop-menu {margin: 0px; padding: 0px; user-select: none;}
+        .jsui-basic-menu {display: flex; gap: 1px;}
+        .jsui-basic-menu > * {flex: 1;}`;
         document.head.appendChild(this.css);
     }
-    menu (items, dropdown) {
+    menu (items, drop) {
         var menu = document.createElement('div');
-        if (dropdown) {
-            menu.className = 'jsui_dropdown_menu';
+        if (drop) {
+            menu.className = 'jsui-drop-menu';
         }
         else {
-            menu.className = 'jsui_basic_menu';
+            menu.className = 'jsui-basic-menu';
         }
         if (items) {
             var menuitem = this.item;
@@ -31,12 +31,9 @@ class JSUI_Menu {
     }
     item (label, onclick) {
         var item = document.createElement('div');
-        item.className = 'jsui_menu_item';
+        item.className = 'jsui-menu-item';
         item.innerText = label;
         item.addEventListener('click', onclick);
         return item;
-    }
-    set cssText (text) {
-        this.css.innerText += text;
     }
 }
