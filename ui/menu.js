@@ -1,4 +1,4 @@
-class MenuItem {
+class FlexMenu {
     constructor () {
         this.css = document.createElement('style');
         this.css.type = 'text/css';

@@ -1,4 +1,4 @@
-var jsMenu = new MenuItem();
+var jsMenu = new FlexMenu();
 var jsTable = new FlexTable(['测试标题', 'Test Title', 'テストタイトル']);
 var jsNotify = new Notify();
 var filereader = new PromiseFileReader();
