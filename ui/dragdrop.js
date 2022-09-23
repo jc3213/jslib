@@ -29,7 +29,6 @@ class DragDrop {
             event.preventDefault();
         });
         target.addEventListener('drop', function (event) {
-            event.preventDefault();
             target.appendChild(source);
         });
     }

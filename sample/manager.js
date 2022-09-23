@@ -44,15 +44,18 @@ function clickBtnC(event) {
 
 var entry = document.createElement('textarea');
 entry.rows = '6';
-var draggable = new DragDrop(entry, dropzone);
-draggable.ondragdrop = function (event) {
+var dragdrop = new DragDrop(entry, dropzone);
+dragdrop.ondragend = function (event) {
     entry.value = 'Drag\'n\'Drop Complete\n拖拽成功\nドラッグドロップ成功'
 }
 
 var manager = document.createElement('div');
 manager.className = 'jsui_manager';
 manager.append(menu, entry /*, jsTable.table*/);
-draggable.dragdrop = manager;
+dragdrop.dropover = manager;
+manager.addEventListener('drop', function (event) {
+    menu.after(entry);
+});
 
 jsTable.parentNode = manager;
 
