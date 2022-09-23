@@ -15,8 +15,10 @@ document.head.appendChild(css)
 document.querySelector('#filereader').addEventListener('change', async function (event) {
     filereader.files = event.target.files;
     [{test_en, test_ch, test_ja}] = await filereader.json();
-    entry.innerText = test_en + '\r\n' + test_ch + '\r\n' + test_ja;
+    entry.value = test_en + '\r\n' + test_ch + '\r\n' + test_ja;
+    console.log(event.target.value);
     event.target.value = '';
+    console.log(event.target.value);
 })
 
 var dropzone = document.querySelector('#dropzone');
