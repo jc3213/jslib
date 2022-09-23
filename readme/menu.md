@@ -18,7 +18,7 @@ const menu = jsMenu.menu(array, dropdown);
 ### menu
 The flexible menu contains sub menuitems
 ### array `required`
-Array of [ {`label`, `onclick`}, {`label`, `onclick`} ]\
+Array of [ {`label`, `onclick`}, {`label`, `onclick`} ]
 ### dropdown `*Optional`
 Define whether the `menu` is a dropdown menu **boolean**
 #### label
