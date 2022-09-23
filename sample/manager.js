@@ -1,14 +1,16 @@
 var jsMenu = new JSUI_Menu();
 var jsTable = new JSUI_Table(['测试标题', 'Test Title', 'テストタイトル']);
-var jsNotify = new JSUI_Notify();
+var jsNotify = new Notify();
 var filereader = new PromiseFileReader();
 
-jsNotify.cssText = `body {margin: auto; width: 600px;}
+var css = document.createElement('style');
+css.innerText = `body {margin: auto; width: 600px;}
 #dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
 textarea {width: 100%; resize: none;}
 .jsui_manager {border: 1px solid #000;}
 .jsui_table {height: 400px; border: none;}
 .jsui_menu_item, .jsui_cell_btn {background-color: #23ade5; color: #fff; line-height: 24px;}`;
+document.head.appendChild(css)
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
     filereader.files = event.target.files;
