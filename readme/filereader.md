@@ -9,9 +9,13 @@
 ```
 ## Syntax
 ```javascript
-const reader = new JSLib_FileReader(file);
+const reader = new PromiseFileReader(file);
 ```
-### `files`
+```javascript
+const reader = new PromiseFileReader();
+reader.file = file;
+```
+### `file`
 The javascript `File` object
 ## Method
 ### `reader.text()`
