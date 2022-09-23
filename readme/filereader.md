@@ -9,24 +9,20 @@
 ```
 ## Syntax
 ```javascript
-const reader = new PromiseFileReader(file);
-```
-```javascript
 const reader = new PromiseFileReader();
-reader.file = file;
 ```
-### `file`
-The javascript `File` object
 ## Method
-### `reader.text()`
+### `reader.text(file)`
 Promise object, which returns the contents of the file as a text `string` if fulfilled
-### `reader.dataURL()`
+### `reader.dataURL(file)`
 Promise object, which returns a `data:` URL representing the file's content if fulfilled
-### `reader.arrayBuffer()`
+### `reader.arrayBuffer(file)`
 Promise object, which returns an `ArrayBuffer` representing the file's content if fulfilled
-### `reader.binaryString()`
+### `reader.binaryString(file)`
 Promise object, which returns the raw binary `string` data of the file's content if fulfilled
-### `reader.json()`
+### `reader.json(file)`
 Promise object, which returns the contents of the file as a `JSON` object if fulfilled
-### `reader.base64()`
+### `reader.base64(file)`
 Promise object, which returns base64 encoded `string` of the file's content if fulfilled
+#### file
+The javascript `File` object
