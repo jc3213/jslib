@@ -3,36 +3,39 @@ class DragDrop {
         this.source = source;
         source.draggable = true;
         if (target === undefined) {
-            this.draganddrop();
+            this.target = document;
+            this.draddrop();
         }
         else {
+            this.target = [];
             this.dropover = target;
         }
     }
-    draganddrop () {
-        var draggable = this;
+    draddrop () {
+        var self = this;
         var {source} = this;
         source.style.position = 'fixed';
         source.addEventListener('dragstart', function (event) {
-            draggable.ondragstart(draggable, event);
+            self.ondrag(self, event);
         });
         document.addEventListener('dragover', function (event) {
             event.preventDefault();
         });
         document.addEventListener('drop', function (event) {
-            draggable.ondrop(draggable, event);
+            self.ondrop(self, event);
         });
     }
-    set dropover (target) {
-        var {source} = this;
-        target.addEventListener('dragover', function (event) {
+    set dropover (element) {
+        var {source, target} = this;
+        target.push(element);
+        element.addEventListener('dragover', function (event) {
             event.preventDefault();
         });
-        target.addEventListener('drop', function (event) {
-            target.appendChild(source);
+        element.addEventListener('drop', function (event) {
+            element.appendChild(source);
         });
     }
-    ondragstart (draggable, event) {
+    ondrag (self, event) {
         var {clientHeight, clientWidth} = document.documentElement;
         var {clientX, clientY, target} = event;
         var {offsetHeight, offsetWidth} = target;
@@ -44,14 +47,14 @@ class DragDrop {
         if (width < 0) {
             width = 0;
         }
-        draggable.top = clientY;
-        draggable.left = clientX;
-        draggable.height = height;
-        draggable.width = width;
+        self.top = clientY;
+        self.left = clientX;
+        self.height = height;
+        self.width = width;
     }
-    ondrop (draggable, event) {
+    ondrop (self, event) {
         var {clientX, clientY} = event;
-        var {top, left, height, width, source} = draggable;
+        var {top, left, height, width, source} = self;
         var {offsetTop, offsetLeft} = source;
         top = offsetTop + clientY - top;
         left = offsetLeft + clientX - left;
@@ -67,12 +70,12 @@ class DragDrop {
         else if (left > width) {
             left = width;
         }
-        draggable.top = top;
-        draggable.left = left;
+        self.top = top;
+        self.left = left;
         source.style.top = top + 'px';
         source.style.left = left + 'px';
-        if (typeof draggable.ondragend === 'function') {
-            draggable.ondragend({top, left, height, width});
+        if (typeof self.ondragend === 'function') {
+            self.ondragend({top, left, height, width});
         }
     }
 }
