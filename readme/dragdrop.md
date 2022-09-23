@@ -33,5 +33,5 @@ const dragdrop = new DragDrop(source, target);
 const dragdrop.dropover = target;
 ```
 ### target
-The **target** element where **source** is dragged over and dropped on
+The **target** element where **source** is dragged over and dropped on.\
 The **source** will be appended as childnode of the **target**
