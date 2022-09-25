@@ -11,28 +11,30 @@ class FlexMenu {
         .jsui-basic-menu > * {flex: 1;}`;
         document.head.appendChild(this.css);
     }
-    menu (items, drop) {
+    menu (object) {
+        var {items, dropdown} = object;
         var menu = document.createElement('div');
-        if (drop) {
+        if (dropdown) {
             menu.className = 'jsui-drop-menu';
         }
         else {
             menu.className = 'jsui-basic-menu';
         }
-        if (items) {
-            var menuitem = this.item;
-            items.forEach(function (object) {
-                var {label, onclick} = object;
-                var item = menuitem(label, onclick);
-                menu.appendChild(item);
-            });
-        }
+        var menuitem = items.map(this.item);
+        menu.append(...menuitem);
         return menu;
     }
-    item (label, onclick) {
+    item (object) {
+        var {text, attributes, onclick} = object;
         var item = document.createElement('div');
         item.className = 'jsui-menu-item';
-        item.innerText = label;
+        if (attributes) {
+            attributes.forEach(function (object) {
+                var {name, value} = object;
+                item.setAttribute(name, value);
+            });
+        }
+        item.innerText = text;
         item.addEventListener('click', onclick);
         return item;
     }
