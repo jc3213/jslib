@@ -22,7 +22,7 @@ Array of [ {`label`, `onclick`}, {`label`, `onclick`} ]
 ### dropdown `*Optional` **boolean**
 Define whether the `menu` is a dropdown menu
 #### label
-The text content of the menuitem
+The text content of the **menuitem**
 #### onclick
 `Event` that when menuitem is clicked
 ```javascript
