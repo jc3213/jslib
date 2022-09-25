@@ -13,24 +13,27 @@ const jsMenu = new FlexMenu();
 ```
 ## Method
 ```javascript
-const menu = jsMenu.menu(array, dropdown);
+const menu = jsMenu.menu(object);
 ```
 ### menu
-The flexible menu contains sub menuitems
-### array `required`
-Array of [ {`label`, `onclick`}, {`label`, `onclick`} ]
+The generated flexible menu with flexible menu items
+### object
+Sytax {`items`, `dropdown`}
+### items `required`
+Array of [menuitem](#menuitem)
 ### dropdown `*Optional` **boolean**
 Define whether the `menu` is a dropdown menu
-#### label
-The text content of the **menuitem**
-#### onclick
-`Event` that when menuitem is clicked
 ```javascript
-const menuitem = jsMenu.item(label, onclick);
+const menu = jsMenu.item(menuitem);
 ```
-### menuitem
-The menuitem that can be appended to the DOM
-#### label
-The text content of the **menuitem**
+### menu
+The generated flexible menu item
+### menuitem `*required`
+Javascript object that contains `text`, `attributes`, and `onclick` properties
+#### text
+The text on the button
+#### attributes
+Array of [ {`name`, `value`}, {`name`, `value`} ]
+The DOM attributes [read more](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
 #### onclick
 `Event` that when menuitem is clicked
