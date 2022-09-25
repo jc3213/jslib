@@ -31,6 +31,6 @@ const menuitem = jsMenu.item(label, onclick);
 ### menuitem
 The menuitem that can be appended to the DOM
 #### label
-The text content of the menuitem
+The text content of the **menuitem**
 #### onclick
 `Event` that when menuitem is clicked
