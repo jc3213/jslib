@@ -21,11 +21,14 @@ document.querySelector('#filereader').addEventListener('change', async function 
 
 var dropzone = document.querySelector('#dropzone');
 
-var menu = jsMenu.menu([
-    {label: '按钮1', onclick: clickBtnA},
-    {label: 'button2', onclick: clickBtnB},
-    {label: 'ボタン3', onclick: clickBtnC}
-], false)
+var menu = jsMenu.menu({
+    items: [
+        {text: '按钮1', onclick: clickBtnA, attributes: [{name: 'title', value: '中文'}, {name: 'id', value: 'btn1'}]},
+        {text: 'button2', onclick: clickBtnB, attributes: [{name: 'title', value: 'English'}, {name: 'id', value: 'btn2'}]},
+        {text: 'ボタン3', onclick: clickBtnC, attributes: [{name: 'title', value: '日本語'}, {name: 'id', value: 'btn3'}]}
+    ],
+    dropdown: false
+});
 
 function clickBtnA(event) {
     jsNotify.popup({message: '按钮1', timeout: 3000});
