@@ -10,7 +10,7 @@
 - [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
-- [Simple Manager](/sample/manager.index)
+- [Simple Manager](/jslib/sample/manager.index)
     - **FlexMenu**
     - **FlexTable**
     - **Notify**
