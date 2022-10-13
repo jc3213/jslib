@@ -1,18 +1,16 @@
-## How To Use
-
-#### JavaScript Library
+## JavaScript Library
 - [Aria2 JSON RPC](/readme/aria2.md)
 - [Promise File Reader](/readme/filereader.md)
 - [Metalink4](/readme/metalink4.md)
 
-#### Javascript UI
+## Javascript UI
 - [FlexMenu](/readme/menu.md)
 - [FlexTable](/readme/table.md)
 - [Notify](/readme/notify.md)
 - [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
-- [Simple Manager](/sample)
+- [Simple Manager](/sample/manager.index)
     - **FlexMenu**
     - **FlexTable**
     - **Notify**
