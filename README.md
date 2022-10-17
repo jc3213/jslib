@@ -16,5 +16,5 @@
     - **Notify**
     - **DragDrop**
     - **Promise File Reader**
-- [Download With Aria2](//github.com/jc3213/download_with_aria2) - Browser Extension
+- [Download With Aria2](//jc3213.github.io/download_with_aria2/) - Browser Extension
     - **Aria2 JSON RPC**
