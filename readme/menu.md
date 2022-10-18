@@ -30,7 +30,7 @@ The generated flexible menu with flexible menu items
 Sytax {`items`, `dropdown`}
 
 ### items `required`
-Array of [menuitem](#menuitem)
+Array of [menuitem](#menuitem-required)
 
 ### dropdown `*Optional` **boolean**
 Define whether the `menu` is a dropdown menu
