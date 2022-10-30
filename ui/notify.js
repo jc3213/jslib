@@ -28,7 +28,7 @@ class SimpleNotify {
             }, timeout);
         }
         this.overlay.appendChild(popup);
-        popup.style.left = (clientWidth - popup.offsetWidth) / 0.02 / clientWidth + '%';
+        popup.style.left = (clientWidth - popup.offsetWidth) / 2 + 'px';
         return popup;
     }
 }
