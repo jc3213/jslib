@@ -1,4 +1,4 @@
-class Notify {
+class SimpleNotify {
     constructor () {
         this.overlay = document.createElement('div');
         this.overlay.className = 'jsui-notify-overlay';
@@ -11,7 +11,8 @@ class Notify {
         document.head.appendChild(this.css);
     }
     popup (object) {
-        var {message, onclick, timeout = 10000} = object;
+        var {message, onclick, timeout} = object;
+        var {clientWidth} = document.documentElement;
         var popup = document.createElement('div');
         popup.className = 'jsui-notify-popup';
         popup.innerText = message;
@@ -21,11 +22,13 @@ class Notify {
                 onclick();
             }
         });
-        setTimeout(function () {
-            popup.remove();
-        }, timeout);
+        if (timeout !== undefined) {
+            setTimeout(function () {
+                popup.remove();
+            }, timeout);
+        }
         this.overlay.appendChild(popup);
-        popup.style.left = ((document.documentElement.clientWidth - popup.offsetWidth) / 2) + 'px';
+        popup.style.left = (clientWidth - popup.offsetWidth) / 0.02 / clientWidth + '%';
         return popup;
     }
 }
