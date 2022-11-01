@@ -1,17 +1,7 @@
 class FlexTable {
-    constructor (title) {
-        var column = document.createElement('div');
-        column.className = 'jsui-table-head';
-        title.forEach(function (string) {
-            var cell = document.createElement('div');
-            cell.className = 'jsui-basic-cell';
-            cell.innerText = string;
-            column.appendChild(cell);
-        });
+    constructor () {
         this.table = document.createElement('div');
         this.table.className = 'jsui-table';
-        this.table.appendChild(column);
-        this.head = column;
         this.css = document.createElement('style');
         this.css.type = 'text/css';
         this.css.innerText = `
@@ -27,21 +17,39 @@ class FlexTable {
     clear () {
         this.table.innerHTML = this.head.outerHTML;
     }
-    add (cells) {
+    set head (cells) {
+        var column = document.createElement('div');
+        column.className = 'jsui-table-head';
+        cells.forEach(function (string) {
+            var cell = document.createElement('div');
+            cell.className = 'jsui-basic-cell';
+            cell.innerText = string;
+            column.appendChild(cell);
+        });
+        this.table.appendChild(column);
+        this.cells = cells.length;
+    }
+    add (cells, events) {
+        if (this.cells === undefined) {
+            return this.head = cells;
+        }
+        if (this.cells !== cells.length) {
+            throw new Error('Error: invalid table cell count ' + cells.length + ', current cell count is ' + this.cells);
+        }
         var column = document.createElement('div');
         column.className = 'jsui-table-body';
-        cells.forEach(function (object) {
+        cells.forEach(function (string, index) {
             var cell = document.createElement('div');
             column.appendChild(cell);
-            if (typeof object === 'string') {
-                cell.className = 'jsui-basic-cell';
-                cell.innerText = object;
+            var event = events[index];
+            if (typeof event === 'function') {
+                cell.className = 'jsui-click-cell';
+                cell.innerText = string;
+                cell.addEventListener('click', event);
             }
             else {
-                var {label, onclick} = object;
-                cell.className = 'jsui-click-cell';
-                cell.innerText = label;
-                cell.addEventListener('click', onclick);
+                cell.className = 'jsui-basic-cell';
+                cell.innerText = string;
             }
         });
         this.table.appendChild(column);

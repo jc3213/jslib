@@ -1,6 +1,6 @@
 var jsMenu = new FlexMenu();
-var jsTable = new FlexTable(['测试标题', 'Test Title', 'テストタイトル']);
-var jsNotify = new Notify();
+var jsTable = new FlexTable();
+var jsNotify = new SimpleNotify();
 var filereader = new PromiseFileReader();
 
 var css = document.createElement('style');
@@ -36,14 +36,14 @@ function clickBtnA(event) {
 }
 
 function clickBtnB(event) {
-    jsNotify.popup({message: 'Button2'});
+    jsNotify.popup({message: 'Button2', timeout: 3000});
     entry.value = 'Button2';
 }
 
 function clickBtnC(event) {
     jsNotify.popup({message: 'ボタン3', onclick: function() {
         alert('ボタン3');
-    }});
+    }, timeout: 3000});
     entry.value = 'ボタン3';
 }
 
@@ -63,14 +63,12 @@ manager.addEventListener('drop', function (event) {
 });
 
 jsTable.parentNode = manager;
+//jsTable.head = ['测试标题', 'Test Title', 'テストタイトル'];
+jsTable.add(['测试标题', 'Test Title', 'テストタイトル'], [clickTabCelA]);
 
 document.body.appendChild(manager);
 
-jsTable.add([
-    {label: '中文1', onclick: clickTabCelA},
-    'English1',
-    '日本語1'
-]);
+jsTable.add(['中文1', 'English1', '日本語1'], [clickTabCelA]);
 jsTable.add(['中文2', 'English2', '日本語2', 'Español2']);
 
 function clickTabCelA(event) {
