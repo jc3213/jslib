@@ -34,7 +34,7 @@ class FlexTable {
             return this.head = cells;
         }
         if (this.cells !== cells.length) {
-            throw new Error('Error: invalid table cell count ' + cells.length + ', current cell count is ' + this.cells);
+            throw new Error('Invalid table cell count ' + cells.length + ', current cell count is ' + this.cells);
         }
         var column = document.createElement('div');
         column.className = 'jsui-table-body';
