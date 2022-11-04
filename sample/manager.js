@@ -9,7 +9,7 @@ css.innerText = `body {margin: auto; width: 600px;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px; border: none;}
-.jsui-menu-item, .jsui-click-cell {background-color: #23ade5; color: #fff; line-height: 24px;}`;
+.jsui-click-cell {background-color: #23ade5; color: #fff; line-height: 24px;}`;
 document.head.appendChild(css)
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
