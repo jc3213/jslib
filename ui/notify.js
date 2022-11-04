@@ -6,7 +6,7 @@ class SimpleNotify {
         this.css.type = 'text/css';
         this.css.innerText = `
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
-        .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #000;}`;
+        .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px ridge #cccccc;}`;
         document.body.prepend(this.overlay);
         document.head.appendChild(this.css);
     }
