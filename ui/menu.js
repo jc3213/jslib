@@ -3,8 +3,8 @@ class FlexMenu {
         this.css = document.createElement('style');
         this.css.type = 'text/css';
         this.css.innerText = `
-        @media (prefers-color-scheme: light) { border-color: #fff;} }
-        @media (prefers-color-scheme: dark) { border-color: #000;} }
+        @media (prefers-color-scheme: light) { .jsui-menu-item {border-color: #fff;} }
+        @media (prefers-color-scheme: dark) { .jsui-menu-item {border-color: #000;} }
         .jsui-menu-item {text-align: center; margin: 1px; padding: 3px; border-width: 1px; border-style: outset;}
         .jsui-menu-item:not(.jsui-menu-disabled):hover {cursor: pointer; filter: contrast(65%);}
         .jsui-menu-item:not(.jsui-menu-disabled):active {filter: contrast(45%);}
