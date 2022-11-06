@@ -3,9 +3,13 @@ class FlexMenu {
         this.css = document.createElement('style');
         this.css.type = 'text/css';
         this.css.innerText = `
-        .jsui-menu-item {padding: 5px; margin: 1px; cursor: pointer; text-align: center;}
-        .jsui-menu-item:hover {filter: contrast(80%);}
-        .jsui-menu-item:active {filter: contrast(40%);}
+        @media (prefers-color-scheme: light) { .jsui-menu-item {background-color: #fff; color: #000; border-color: #fff;} }
+        @media (prefers-color-scheme: dark) { .jsui-menu-item {background-color: #333; color: #fff; border-color: #000;} }
+        .jsui-menu-item {text-align: center; margin: 1px; padding: 3px; border-width: 1px; border-style: outset;}
+        .jsui-menu-item:not(.jsui-menu-disabled):hover {cursor: pointer; filter: contrast(65%);}
+        .jsui-menu-item:not(.jsui-menu-disabled):active {filter: contrast(45%);}
+        .jsui-menu-item:active, .jsui-menu-checked {border-style: inset;}
+        .jsui-menu-disabled {padding: 4px; border-width: 0px;}
         .jsui-basic-menu, .jsui-drop-menu {margin: 0px; padding: 0px; user-select: none;}
         .jsui-basic-menu {display: flex; gap: 1px;}
         .jsui-basic-menu > * {flex: 1;}`;
