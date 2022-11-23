@@ -10,11 +10,11 @@
 - [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
+- [Aria2 Task Manager](//jc3213.github.io/jslib/manager/aria2.html)
+    - **Aria2 JSON RPC**
 - [Simple Manager](//jc3213.github.io/jslib/sample/manager.html)
     - **FlexMenu**
     - **FlexTable**
     - **Notify**
     - **DragDrop**
     - **Promise File Reader**
-- [Download With Aria2](//jc3213.github.io/download_with_aria2/) - Browser Extension
-    - **Aria2 JSON RPC**
