@@ -140,11 +140,6 @@ body > div.session, body > div.file, body > div.uri,
     grid-template-columns: 40px auto 80px 60px;
 }
 
-.file [title] {
-    margin-top: 0px !important;
-    padding: 3px 10px;
-}
-
 .uri {
     display: grid;
     grid-template-columns: auto 40px 40px;
@@ -157,7 +152,12 @@ body > div.session, body > div.file, body > div.uri,
     overflow-y: auto;
 }
 
-.file > *:not(:nth-child(2)), .uri > *:nth-child(n+2) {
+.file > :not(:nth-child(2)), .uri > :nth-child(n+2) {
     line-height: 48px;
     text-align: center;
+}
+
+.file > :nth-child(2), .uri > :nth-child(1) {
+    margin-top: 0px !important;
+    padding: 3px 5px;
 }
