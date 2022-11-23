@@ -39,14 +39,6 @@ document.querySelector('#options_btn').addEventListener('click', event => {
     aria2StartUp();
 });
 
-document.querySelector('#proxy_btn').addEventListener('click', async event => {
-    var proxy = prompt('Proxy Server');
-    if (proxy) {
-        await aria2RPC.message('aria2.changeOption', [activeId, {'all-proxy': proxy}]);
-        event.target.parentNode.querySelector('input').value = proxy;
-    }
-});
-
 document.querySelector('#append_btn').addEventListener('click', async event => {
     var uri = event.target.parentNode.querySelector('input');
     await aria2RPC.message('aria2.changeUri', [activeId, 1, [], [uri.value]]);
@@ -234,11 +226,19 @@ function parseSession(gid, status, bittorrent) {
                 files.push(index.innerText);
             }
         });
-        await aria2RPC.message('aria2.changeOption', [activeId, {'select-file': files.join()}]);
+        await aria2RPC.message('aria2.changeOption', [gid, {'select-file': files.join()}]);
         save.style.display = 'none';
     });
-    task.addEventListener('change', event => {
-        save
+    task.querySelector('#proxy_btn').addEventListener('click', async event => {
+        var proxy = prompt('Proxy Server');
+        if (proxy) {
+            await aria2RPC.message('aria2.changeOption', [gid, {'all-proxy': proxy}]);
+            event.target.parentNode.querySelector('input').value = proxy;
+        }
+    });
+    task.addEventListener('change', async event => {
+        var {name, value} = event.target;
+        await aria2RPC.message('aria2.changeOption', [gid, {[name]: value}]);
     });
     return task;
 }
