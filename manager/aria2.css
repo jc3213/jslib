@@ -1,0 +1,162 @@
+body {
+    height: 800;
+    width: 1280px;
+    margin: 8px auto;
+}
+
+body > div.session, body > div.file, body > div.uri,
+:not(.more) > #more,
+[data-main="0"] > [data-queue]:nth-child(n+2),
+[data-main="1"] > [data-queue]:not(:nth-child(n+2):nth-child(-n+3)),
+[data-main="2"] > [data-queue]:nth-child(-n+3),
+[data-aria2="http"] [data-bt], [data-aria2="bt"] [data-http] {
+    display: none;
+}
+
+[data-main="0"] > button.active,
+[data-main="1"] > button.waiting,
+[data-main="2"] > button.removed {
+    border-style: inset;
+}
+
+[data-stat] {
+    padding: 5px 15px 5px 0px;
+}
+
+#download::after, #upload::after {
+    content: "B/s";
+}
+
+#remote::after, #local::after, #size::after {
+    content: "B";
+}
+
+.active {
+    background-color: #44c;
+}
+
+.waiting, .paused {
+    background-color: #cc4;
+}
+
+.complete {
+    background-color: #4c4;
+}
+
+.removed, .error {
+    background-color: #c48;
+}
+
+.active, .waiting, .paused, .error, .complete, .removed {
+    color: #fff;
+}
+
+#download_btn, #options_btn {
+    margin-left: auto;
+}
+
+#session {
+    height: calc(100% - 102px);
+    overflow-y: auto;
+}
+
+.session {
+    border-width: 1px;
+    border-style: outset;
+    padding: 3px;
+    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: repeat(3, calc(33.333% - 7.5px)) 22.5px;
+    grid-template-areas: "name name name menu" "detail detail detail menu" "detail detail detail menu" "meter meter meter meter" "more more more more";
+}
+
+.session > div:first-child {
+    grid-area: name;
+}
+
+.session > div:nth-last-child(3) {
+    grid-area: menu;
+}
+
+.session > div:nth-last-child(2) {
+    grid-area: meter;
+    text-align: center;
+}
+
+.session > div:nth-last-child(1) {
+    grid-area: more;
+}
+
+.session #manage button {
+    font-size: 12px;
+    padding: 2px;
+}
+
+.session sub {
+    margin-right: -4px;
+}
+
+#infinite {
+    display: none;
+    left: 26px;
+    padding-bottom: 1px;
+}
+
+#meter:active {
+    filter: contrast(45%);
+}
+
+#error {
+    color: #c00;
+    font-size: 11px;
+}
+
+#more [title] {
+    margin-top: 5px;
+}
+
+#save_btn {
+    top: -13px;
+}
+
+[status="active"] > #meter {
+    background-color: #4cc;
+}
+
+[status="waiting"] > #meter, [status="paused"] > #meter {
+    background-color: #488;
+}
+
+[status="complete"] > #meter {
+    background-color: #4c4;
+}
+
+[status="removed"] > #meter, [status="error"] > #meter {
+    background-color: #844;
+}
+
+.file {
+    display: grid;
+    grid-template-columns: 40px auto 80px 60px;
+}
+
+.file [title] {
+    margin-top: 0px !important;
+}
+
+.uri {
+    display: grid;
+    grid-template-columns: auto 40px 40px;
+}
+
+.file > *, .uri > * {
+    border-width: 1px;
+    border-style: ridge;
+    word-break: break-word;
+    overflow-y: auto;
+}
+
+.file > *:not(:nth-child(2)), .uri > *:nth-child(n+2) {
+    line-height: 48px;
+    text-align: center;
+}
