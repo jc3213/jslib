@@ -4,12 +4,11 @@ body {
     margin: 8px auto;
 }
 
-body > div.session, body > div.file, body > div.uri,
-:not(.more) > #more,
+body > .session, body > .file, body > .uri,
 [data-main="0"] > [data-queue]:nth-child(n+2),
 [data-main="1"] > [data-queue]:not(:nth-child(n+2):nth-child(-n+3)),
 [data-main="2"] > [data-queue]:nth-child(-n+3),
-[data-aria2="http"] [data-bt], [data-aria2="bt"] [data-http] {
+[data-type="http"] [data-bt], [data-type="bt"] [data-http] {
     display: none;
 }
 
@@ -67,56 +66,52 @@ body > div.session, body > div.file, body > div.uri,
     margin-bottom: 5px;
     display: grid;
     grid-template-columns: repeat(3, calc(33.333% - 7.5px)) 22.5px;
-    grid-template-areas: "name name name menu" "detail detail detail menu" "detail detail detail menu" "meter meter meter meter" "more more more more";
+    grid-template-areas: "name name name menu" "detail detail detail menu" "detail detail detail menu" "meter meter meter meter" "options options options options";
 }
 
-.session > div:first-child {
+.session > #name {
     grid-area: name;
 }
 
-.session > div:nth-last-child(3) {
+.session > #menus {
     grid-area: menu;
 }
 
-.session > div:nth-last-child(2) {
+.session > #menus > button {
+    font-size: 12px;
+    padding: 2px;
+}
+
+.session > #meter {
     grid-area: meter;
     text-align: center;
 }
 
-.session > div:nth-last-child(1) {
-    grid-area: more;
+.session > #meter:active {
+    filter: contrast(45%);
 }
 
-.session #manage button {
-    font-size: 12px;
-    padding: 2px;
+.session > #options {
+    grid-area: options;
+}
+
+.session:not(.extra) > #options {
+    display: none;
 }
 
 .session sub {
     margin-right: -4px;
 }
 
-#infinite {
+.session #infinite {
     display: none;
     left: 26px;
     padding-bottom: 1px;
 }
 
-#meter:active {
-    filter: contrast(45%);
-}
-
-#error {
-    color: #c00;
-    font-size: 11px;
-}
-
-#more [title] {
-    margin-top: 5px;
-}
-
-#save_btn {
-    top: -13px;
+.session #save_btn {
+    top: -12px;
+    display: none;
 }
 
 [status="active"] > #meter {
@@ -158,6 +153,5 @@ body > div.session, body > div.file, body > div.uri,
 }
 
 .file > :nth-child(2), .uri > :nth-child(1) {
-    margin-top: 0px !important;
-    padding: 3px 5px;
+    padding: 0px 5px;
 }
