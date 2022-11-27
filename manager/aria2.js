@@ -258,7 +258,7 @@ function printTableCell(table, template, runOnce) {
 }
 
 function printTaskFiles(task, files) {
-    var fileList = task.querySelector('#more #files');
+    var fileList = task.querySelector('#files');
     var cells = fileList.childNodes;
     files.forEach((file, index) => {
         var cell = cells[index] ?? printTableCell(fileList, fileLET, cell => applyFileSelect(task, cell, file));
@@ -286,7 +286,7 @@ function applyFileSelect(task, cell, {index, path, length, selected, uris}) {
 }
 
 function printTaskUris(task, uris) {
-    var uriList = task.querySelector('#more #uris');
+    var uriList = task.querySelector('#uris');
     var cells = uriList.childNodes;
     var index = -1;
     var used;
