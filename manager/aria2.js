@@ -244,9 +244,9 @@ function parseSession(gid, status, bittorrent) {
 
 function updateTaskDetail(task, status, bittorrent, files) {
     var disabled = 'complete,error,removed'.includes(status);
-    task.querySelector('#more [name="max-download-limit"]').disabled = disabled;
-    task.querySelector('#more [name="max-upload-limit"]').disabled = disabled || !bittorrent;
-    task.querySelector('#more [name="all-proxy"]').disabled = disabled;
+    task.querySelector('[name="max-download-limit"]').disabled = disabled;
+    task.querySelector('[name="max-upload-limit"]').disabled = disabled || !bittorrent;
+    task.querySelector('[name="all-proxy"]').disabled = disabled;
     printTaskFiles(task, files);
 }
 
