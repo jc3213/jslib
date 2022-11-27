@@ -116,6 +116,9 @@ function removeSession(type, gid, task) {
     if (task) {
         task.remove();
     }
+    if (activeId === gid) {
+        activeId = null;
+    }
 }
 
 function printSession({gid, status, files, bittorrent, completedLength, totalLength, downloadSpeed, uploadSpeed, connections, numSeeders}) {
