@@ -91,7 +91,7 @@ button input[type="file"] {
     display: none;
 }
 
-button:enabled:hover {
+button:enabled:hover, button:enabled:hover > * {
     cursor: pointer;
     filter: contrast(65%);
 }
