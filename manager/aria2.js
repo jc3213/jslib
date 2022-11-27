@@ -162,12 +162,8 @@ function printEstimateTime(time, number) {
 
 function parseSession(gid, status, bittorrent) {
     var task = sessionLET.cloneNode(true);
-    var save = task.querySelector('#save_btn');
-    var type = status === 'active' ? 'active' : 'waiting,paused'.includes(status) ? 'waiting' : 'stopped';
-    self[type + 'Stat'].innerText ++;
-    self[type + 'Task'].push(gid);
-    self[status + 'Queue'].appendChild(task);
     task.id = gid;
+    task.setAttribute('data-type', bittorrent ? 'bt' : 'http');
     task.querySelector('#upload').parentNode.style.display = bittorrent ? 'inline-block' : 'none';
     task.querySelector('#remove_btn').addEventListener('click', async event => {
         var status = task.getAttribute('status');
@@ -185,18 +181,18 @@ function parseSession(gid, status, bittorrent) {
     task.querySelector('#invest_btn').addEventListener('click', async event => {
         if (activeId === gid) {
             activeId = null;
-            task.classList.toggle('more');
+            task.classList.remove('extra');
         }
         else {
             if (activeId) {
-                document.getElementById(activeId).classList.toggle('more');
+                document.getElementById(activeId).classList.remove('extra');
             }
-            var {status, bittorrent, files} = await aria2RPC.message('aria2.tellStatus', [gid]);
             var options = await aria2RPC.message('aria2.getOption', [gid]);
-            printGlobalOptions(options);
+            var entries = task.querySelectorAll('[name]');
+            printGlobalOptions(entries, options);
+            var {status, bittorrent, files} = await aria2RPC.message('aria2.tellStatus', [gid]);
             updateTaskDetail(task, status, bittorrent, files);
-            task.classList.toggle('more');
-            task.querySelector('#more').setAttribute('data-aria2', bittorrent ? 'bt' : 'http');            
+            task.classList.add('extra');
             activeId = gid;
         }
     });
@@ -214,13 +210,6 @@ function parseSession(gid, status, bittorrent) {
         addSession(id);
         removeSession('stopped', gid, task);
     });
-    task.querySelector('#proxy_btn').addEventListener('click', async event => {
-        var proxy = prompt('Proxy Server');
-        if (proxy) {
-            await aria2RPC.message('aria2.changeOption', [gid, {'all-proxy': proxy}]);
-            event.target.parentNode.querySelector('input').value = proxy;
-        }
-    });
     task.querySelector('#meter').addEventListener('click', async event => {
         var status = task.getAttribute('status');
         if ('active,waiting'.includes(status)) {
@@ -232,25 +221,24 @@ function parseSession(gid, status, bittorrent) {
             task.setAttribute('status', 'waiting');
         }
     });
-    save.addEventListener('click', async event => {
+    task.querySelector('#options').addEventListener('change', event => {
+        var {name, value} = event.target;
+        aria2RPC.message('aria2.changeOption', [gid, {[name]: value}]);
+    });
+    task.querySelector('#save_btn').addEventListener('click', async event => {
         var files = [];
-        task.querySelectorAll('.file #index').forEach(index => {
+        task.querySelectorAll('#files #index').forEach(index => {
             if (index.className === 'active') {
                 files.push(index.innerText);
             }
         });
         await aria2RPC.message('aria2.changeOption', [gid, {'select-file': files.join()}]);
-        save.style.display = 'none';
+        event.target.style.display = 'none';
     });
-    task.addEventListener('change', async event => {
-        var {name, value} = event.target;
-        await aria2RPC.message('aria2.changeOption', [gid, {[name]: value}]);
-    });
-    task.querySelector('#append_btn').addEventListener('click', async event => {
-        var uri = event.target.parentNode.querySelector('input');
-        await aria2RPC.message('aria2.changeUri', [gid, 1, [], [uri.value]]);
-        uri.value = '';
-    });
+    var type = status === 'active' ? 'active' : 'waiting,paused'.includes(status) ? 'waiting' : 'stopped';
+    self[type + 'Stat'].innerText ++;
+    self[type + 'Task'].push(gid);
+    self[status + 'Queue'].appendChild(task);
     return task;
 }
 
