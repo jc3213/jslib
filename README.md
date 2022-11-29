@@ -10,7 +10,7 @@
 - [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
-- [Aria2 Task Manager](//jc3213.github.io/jslib/manager/aria2.html)
+- [Aria2 Task Manager](//jc3213.github.io/jslib/manager/index.html)
     - **Aria2 JSON RPC**
 - [Simple Manager](//jc3213.github.io/jslib/sample/sample.html)
     - **FlexMenu**
