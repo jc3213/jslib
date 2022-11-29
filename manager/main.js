@@ -240,7 +240,7 @@ function parseSession(gid, status, bittorrent) {
         event.target.style.display = 'none';
     });
     task.querySelector('#append_btn').addEventListener('click', async event => {
-        var uri = event.target.parentNode.querySelector('input');
+        var uri = event.target.previousElementSibling;
         await aria2RPC.message('aria2.changeUri', [gid, 1, [], [uri.value]]);
         uri.value = '';
     });
