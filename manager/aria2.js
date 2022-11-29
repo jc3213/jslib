@@ -23,7 +23,9 @@ document.querySelectorAll('#active_btn, #waiting_btn, #stopped_btn').forEach((ta
 });
 
 document.querySelector('#download_btn').addEventListener('click', async event => {
-    alert('This function is not implemented!');
+    var url = prompt('Download Url');
+    var options = { 'user-agent': navigator.userAgent };
+    aria2RPC.message('aria2.addUri', [[url], options]);
 });
 
 document.querySelector('#purge_btn').addEventListener('click', async event => {
