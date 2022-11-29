@@ -229,10 +229,6 @@ function parseSession(gid, status, bittorrent) {
         var {name, value} = event.target;
         aria2RPC.message('aria2.changeOption', [gid, {[name]: value}]);
     });
-    task.querySelector('#proxy_btn').addEventListener('click', async event => {
-        await aria2RPC.message('aria2.changeOption', [gid, {'all-proxy': aria2Store['proxy_server']}]);
-        event.target.parentNode.querySelector('input').value = aria2Store['proxy_server'];
-    });
     task.querySelector('#save_btn').addEventListener('click', async event => {
         var files = [];
         task.querySelectorAll('#files #index').forEach(index => {
