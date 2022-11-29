@@ -71,7 +71,8 @@ input:focus + span.float {
 }
 
 textarea {
-    word-break: break-word;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 select:only-child {
@@ -113,7 +114,7 @@ button.float {
     margin-top: 25px;
 }
 
-.flex, .tools, .fixed {
+.flex, .tool, .fixed {
     display: flex;
 }
 
@@ -129,7 +130,7 @@ button.float {
     width: fit-content;
 }
 
-.tools > :last-child {
+.tool > :last-child {
     margin-left: auto;
 }
 

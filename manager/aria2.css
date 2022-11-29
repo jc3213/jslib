@@ -1,21 +1,31 @@
 body {
-    margin: 8px auto;
-    height: 800;
+    height: 800px;
     width: 1280px;
+    margin: 8px auto;
 }
 
 body > .session, body > .file, body > .uri,
-[data-main="0"] > [data-queue]:nth-child(n+2),
-[data-main="1"] > [data-queue]:not(:nth-child(n+2):nth-child(-n+3)),
-[data-main="2"] > [data-queue]:nth-child(-n+3),
-[data-type="http"] [data-bt], [data-type="bt"] [data-http] {
+.group0 #queue > :nth-child(n+2),
+.group1 #queue > :not(:nth-child(n+2):nth-child(-n+3)),
+.group2 #queue > :nth-child(-n+3),
+.http [data-p2p], .p2p [data-http] {
     display: none;
 }
 
-[data-main="0"] > button.active,
-[data-main="1"] > button.waiting,
-[data-main="2"] > button.removed {
+.group0 #active_btn,
+.group1 #waiting_btn,
+.group2 #stopped_btn {
     border-style: inset;
+}
+
+.download, .upload {
+    display: inline-block;
+    padding: 6px;
+}
+
+.stats {
+    margin-right: 10px;
+    padding: 6px 3px;
 }
 
 #download::after, #upload::after {
@@ -26,37 +36,35 @@ body > .session, body > .file, body > .uri,
     content: "B";
 }
 
-.active {
-    background-color: #44c;
+#day:not(:empty)::after {
+    content: "__MSG_time_day__";
+    vertical-align: sub;
 }
 
-.waiting, .paused {
-    background-color: #cc4;
+#hour:not(:empty)::after {
+    content: "__MSG_time_hour__";
+    vertical-align: sub;
 }
 
-.complete {
-    background-color: #4c4;
+#minute:not(:empty)::after {
+    content: "__MSG_time_minute__";
+    vertical-align: sub;
 }
 
-.removed, .error {
-    background-color: #c48;
+#second:not(:empty)::after {
+    content: "__MSG_time_second__";
+    vertical-align: sub;
 }
 
-.active, .waiting, .paused, .error, .complete, .removed {
-    color: #fff;
+#infinite {
+    display: none;
 }
 
-.stats {
+#day:empty + #hour:empty + #minute:empty + #second:empty + #infinite {
     display: inline-block;
-    padding: 6px;
 }
 
-span.stats {
-    margin-right: 10px;
-    padding-left: 3px;
-}
-
-#session {
+#queue {
     height: calc(100% - 102px);
     overflow-y: auto;
 }
@@ -67,77 +75,51 @@ span.stats {
     padding: 3px;
     margin-bottom: 5px;
     display: grid;
-    grid-template-columns: repeat(3, calc(33.333% - 7.5px)) 22.5px;
-    grid-template-areas: "name name name menu" "details details details menu" "details details details menu" "meter meter meter meter" "options options options options";
+    grid-template-columns: repeat(3, calc(33.33% - 7.5px)) 22.5px;
 }
 
 .session > #name {
-    grid-area: name;
+    grid-area: 1 / 1 / 1 / 4;
 }
 
-.session > #menus {
-    grid-area: menu;
+.session > :not([id]) {
+    margin: 2px 0px;
 }
 
-.session > #menus > button {
+.session > #menu {
+    grid-area: 1 / 4 / 4 / 5;
+}
+
+.session > #menu > button {
     font-size: 12px;
     padding: 2px;
 }
 
 .session > #meter {
-    grid-area: meter;
+    grid-area: 4 / 1 / 4 / 5;
     text-align: center;
 }
 
-.session > #meter:active {
-    filter: contrast(45%);
-}
-
 .session > #options {
-    grid-area: options;
+    grid-area: 5 / 1 / 5 / 5;
 }
 
 .session:not(.extra) > #options {
     display: none;
 }
 
-.session sub {
-    margin-right: -4px;
-}
-
-.session #infinite {
-    display: none;
-    left: 26px;
-    padding-bottom: 1px;
-}
-
-.session #save_btn {
-    top: -12px;
-    display: none;
-}
-
 .session :not(.file, .uri) > [title] {
-    margin-top: 5px;
+    margin-top: 10px;
+}
+
+#save_btn {
+    top: -10px;
+    padding: 4px;
+    display: none;
 }
 
 input:disabled + button {
     display: none;
-}
-
-[status="active"] > #meter {
-    background-color: #4cc;
-}
-
-[status="waiting"] > #meter, [status="paused"] > #meter {
-    background-color: #488;
-}
-
-[status="complete"] > #meter {
-    background-color: #4c4;
-}
-
-[status="removed"] > #meter, [status="error"] > #meter {
-    background-color: #844;
 }
 
 .file {
@@ -164,4 +146,47 @@ input:disabled + button {
 
 .file > :nth-child(2), .uri > :nth-child(1) {
     padding: 5px;
+}
+
+#queue > :not(.complete, .removed, .error) #meter:active,
+#queue > :not(.complete, .removed, .error) #meter #ratio:active,
+.session.p2p .file > :nth-child(1):active,
+.session.http .uri > :nth-child(1):active {
+    filter: contrast(45%);
+}
+
+.active #meter {
+    background-color: #4cc;
+}
+
+.waiting #meter, .paused #meter {
+    background-color: #488;
+}
+
+.complete #meter {
+    background-color: #4c4;
+}
+
+.removed #meter, .error #meter {
+    background-color: #844;
+}
+
+#active_btn, .active #meter #ratio, .download, .checked {
+    background-color: #44c;
+}
+
+#waiting_btn, .waiting #meter #ratio, .paused #meter #ratio, .suspend {
+    background-color: #cc4;
+}
+
+.complete #meter #ratio, .upload {
+    background-color: #4c4;
+}
+
+#stopped_btn, .removed #meter #ratio, .error #meter #ratio {
+    background-color: #c48;
+}
+
+.active, .waiting, .paused, .error, .complete, .removed {
+    color: #fff;
 }

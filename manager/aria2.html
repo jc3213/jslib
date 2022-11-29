@@ -8,57 +8,45 @@
         <script src="https://jc3213.github.io/jslib/js/aria2.js"></script>
     </head>
     <body>
-        <div class="tools">
+        <div class="flex">
             <div>
-                <button class="active" i18n>popup_active</button>
+                <button id="active_btn" i18n>popup_active</button>
                 <span id="active" class="stats">0</span>
-                <button class="waiting" i18n>popup_waiting</button>
+                <button id="waiting_btn" i18n>popup_waiting</button>
                 <span id="waiting" class="stats">0</span>
-                <button class="removed" i18n>popup_stopped</button>
+                <button id="stopped_btn" i18n>popup_stopped</button>
                 <span id="stopped" class="stats">0</span>
             </div>
             <div>
-                <button id="download_btn" i18n>popup_create</button>
-                <button id="purge_btn" i18n>popup_purge</button>
-            </div>
-        </div>
-        <hr>
-        <div id="session">
-            <div data-queue="active"></div>
-            <div data-queue="waiting"></div>
-            <div data-queue="paused"></div>
-            <div data-queue="complete"></div>
-            <div data-queue="removed"></div>
-            <div data-queue="error"></div>
-        </div>
-        <hr>
-        <div class="tools">
-            <div>
-                <div class="stats active" disabled i18n>popup_download</div>
+                <div class="download" i18n>popup_download</div>
                 <span id="download" class="stats">0</span>
-                <div class="stats complete" disabled i18n>popup_upload</div>
+                <div class="upload" i18n>popup_upload</div>
                 <span id="upload" class="stats">0</span>
             </div>
-            <div>
+            <div style="text-align: right;">
+                <button id="download_btn" i18n>popup_create</button>
+                <button id="purge_btn" i18n>popup_purge</button>
                 <button id="options_btn" i18n>popup_options</button>
             </div>
+        </div>
+        <hr>
+        <div id="queue">
+            <div class="active"></div>
+            <div class="waiting"></div>
+            <div class="paused"></div>
+            <div class="complete"></div>
+            <div class="removed"></div>
+            <div class="error"></div>
         </div>
         <div class="session">
             <div id="name" class="title"></div>
             <div>🖥️ <span id="local"></span></div>
-            <div>⏲️ <div id="infinite" class="float">∞</div>
-                <span id="estimate">
-                    <span id="day"></span><sub i18n>time_day</sub>
-                    <span id="hour"></span><sub i18n>time_hour</sub>
-                    <span id="minute"></span><sub i18n>time_minute</sub>
-                    <span id="second"></span><sub i18n>time_second</sub>
-                </span>
-            </div>
+            <div>⏲️ <span id="day"></span><span id="hour"></span><span id="minute"></span><span id="second"></span><span id="infinite">∞</span></div>
             <div>📦 <span id="remote"></span></div>
             <div>📶️ <span id="connect"></span></div>
             <div>⏬ <span id="download"></span></div>
-            <div>⏫ <span id="upload"></span></div>
-            <div id="menus">
+            <div data-p2p>⏫ <span id="upload"></span></div>
+            <div id="menu">
                 <button id="remove_btn">❌</button>
                 <button id="invest_btn">🔍</button>
                 <button id="retry_btn">🌌</button>
@@ -144,8 +132,8 @@
         </div>
         <div class="uri">
             <div id="uri"></div>
-            <div id="used" class="active">0</div>
-            <div id="wait" class="waiting">0</div>
+            <div id="used" class="checked">0</div>
+            <div id="wait" class="suspend">0</div>
         </div>
         <div class="file">
             <div id="index"></div>

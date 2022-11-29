@@ -3,22 +3,22 @@ var waitingStat = document.querySelector('#waiting.stats');
 var stoppedStat = document.querySelector('#stopped.stats');
 var downloadStat = document.querySelector('#download.stats');
 var uploadStat = document.querySelector('#upload.stats');
-var activeQueue = document.querySelector('[data-queue="active"]');
-var waitingQueue = document.querySelector('[data-queue="waiting"]');
-var pausedQueue = document.querySelector('[data-queue="paused"]');
-var completeQueue = document.querySelector('[data-queue="complete"]');
-var removedQueue = document.querySelector('[data-queue="removed"]');
-var errorQueue = document.querySelector('[data-queue="error"]');
+var activeQueue = document.querySelector('#queue > .active');
+var waitingQueue = document.querySelector('#queue > .waiting');
+var pausedQueue = document.querySelector('#queue > .paused');
+var completeQueue = document.querySelector('#queue > .complete');
+var removedQueue = document.querySelector('#queue > .removed');
+var errorQueue = document.querySelector('#queue > .error');
 var sessionLET = document.querySelector('div.session');
 var activeId;
 var fileLET = document.querySelector('div.file');
 var uriLET = document.querySelector('div.uri');
 
-document.querySelectorAll('button.active, button.waiting, button.removed').forEach((tab, index) => {
+document.querySelectorAll('#active_btn, #waiting_btn, #stopped_btn').forEach((tab, index) => {
+    var {body} = document;
+    var type = 'group' + index;
     tab.addEventListener('click', event => {
-        var value = tab.parentNode.getAttribute('data-main') == index ? 3 : index;
-        tab.parentNode.setAttribute('data-main', value);
-        document.querySelector('#session').setAttribute('data-main', value);
+        body.className = body.className === type ? '' : type;
     });
 });
 
@@ -30,6 +30,9 @@ document.querySelector('#purge_btn').addEventListener('click', async event => {
     await aria2RPC.message('aria2.purgeDownloadResult');
     completeQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
     stoppedStat.innerText = '0';
+    if (stoppedTask.includes(activeId)) {
+        activeId = null;
+    }
 });
 
 document.querySelector('#options_btn').addEventListener('click', event => {
@@ -52,7 +55,7 @@ function aria2StartUp() {
     stoppedTask = [];
     aria2RPC = new Aria2(jsonrpc, secret);
     aria2RPC.message('aria2.tellWaiting', [0, 999]).then(async waiting => {
-        updateSession();
+        updateManager();
         var stopped = await aria2RPC.message('aria2.tellStopped', [0, 999]);
         [...waiting, ...stopped].forEach(printSession);
         aria2Client();
@@ -63,7 +66,7 @@ function aria2StartUp() {
 }
 
 function aria2Client() {
-    aria2Alive = setInterval(updateSession, refresh);
+    aria2Alive = setInterval(updateManager, refresh);
     aria2Socket = new WebSocket(jsonrpc.replace('http', 'ws'));
     aria2Socket.onmessage = async event => {
         var {method, params: [{gid}]} = JSON.parse(event.data);
@@ -79,7 +82,7 @@ function aria2Client() {
     };
 }
 
-async function updateSession() {
+async function updateManager() {
     var download = 0;
     var upload = 0;
     var active = await aria2RPC.message('aria2.tellActive');
@@ -92,22 +95,32 @@ async function updateSession() {
     uploadStat.innerText = getFileSize(upload);
 }
 
+function updateSession(task, status) {
+    if (status === 'active') {
+        var type = 'active';
+    }
+    else if ('waiting,paused'.includes(status)) {
+        type = 'waiting';
+    }
+    else {
+        type = 'stopped';
+        task.querySelector('[name="max-download-limit"]').disabled =
+        task.querySelector('[name="max-upload-limit"]').disabled =
+        task.querySelector('[name="all-proxy"]').disabled = true;
+    }
+    self[status + 'Queue'].appendChild(task);
+    return type;
+}
+
 async function addSession(gid) {
     var result = await aria2RPC.message('aria2.tellStatus', [gid]);
     var {status} = result;
     var task = printSession(result);
-    if (status === 'active') {
-        var type = 'active';
-    }
-    else {
-        type = 'waiting,paused'.includes(status) ? 'waiting' : 'stopped';
-        task.querySelector('#infinite').style.display = 'block';
-    }
+    var type = updateSession(task, status);
     if (self[type + 'Task'].indexOf(gid) === -1) {
         self[type + 'Stat'].innerText ++;
         self[type + 'Task'].push(gid);
     }
-    self[status + 'Queue'].appendChild(task);
 }
 
 function removeSession(type, gid, task) {
@@ -123,50 +136,43 @@ function removeSession(type, gid, task) {
 
 function printSession({gid, status, files, bittorrent, completedLength, totalLength, downloadSpeed, uploadSpeed, connections, numSeeders}) {
     var task = document.getElementById(gid) ?? parseSession(gid, status, bittorrent);
-    var time = (totalLength - completedLength) / downloadSpeed;
-    var ratio = (completedLength / totalLength * 10000 | 0) / 100;
-    task.setAttribute('status', status);
     task.querySelector('#name').innerText = getDownloadName(bittorrent, files);
     task.querySelector('#local').innerText = getFileSize(completedLength);
     task.querySelector('#remote').innerText = getFileSize(totalLength);
+    var time = (totalLength - completedLength) / downloadSpeed;
     var days = time / 86400 | 0;
     var hours = time / 3600 - days * 24 | 0;
     var minutes = time / 60 - days * 1440 - hours * 60 | 0;
     var seconds = time - days * 86400 - hours * 3600 - minutes * 60 | 0;
-    printEstimateTime(task.querySelector('#day'), days);
-    printEstimateTime(task.querySelector('#hour'), hours);
-    printEstimateTime(task.querySelector('#minute'), minutes);
-    task.querySelector('#second').innerText = seconds;
+    task.querySelector('#day').innerText = days > 0 ? days : '';
+    task.querySelector('#hour').innerText = hours > 0 ? hours : '';
+    task.querySelector('#minute').innerText = minutes > 0 ? minutes : '';
+    task.querySelector('#second').innerText = seconds > 0 ? seconds : '';
     task.querySelector('#connect').innerText = bittorrent ? numSeeders + ' (' + connections + ')' : connections;
     task.querySelector('#download').innerText = getFileSize(downloadSpeed);
     task.querySelector('#upload').innerText = getFileSize(uploadSpeed);
+    var ratio = (completedLength / totalLength * 10000 | 0) / 100;
     task.querySelector('#ratio').innerText = 
     task.querySelector('#ratio').style.width = ratio + '%';
-    task.querySelector('#ratio').className = status;
     task.querySelector('#retry_btn').style.display = !bittorrent && 'error,removed'.includes(status) ? 'inline-block' : 'none';
-    if (activeId === gid) {
-        updateTaskDetail(task, status, bittorrent, files);
+    if (activeId === gid && status === 'active') {
+        printTaskFiles(task, files);
     }
     return task;
-}
-
-function printEstimateTime(time, number) {
-    if (number > 0) {
-        time.innerText = number;
-        time.style.display = time.nextElementSibling.style.display = 'inline-block';
-    }
-    else {
-        time.style.display = time.nextElementSibling.style.display = 'none';
-    }
 }
 
 function parseSession(gid, status, bittorrent) {
     var task = sessionLET.cloneNode(true);
     task.id = gid;
-    task.setAttribute('data-type', bittorrent ? 'bt' : 'http');
-    task.querySelector('#upload').parentNode.style.display = bittorrent ? 'inline-block' : 'none';
+    if (bittorrent) {
+        task.classList.add('p2p');
+    }
+    else {
+        task.classList.add('http');
+        task.querySelector('[name="max-upload-limit"]').disabled = true;
+    }
     task.querySelector('#remove_btn').addEventListener('click', async event => {
-        var status = task.getAttribute('status');
+        var status = task.parentNode.className;
         if ('active,waiting,paused'.includes(status)) {
             await aria2RPC.message('aria2.forceRemove', [gid]);
             if (status !== 'active') {
@@ -180,18 +186,16 @@ function parseSession(gid, status, bittorrent) {
     });
     task.querySelector('#invest_btn').addEventListener('click', async event => {
         if (activeId === gid) {
-            activeId = null;
-            task.classList.remove('extra');
+            activeId = clearTaskDetail();
         }
         else {
             if (activeId) {
-                document.getElementById(activeId).classList.remove('extra');
+                clearTaskDetail();
             }
             var options = await aria2RPC.message('aria2.getOption', [gid]);
-            var entries = task.querySelectorAll('[name]');
-            printGlobalOptions(entries, options);
+            task.querySelectorAll('[name]').printOptions(options);
             var {status, bittorrent, files} = await aria2RPC.message('aria2.tellStatus', [gid]);
-            updateTaskDetail(task, status, bittorrent, files);
+            printTaskFiles(task, files);
             task.classList.add('extra');
             activeId = gid;
         }
@@ -211,19 +215,21 @@ function parseSession(gid, status, bittorrent) {
         removeSession('stopped', gid, task);
     });
     task.querySelector('#meter').addEventListener('click', async event => {
-        var status = task.getAttribute('status');
+        var status = task.parentNode.className;
         if ('active,waiting'.includes(status)) {
             await aria2RPC.message('aria2.forcePause', [gid]);
-            task.setAttribute('status', 'paused');
         }
         else if (status === 'paused') {
             await aria2RPC.message('aria2.unpause', [gid]);
-            task.setAttribute('status', 'waiting');
         }
     });
     task.querySelector('#options').addEventListener('change', event => {
         var {name, value} = event.target;
         aria2RPC.message('aria2.changeOption', [gid, {[name]: value}]);
+    });
+    task.querySelector('#proxy_btn').addEventListener('click', async event => {
+        await aria2RPC.message('aria2.changeOption', [gid, {'all-proxy': aria2Store['proxy_server']}]);
+        event.target.parentNode.querySelector('input').value = aria2Store['proxy_server'];
     });
     task.querySelector('#save_btn').addEventListener('click', async event => {
         var files = [];
@@ -235,32 +241,35 @@ function parseSession(gid, status, bittorrent) {
         await aria2RPC.message('aria2.changeOption', [gid, {'select-file': files.join()}]);
         event.target.style.display = 'none';
     });
-    var type = status === 'active' ? 'active' : 'waiting,paused'.includes(status) ? 'waiting' : 'stopped';
+    task.querySelector('#append_btn').addEventListener('click', async event => {
+        var uri = event.target.parentNode.querySelector('input');
+        await aria2RPC.message('aria2.changeUri', [gid, 1, [], [uri.value]]);
+        uri.value = '';
+    });
+    var type = updateSession(task, status);
     self[type + 'Stat'].innerText ++;
     self[type + 'Task'].push(gid);
-    self[status + 'Queue'].appendChild(task);
     return task;
 }
 
-function updateTaskDetail(task, status, bittorrent, files) {
-    var disabled = 'complete,error,removed'.includes(status);
-    task.querySelector('[name="max-download-limit"]').disabled = disabled;
-    task.querySelector('[name="max-upload-limit"]').disabled = disabled || !bittorrent;
-    task.querySelector('[name="all-proxy"]').disabled = disabled;
-    printTaskFiles(task, files);
+function clearTaskDetail() {
+    var task = document.getElementById(activeId);
+    task.classList.remove('extra');
+    task.querySelector('#files').innerHTML = task.querySelector('#uris').innerHTML = '';
+    task.querySelector('#save_btn').style.display = 'none';
 }
 
 function printFileCell(task, list, {index, path, length, selected, uris}) {
     var cell = fileLET.cloneNode(true);
     var tile = cell.querySelector('#index');
     tile.innerText = index;
-    tile.className = selected === 'true' ? 'active' : 'error';
+    tile.className = selected === 'true' ? 'checked' : 'suspend';
     cell.querySelector('#name').innerText = path.slice(path.lastIndexOf('/') + 1);
     cell.querySelector('#name').title = path;
     cell.querySelector('#size').innerText = getFileSize(length);
     if (uris.length === 0) {
         tile.addEventListener('click', event => {
-            tile.className = tile.className === 'active' ? 'error' : 'active';
+            tile.className = tile.className === 'checked' ? 'suspend' : 'checked';
             task.querySelector('#save_btn').style.display = 'block';
         });
     }

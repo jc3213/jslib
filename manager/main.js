@@ -7,6 +7,19 @@ var filesize = [
     'max-overall-upload-limit'
 ];
 
+NodeList.prototype.printOptions = function (json) {
+    var options = {};
+    this.forEach(node => {
+        var {name} = node;
+        var value = json[name] ?? null;
+        if (filesize.includes(name)) {
+            value = getFileSize(value);
+        }
+        node.value = options[name] = value;
+    });
+    return options;
+}
+
 function getFileSize(bytes) {
     if (isNaN(bytes)) {
         return '?? ';
@@ -26,22 +39,6 @@ function getFileSize(bytes) {
     else {
         return (bytes / 10995116277.76 | 0) / 100 + 'T';
     }
-}
-
-function printGlobalOptions(json) {
-    var options = {};
-    document.querySelectorAll('[name]').forEach(entry => {
-        var {name} = entry;
-        var value = json[name] ?? '';
-        if (filesize.includes(name)) {
-            value = getFileSize(value);
-        }
-        if (value) {
-            options[name] = value;
-        }
-        entry.value = value;
-    });
-    return options;
 }
 
 function getDownloadName(bittorrent, [{path, uris}]) {
