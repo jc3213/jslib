@@ -1,6 +1,7 @@
 body {
-    height: 580px;
-    width: 680px;
+    height: 800px;
+    width: 1280px;
+    margin: 8px auto;
 }
 
 body > .session, body > .file, body > .uri,
