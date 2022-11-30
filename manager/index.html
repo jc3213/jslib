@@ -56,19 +56,19 @@
             </div>
             <div id="options">
                 <div class="flex">
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_download</div>
                         <div>
                             <input name="max-download-limit" type="text">
                         </div>
                     </div>
-                    <div data-http>
+                    <div class="menu" data-http>
                         <div class="title" i18n>aria2_proxy</div>
                         <div>
                             <input name="all-proxy" type="url">
                         </div>
                     </div>
-                    <div data-bt>
+                    <div class="menu" data-bt>
                         <div class="title" i18n>aria2_upload</div>
                         <div>
                             <input name="max-upload-limit" type="text">
@@ -76,13 +76,13 @@
                     </div>
                 </div>
                 <div class="flex" data-http>
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_http_split</div>
                         <div>
                             <input name="split" type="number">
                         </div>
                     </div>
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_http_size</div>
                         <div>
                             <input name="min-split-size" type="text">
@@ -91,20 +91,20 @@
                     </div>
                 </div>
                 <div class="flex" data-bt>
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_bt_ratio</div>
                         <div>
                             <input name="seed-ratio" type="number" min="0" step="0.1">
                         </div>
                     </div>
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_bt_seed</div>
                         <div>
                             <input name="seed-time" type="number">
                             <span class="float" i18n>time_minute_full</span>
                         </div>
                     </div>
-                    <div>
+                    <div class="menu">
                         <div class="title" i18n>aria2_bt_remove</div>
                         <div>
                             <select name="bt-remove-unselected-file">
