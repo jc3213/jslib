@@ -104,7 +104,7 @@ button:disabled {
     filter: none;
 }
 
-[id] > [title]:nth-child(n+2), .flex > [title] {
+.menu:nth-child(n+2), .flex > .menu {
     margin-top: 25px;
 }
 

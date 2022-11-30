@@ -1,14 +1,13 @@
 body {
-    height: 800px;
-    width: 1280px;
-    margin: 8px auto;
+    height: 580px;
+    width: 680px;
 }
 
 body > .session, body > .file, body > .uri,
 .group0 #queue > :nth-child(n+2),
 .group1 #queue > :not(:nth-child(n+2):nth-child(-n+3)),
 .group2 #queue > :nth-child(-n+3),
-.http [data-p2p], .p2p [data-http] {
+.http [data-p2p], .p2p [data-http], #retry_btn {
     display: none;
 }
 
@@ -34,6 +33,10 @@ body > .session, body > .file, body > .uri,
 
 #remote::after, #local::after, #size::after {
     content: "B";
+}
+
+#ratio::after {
+    content: "%";
 }
 
 #day:not(:empty)::after {
@@ -108,7 +111,7 @@ body > .session, body > .file, body > .uri,
     display: none;
 }
 
-.session :not(.file, .uri) > [title] {
+.session .menu {
     margin-top: 10px;
 }
 
