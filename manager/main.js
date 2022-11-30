@@ -109,6 +109,9 @@ function updateSession(task, status) {
         task.querySelector('[name="max-download-limit"]').disabled =
         task.querySelector('[name="max-upload-limit"]').disabled =
         task.querySelector('[name="all-proxy"]').disabled = true;
+        if (task.classList.contains('http') && status !== 'complete') {
+            task.querySelector('#retry_btn').style.display = 'inline-block';
+        }
     }
     self[status + 'Queue'].appendChild(task);
     return type;
@@ -154,9 +157,8 @@ function printSession({gid, status, files, bittorrent, completedLength, totalLen
     task.querySelector('#download').innerText = getFileSize(downloadSpeed);
     task.querySelector('#upload').innerText = getFileSize(uploadSpeed);
     var ratio = (completedLength / totalLength * 10000 | 0) / 100;
-    task.querySelector('#ratio').innerText = 
+    task.querySelector('#ratio').innerText = ratio;
     task.querySelector('#ratio').style.width = ratio + '%';
-    task.querySelector('#retry_btn').style.display = !bittorrent && 'error,removed'.includes(status) ? 'inline-block' : 'none';
     if (activeId === gid && status === 'active') {
         printTaskFiles(task, files);
     }
@@ -284,7 +286,7 @@ function printTaskFiles(task, files) {
     files.forEach((file, index) => {
         var cell = cells[index] ?? printFileCell(task, fileList, file);
         var {length, completedLength} = file;
-        cell.querySelector('#ratio').innerText = ((completedLength / length * 10000 | 0) / 100) + '%';
+        cell.querySelector('#ratio').innerText = (completedLength / length * 10000 | 0) / 100;
     });
 }
 
