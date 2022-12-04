@@ -10,11 +10,11 @@
 
 @media (prefers-color-scheme: dark) { 
     body, div, option {
-        background-color: #121212;
+        background-color: #202124;
     }
     
     input, textarea, select, button {
-        background-color: #3b3b3b;
+        background-color: #4a4a4a;
     }
 
     body, div, option, input, textarea, select, button {
@@ -22,7 +22,7 @@
     }
 
     * {
-        border-color: #ffffff;
+        border-color: #9aa0a6;
     }
 }
 
@@ -37,7 +37,7 @@ body, div {
 }
 
 :disabled {
-    filter: contrast(45%);
+    filter: contrast(25%);
 }
 
 select, option {
@@ -98,10 +98,6 @@ button:enabled:hover, button:enabled:hover > * {
 button:enabled:active {
     filter: contrast(45%);
     border-style: inset;
-}
-
-button:disabled {
-    filter: none;
 }
 
 .menu:nth-child(n+2), .flex > .menu {
