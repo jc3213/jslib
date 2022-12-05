@@ -1,39 +1,53 @@
-## Usage
+# Usage
 
-#### Download
-[Latest](https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js)
+## Download
+[Click to download](https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js)
 
-#### HTML
-```HTML
-<script src="aria2.js"></script>
-```
-
-#### TamperMonkey
+## TamperMonkey
 ```javascript
 // @require https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js
 ```
 
-## Syntax
+# Syntax
 ```javascript
 const aria2 = new Aria2(jsonrpc, secret);
 ```
 
-### `jsonrpc` `*required`
-Address of aria2 JSON-RPC, only support `http`, `https`, `ws`, and `wss` protocols
+## jsonrpc **required**
+Url of aria2 JSON-RPC, only support `http`, `https`, `ws`, and `wss` protocols
 
-### `secret` `Optional`
+## secret **optional**
 Secret token of aria2 JSON-RPC
 
-## Method
+# Method
+
+## call
 ```javascript
-const result = aria2.message(method, params);
+const result = aria2.call(method, params);
 ```
 
-### `result`
+### result
 Promise object, returns the response from jsonrpc as an `object` if fulfilled
 
-### `method` `*required`
+### method **required**
 Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 
-### `params` `Optional`
+### params **optional**
+An array contains RPC method call parameters
+
+## batch
+```javascript
+const result = aria2.batch(multi);
+```
+
+### result
+Promise object, returns the response from jsonrpc as an `array` if fulfilled
+
+### multi **required**
+Array of `object`, syntax {`method`, `params` }
+
+## method **required**
+Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
+
+## params **optional**
 An array contains RPC method call parameters
