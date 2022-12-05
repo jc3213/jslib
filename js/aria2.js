@@ -46,7 +46,7 @@ class Aria2 {
         return post(jsonrpc, string).then(function (array) {
             var good = [];
             var evil = [];
-            var result = array.forEach(function (json) {
+            array.forEach(function (json) {
                 var {result, error} = json;
                 if (result !== undefined) {
                     good.push(result);
