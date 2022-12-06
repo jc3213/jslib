@@ -57,11 +57,12 @@ function aria2StartUp() {
     stoppedTask = [];
     aria2RPC = new Aria2(jsonrpc, secret);
     aria2RPC.batch([
+        {method: 'aria2.getGlobalStat'},
         {method: 'aria2.tellActive'},
         {method: 'aria2.tellWaiting', params: [0, 999]},
         {method: 'aria2.tellStopped', params: [0, 999]}
     ]).then(result => {
-        var [active, waiting, stopped] = result;
+        var [{downloadSpeed, uploadSpeed}, active, waiting, stopped] = result;
         [...active, ...waiting, ...stopped].forEach(printSession);
         downloadStat.innerText = getFileSize(downloadSpeed);
         uploadStat.innerText = getFileSize(uploadSpeed);
