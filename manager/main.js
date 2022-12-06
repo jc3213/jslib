@@ -55,16 +55,21 @@ function aria2StartUp() {
     activeTask = [];
     waitingTask = [];
     stoppedTask = [];
-    aria2RPC = new Aria2(jsonrpc, secret);
-    aria2RPC.call('aria2.tellWaiting', [0, 999]).then(async waiting => {
-        updateManager();
-        var stopped = await aria2RPC.call('aria2.tellStopped', [0, 999]);
-        [...waiting, ...stopped].forEach(printSession);
+    aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['secret_token']);
+    aria2RPC.batch([
+        {method: 'aria2.tellActive'},
+        {method: 'aria2.tellWaiting', params: [0, 999]},
+        {method: 'aria2.tellStopped', params: [0, 999]}
+    ]).then(result => {
+        var [active, waiting, stopped] = result;
+        [...active, ...waiting, ...stopped].forEach(printSession);
+        downloadStat.innerText = getFileSize(downloadSpeed);
+        uploadStat.innerText = getFileSize(uploadSpeed);
         aria2Client();
     }).catch(error => {
-        console.log(error);
         activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
-        activeQueue.innerHTML = waitingQueue.innerHTML = pausedQueue.innerHTML = completeQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = 'Error';
+        activeQueue.innerHTML = error.message;
+        waitingQueue.innerHTML = pausedQueue.innerHTML = completeQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
     });
 }
 
