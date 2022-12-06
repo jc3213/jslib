@@ -41,22 +41,22 @@ body > .session, body > .file, body > .uri,
 }
 
 #day:not(:empty)::after {
-    content: "__MSG_time_day__";
+    content: "d";
     vertical-align: sub;
 }
 
 #hour:not(:empty)::after {
-    content: "__MSG_time_hour__";
+    content: "h";
     vertical-align: sub;
 }
 
 #minute:not(:empty)::after {
-    content: "__MSG_time_minute__";
+    content: "m";
     vertical-align: sub;
 }
 
 #second:not(:empty)::after {
-    content: "__MSG_time_second__";
+    content: "s";
     vertical-align: sub;
 }
 
