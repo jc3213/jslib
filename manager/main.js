@@ -55,7 +55,7 @@ function aria2StartUp() {
     activeTask = [];
     waitingTask = [];
     stoppedTask = [];
-    aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['secret_token']);
+    aria2RPC = new Aria2(jsonrpc, secret);
     aria2RPC.batch([
         {method: 'aria2.tellActive'},
         {method: 'aria2.tellWaiting', params: [0, 999]},
