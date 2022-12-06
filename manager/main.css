@@ -68,11 +68,6 @@ body > .session, body > .file, body > .uri,
     display: inline-block;
 }
 
-#queue {
-    height: calc(100% - 102px);
-    overflow-y: auto;
-}
-
 .session {
     border-width: 1px;
     border-style: outset;
