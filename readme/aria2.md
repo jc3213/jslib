@@ -35,7 +35,7 @@ const result = aria2.batch(multi);
 ```
 - result
     - Promise object, returns the response from jsonrpc as an `array` if fulfilled
-- multi **required**
+- multi
     - An array of `object`, syntax {`method`, `params` }
     - method **required**
         - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
