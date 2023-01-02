@@ -2,7 +2,7 @@ var jsUI = new JSUI();
 var jsTable = new FlexTable();
 var filereader = new PromiseFileReader();
 
-jsUI.css.innerText +=`body {margin: auto; width: 600px;}
+jsUI.css.innerText += `body {margin: auto; width: 600px;}
 #dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
