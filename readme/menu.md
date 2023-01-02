@@ -37,7 +37,7 @@ Javascript object that contains `text`, `attributes`, and `onclick` properties
 The text on the button
 
 #### attributes
-Array of The DOM attributes [ {`name`, `value`}, {`name`, `value`} ] [Read More](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
+Array of The DOM attributes [ {`name`, `value`}, {`name`, `value`} ] [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
 
 #### onclick
 `Event` that when menuitem is clicked
