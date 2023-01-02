@@ -2,14 +2,12 @@ var jsUI = new JSUI();
 var jsTable = new FlexTable();
 var filereader = new PromiseFileReader();
 
-var css = document.createElement('style');
-css.innerText = `body {margin: auto; width: 600px;}
+jsUI.css.innerText +=`body {margin: auto; width: 600px;}
 #dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px; border: none;}
 .jsui-click-cell {background-color: #23ade5; color: #fff; line-height: 24px;}`;
-document.head.appendChild(css)
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
     var file = event.target.files[0];
