@@ -19,5 +19,5 @@ const jsUI = new JSUI();
 ```
 
 ## Method
-- [JSUI Menus](menu.md)
+- [JSUI Menu](menu.md)
 - [JSUI Notification](notify.md)
