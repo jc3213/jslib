@@ -5,9 +5,7 @@
 
 ## Javascript UI
 - [JSUI](/readme/jsui.md)
-- [FlexMenu](/readme/menu.md)
 - [FlexTable](/readme/table.md)
-- [Notify](/readme/notify.md)
 - [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
