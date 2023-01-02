@@ -1,7 +1,7 @@
-## JSUI Menus
+# JSUI Menus
 - [Back](jsui.md)
 
-## Method
+# Method
 - [menulist](#menulist)
 - [menuitem](#menuitem)
 
