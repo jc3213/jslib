@@ -24,17 +24,16 @@ class JSUI {
         document.body.prepend(this.overlay);
         document.head.appendChild(this.css);
     }
-    menulist (object) {
-        var {items, dropdown} = object;
+    menulist (array, bool) {
         var {menuitem} = this;
         var menu = document.createElement('div');
-        if (dropdown) {
+        if (bool) {
             menu.className = 'jsui-drop-menu';
         }
         else {
             menu.className = 'jsui-basic-menu';
         }
-        items.forEach(function (object) {
+        array.forEach(function (object) {
             var item = menuitem(object);
             menu.append(item);
         });

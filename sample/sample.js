@@ -18,14 +18,18 @@ document.querySelector('#filereader').addEventListener('change', async function 
     event.target.value = '';
 })
 
-var menu = jsUI.menulist({
-    items: [
-        {text: '按钮1', onclick: clickBtnA, attributes: [{name: 'title', value: '中文'}, {name: 'id', value: 'btn1'}]},
-        {text: 'button2', onclick: clickBtnB, attributes: [{name: 'title', value: 'English'}, {name: 'id', value: 'btn2'}]},
-        {text: 'ボタン3', onclick: clickBtnC, attributes: [{name: 'title', value: '日本語'}, {name: 'id', value: 'btn3'}]}
-    ],
-    dropdown: false
-});
+var menu = jsUI.menulist([
+    {text: '按钮1', onclick: clickBtnA, attributes: getAttributes('btn1', '中文')},
+    {text: 'button2', onclick: clickBtnB, attributes: getAttributes('btn2', 'English')},
+    {text: 'ボタン3', onclick: clickBtnC, attributes: getAttributes('btn3', '日本語')}
+], false);
+
+function getAttributes(id, title) {
+    return [
+        {name: 'id', value: id},
+        {name: 'title', value: title}
+    ];
+}
 
 function clickBtnA(event) {
     jsUI.notification({message: '按钮1', timeout: 3000});
@@ -55,10 +59,11 @@ manager.append(menu, entry /*, jsTable.table*/);
 
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
-    entry.value = 'Drag\'n\'Drop Complete\n拖拽成功\nドラッグドロップ成功';
+    entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
 });
 manager.addEventListener('drop', function (event) {
     menu.after(entry);
+    entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました'
 });
 
 jsTable.parentNode = manager;
