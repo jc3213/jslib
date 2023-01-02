@@ -1,6 +1,5 @@
-var jsMenu = new FlexMenu();
+var jsUI = new JSUI();
 var jsTable = new FlexTable();
-var jsNotify = new SimpleNotify();
 var filereader = new PromiseFileReader();
 
 var css = document.createElement('style');
@@ -21,7 +20,7 @@ document.querySelector('#filereader').addEventListener('change', async function 
 
 var dropzone = document.querySelector('#dropzone');
 
-var menu = jsMenu.menu({
+var menu = jsUI.menulist({
     items: [
         {text: '按钮1', onclick: clickBtnA, attributes: [{name: 'title', value: '中文'}, {name: 'id', value: 'btn1'}]},
         {text: 'button2', onclick: clickBtnB, attributes: [{name: 'title', value: 'English'}, {name: 'id', value: 'btn2'}]},
@@ -31,17 +30,17 @@ var menu = jsMenu.menu({
 });
 
 function clickBtnA(event) {
-    jsNotify.popup({message: '按钮1', timeout: 3000});
+    jsUI.notification({message: '按钮1', timeout: 3000});
     entry.value = '按钮1';
 }
 
 function clickBtnB(event) {
-    jsNotify.popup({message: 'Button2', timeout: 3000});
+    jsUI.notification({message: 'Button2', timeout: 3000});
     entry.value = 'Button2';
 }
 
 function clickBtnC(event) {
-    jsNotify.popup({message: 'ボタン3', onclick: function() {
+    jsUI.notification({message: 'ボタン3', onclick: function() {
         alert('ボタン3');
     }, timeout: 3000});
     entry.value = 'ボタン3';
@@ -72,6 +71,6 @@ jsTable.add(['中文1', 'English1', '日本語1'], [clickTabCelA]);
 jsTable.add(['中文2', 'English2', '日本語2', 'Español2']);
 
 function clickTabCelA(event) {
-    jsNotify.popup({message:'测试1\nTest 1\nテスト1'});
+    jsUI.notification({message:'测试1\nTest 1\nテスト1'});
     entry.value = '测试1\nTest 1\nテスト1';
 }
