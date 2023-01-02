@@ -1,4 +1,4 @@
-# JSUI Menu
+# JSUI Notification
 - [Back](jsui.md)
 
 # Method
@@ -13,4 +13,15 @@ const popup = jsUI.notification(object);
 A pop up notification element
 
 ### object
+- [message](#message)
+- [onclick](#onclick)
+- [timeout](#timeout)
 
+#### message
+- a string contains message to be showed in notification
+
+#### onclick
+- function that will be triggered if the popup is clicked
+
+#### timeout
+- the time elaspe that the popup will be shown **milliseconds**
