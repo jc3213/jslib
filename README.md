@@ -6,7 +6,6 @@
 ## Javascript UI
 - [JSUI](/readme/jsui.md)
 - [FlexTable](/readme/table.md)
-- [DragDrop](/readme/dragdrop.md)
 
 ## Code Sample
 - [Aria2 Task Manager](//jc3213.github.io/jslib/manager/index.html)
@@ -14,5 +13,4 @@
 - [Sample page](//jc3213.github.io/jslib/sample/sample.html)
     - **JSUI**
     - **FlexTable**
-    - **DragDrop**
     - **Promise File Reader**
