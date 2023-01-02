@@ -1,4 +1,4 @@
-# JSUI Menus
+# JSUI Menu
 - [Back](jsui.md)
 
 # Method
