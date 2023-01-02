@@ -1,19 +1,16 @@
-## Usage
+# JSUI Menu
+- [Back](jsui.md)
 
-#### Download
-[Latest](https://raw.githubusercontent.com/jc3213/jslib/main/ui/notify.js)
+# Method
+- [notification](#notification)
 
-#### HTML
-```HTML
-<script src="metalink4.js"></script>
-```
-
-#### TamperMonkey
+## notification
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/ui/notify.js
+const popup = jsUI.notification(object);
 ```
 
-## Syntax
-```javascript
-const jsNotify = new Notify();
-```
+### popup
+A pop up notification element
+
+### object
+
