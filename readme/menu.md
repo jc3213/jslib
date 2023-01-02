@@ -1,30 +1,17 @@
-## Usage
-
-#### Download
-[Latest](https://raw.githubusercontent.com/jc3213/jslib/main/ui/menu.js)
-
-#### HTML
-```HTML
-<script src="menu.js"></script>
-```
-
-#### TamperMonkey
-```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/ui/menu.js
-```
-
-## Syntax
-```javascript
-const jsMenu = new FlexMenu();
-```
+## JSUI Menus
+- [Back](jsui.md)
 
 ## Method
+- [menulist](#menulist)
+- [menuitem](#menuitem)
+
+## menulist
 ```javascript
-const menu = jsMenu.menu(object);
+const menu = jsUI.menulist(object);
 ```
 
 ### menu
-The generated flexible menu with flexible menu items
+The generated flexiable menulist with menuitems
 
 ### object
 Sytax {`items`, `dropdown`}
@@ -34,12 +21,14 @@ Array of [menuitem](#menuitem-required)
 
 ### dropdown `*Optional` **boolean**
 Define whether the `menu` is a dropdown menu
+
+## menuitem
 ```javascript
-const menu = jsMenu.item(menuitem);
+const item = jsUI.menuitem(menuitem);
 ```
 
-### menu
-The generated flexible menu item
+### item
+The generated menuitem
 
 ### menuitem `*required`
 Javascript object that contains `text`, `attributes`, and `onclick` properties
