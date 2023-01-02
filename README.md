@@ -4,6 +4,7 @@
 - [Metalink4](/readme/metalink4.md)
 
 ## Javascript UI
+- [JSUI](/readme/jsui.md)
 - [FlexMenu](/readme/menu.md)
 - [FlexTable](/readme/table.md)
 - [Notify](/readme/notify.md)
@@ -13,8 +14,7 @@
 - [Aria2 Task Manager](//jc3213.github.io/jslib/manager/index.html)
     - **Aria2 JSON RPC**
 - [Sample page](//jc3213.github.io/jslib/sample/sample.html)
-    - **FlexMenu**
+    - **JSUI**
     - **FlexTable**
-    - **Notify**
     - **DragDrop**
     - **Promise File Reader**
