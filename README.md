@@ -5,12 +5,10 @@
 
 ## Javascript UI
 - [JSUI](/readme/jsui.md)
-- [FlexTable](/readme/table.md)
 
 ## Code Sample
 - [Aria2 Task Manager](//jc3213.github.io/jslib/manager/index.html)
     - **Aria2 JSON RPC**
 - [Sample page](//jc3213.github.io/jslib/sample/sample.html)
     - **JSUI**
-    - **FlexTable**
     - **Promise File Reader**
