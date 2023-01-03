@@ -24,6 +24,18 @@ const jsUI = new JSUI();
 - [notification](#notification)
 - [table](#table)
 
+## Prototype
+- [parent](#parent)
+
+#### parent
+```javascript
+node.parent(target);
+```
+- **node**
+    - The HTML element node created by this script
+- **target**
+    - The target HTML element node where the **node** will be appended to
+
 #### menulist
 ```javascript
 const menu = jsUI.menulist(array, vertical);
@@ -77,9 +89,9 @@ table.clear();
 ## Properties
 
 #### Syntax
-````javascript
+```javascript
 const {id, text, html, attr, onclick, timeout} = properties
-````
+```
 - **id**: The `id` of the element
 - **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
     - name: The name of the attribute
