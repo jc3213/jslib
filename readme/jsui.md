@@ -73,7 +73,7 @@ table.add(array);
 table.clear();
 ````
 
-#### Properties
+## Properties
 - Syntax {`id`, `text`, `html`, `attr`, `onclick`, `timeout`}
 - **id**: The `id` of the element
 - **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
