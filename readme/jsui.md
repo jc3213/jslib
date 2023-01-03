@@ -66,7 +66,8 @@ const table = jsUI.table(array);
 ```javascript
 table.add(array);
 ````
-- **array**: An `Array` of [properties](#properties)
+- **array**
+    - An `Array` of [properties](#properties)
 
 #### clear
 ````javascript
@@ -74,7 +75,11 @@ table.clear();
 ````
 
 ## Properties
-- Syntax {`id`, `text`, `html`, `attr`, `onclick`, `timeout`}
+
+#### Syntax
+````javascript
+const {id, text, html, attr, onclick, timeout} = properties
+````
 - **id**: The `id` of the element
 - **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
     - name: The name of the attribute
