@@ -18,65 +18,71 @@
 const jsUI = new JSUI();
 ```
 
-# Method
+## Method
 - [menulist](#menulist)
 - [menuitem](#menuitem)
 - [notification](#notification)
+- [table](#table)
 
-## menulist
+#### menulist
 ```javascript
-const menu = jsUI.menulist(object);
+const menu = jsUI.menulist(array, vertical);
 ```
+- menu
+    - The generated flexiable menulist with menuitems
+- array
+    - An `Array` of [menuinfo](#menuinfo)
+- vertical
+    - `Boolean`, decide whether the menulist shall be vertical or horizontal
 
-### menu
-The generated flexiable menulist with menuitems
-
-### object
-Sytax {`items`, `dropdown`}
-
-### items `required`
-Array of [menuitem](#menuitem-required)
-
-### dropdown `*Optional` **boolean**
-Define whether the `menu` is a dropdown menu
-
-## menuitem
+#### menuitem
 ```javascript
-const item = jsUI.menuitem(menuitem);
+const item = jsUI.menuitem(menuinfo);
 ```
+- item
+    - The generated menuitem
+- menuinfo `*required`
+    - Read [menuinfo](#menuinfo)
 
-### item
-The generated menuitem
-
-### menuitem `*required`
-Javascript object that contains `text`, `attributes`, and `onclick` properties
-
-#### text
-The text on the button
-
-#### attributes
-Array of The DOM attributes [ {`name`, `value`}, {`name`, `value`} ] [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
-
-#### onclick
-`Event` function that will be triggered when menuitem is clicked
+#### menuinfo
+- Syntax {`id`, `text`, `html`, `attr`, `onclick`}
+- Read [Properties](#properties)
 
 ## notification
 ```javascript
 const popup = jsUI.notification(notify);
 ```
+- popup
+    - The notification element
+- notify
+    - Syntax {`id`, `text`, `html`, `attr`, `onclick`, `timeout`}
+    - Read [Properties](#properties)
 
-### popup
-A pop up notification element
+## table
+```javascript
+const table = jsUI.table(array);
+```
+- table
+    - The table element created
+- array
+    - An `Array` of text `string` for table head
 
-### notify
-Javascript object that contains `message`, `timeout`, and `onclick` properties
+#### add
+```javascript
+table.add(array);
+````
 
-#### message
-`String` of message that will to be shown in `popup`
+#### clear
+````javascript
+table.clear();
+````
 
-#### onclick
-`Event` function that will be triggered when `popup` is clicked
-
-#### timeout
-`Time` elaspe that the `popup` will be shown **milliseconds**
-
+#### Properties
+- **id**: The `id` of the element
+- **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
+    - name: The name of the attribute
+    - value: The value of the attribute
+- **html**: The `innerHtml` content of the element [Not Compatible with **text**]
+- **text**: The `innerText` content of the element [Not Compatible with **html**]
+- **onclick**: The event that will be triggered if element is clicked
+- **timeout**: The elaspe time that the element will be shown
