@@ -6,73 +6,144 @@ class JSUI {
         this.css.type = 'text/css';
         this.css.innerText = `
         @media (prefers-color-scheme: light) {
-            .jsui-menu-item {border-color: #fff;}
+            .jsui-menu-item, .jsui-table, .jsui-table-cell {border-color: #ffffff;}
         }
         @media (prefers-color-scheme: dark) {
-            .jsui-menu-item {border-color: #000;}
+            .jsui-menu-item, .jsui-table, .jsui-table-cell {border-color: #000000;}
         }
         .jsui-menu-item {text-align: center; margin: 1px; padding: 3px; border-width: 1px; border-style: outset;}
-        .jsui-menu-item:not(.jsui-menu-disabled):hover {cursor: pointer; filter: contrast(75%);}
-        .jsui-menu-item:not(.jsui-menu-disabled):active {filter: contrast(45%);}
+        .jsui-menu-item:not(.jsui-menu-disabled):hover, .jsui-table-button:hover {cursor: pointer; filter: contrast(75%);}
+        .jsui-menu-item:not(.jsui-menu-disabled):active, .jsui-table-button:active {filter: contrast(45%);}
         .jsui-menu-item:active, .jsui-menu-checked {border-style: inset;}
         .jsui-menu-disabled {padding: 4px; border-width: 0px; filter: contrast(25%);}
         .jsui-basic-menu, .jsui-drop-menu {margin: 0px; padding: 0px; user-select: none;}
         .jsui-basic-menu {display: flex; gap: 1px;}
         .jsui-basic-menu > * {flex: 1;}
+        .jsui-table-head > * {background-color: #000000; color: #ffffff;}
+        .jsui-table {border-width: 1px; border-style: solid;}
+        .jsui-table-column {display: flex; gap: 1px; margin: 1px;}
+        .jsui-table-cell, .jsui-table-button {flex: 1; padding: 5px; text-align: center; line-height: 100%; border-width: 1px; border-style: solid;}
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
         .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`;
         document.body.prepend(this.overlay);
         document.head.appendChild(this.css);
     }
     menulist (array, bool) {
-        var {menuitem} = this;
-        var menu = document.createElement('div');
+        var {add} = this;
+        var menu;
         if (bool) {
-            menu.className = 'jsui-drop-menu';
+            menu = add({style: 'jsui-drop-menu'});
         }
         else {
-            menu.className = 'jsui-basic-menu';
+            menu = add({style: 'jsui-basic-menu'});;
         }
         array.forEach(function (object) {
-            var item = menuitem(object);
-            menu.append(item);
+            object.style = 'jsui-menu-item';
+            var item = add(object);
+            menu.appendChild(item);
         });
         return menu;
     }
     menuitem (object) {
-        var {text, attributes, onclick} = object;
-        var item = document.createElement('div');
-        item.className = 'jsui-menu-item';
-        if (attributes) {
-            attributes.forEach(function (object) {
-                var {name, value} = object;
-                item.setAttribute(name, value);
-            });
-        }
-        item.innerText = text;
-        item.addEventListener('click', onclick);
+        object.style = 'jsui-menu-item';
+        var item = this.add(object);
         return item;
     }
-    notification (object) {
-        var {message, onclick, timeout} = object;
-        var {clientWidth} = document.documentElement;
-        var popup = document.createElement('div');
-        popup.className = 'jsui-notify-popup';
-        popup.innerText = message;
-        popup.addEventListener('click', function (event) {
-            popup.remove();
-            if (typeof onclick === 'function') {
-                onclick();
-            }
+    table (array) {
+        var {add} = this;
+        var table = add({style: 'jsui-table'});
+        var head = add({style: 'jsui-table-head jsui-table-column'});
+        var body = add({style: 'jsui-table-body'});
+        array.forEach(function (text) {
+            var cell = add({text, style: 'jsui-table-cell'});
+            head.appendChild(cell);
         });
-        if (timeout !== undefined) {
-            setTimeout(function () {
+        table.add = function (array) {
+            var column = add({style: 'jsui-table-column'});
+            array.forEach(function (object) {
+                if (typeof object === 'string') {
+                    object = {
+                        text: object,
+                        style: 'jsui-table-cell'
+                    };
+                }
+                else if (typeof object === 'object') {
+                    if ('onclick' in object) {
+                        object.style = 'jsui-table-button';
+                    }
+                    else {
+                        object.style = 'jsui-table-cell';
+                    }
+                }
+                var cell = add(object);
+                column.appendChild(cell);
+            });
+            body.appendChild(column);
+        };
+        table.clear = function () {
+            body.innerHTML = '';
+        };
+        table.append(head, body);
+        document.body.appendChild(table);
+        return table;
+    }
+    notification (object) {
+        var {clientWidth} = document.documentElement;
+        var onclick = object.onclick;
+        object.style = 'jsui-notify-popup';
+        if (typeof onclick === 'function') {
+            object.onclick = function () {
+                onclick();
                 popup.remove();
-            }, timeout);
+            };
         }
+        else {
+            object.onclick = function () {
+                popup.remove();
+            }
+        }
+        var popup = this.add(object);
         this.overlay.appendChild(popup);
         popup.style.left = (clientWidth - popup.offsetWidth) / 2 + 'px';
         return popup;
+    }
+    add (object) {
+        var {id, text, html, style, attribute, onclick, timeout} = object;
+        var node = document.createElement('div');
+        if (style !== undefined) {
+            node.className = style;
+        }
+        if (id !== undefined) {
+            node.id = id;
+        }
+        if (html !== undefined) {
+            node.innerHTML = html;
+        }
+        else if (text !== undefined) {
+            node.innerText = text;
+        }
+        if (attribute !== undefined) {
+            if (!Array.isArray(attribute)) {
+                attribute = [attribute];
+            }
+            attribute.forEach(function (object) {
+                var {attr, val} = object;
+                node[attr] = val;
+            });
+        }
+        if (onclick !== undefined) {
+            node.addEventListener('click', onclick);
+        }
+        if (!isNaN(timeout)) {
+            node.timeout = setTimeout(function () {
+                node.remove();
+            }, timeout);
+        }
+        node.parent = function (target) {
+            console.log(target);
+            target.appendChild(node);
+        };
+        return node;
     }
     dragndrop (source, target) {
         source.draggable = true;
