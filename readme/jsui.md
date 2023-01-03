@@ -28,49 +28,45 @@ const jsUI = new JSUI();
 ```javascript
 const menu = jsUI.menulist(array, vertical);
 ```
-- menu
+- **menu**
     - The generated flexiable menulist with menuitems
-- array
-    - An `Array` of [menuinfo](#menuinfo)
-- vertical
+- **array**
+    - An `Array` of [Properties](properties)
+- **vertical**
     - `Boolean`, decide whether the menulist shall be vertical or horizontal
 
 #### menuitem
 ```javascript
 const item = jsUI.menuitem(menuinfo);
 ```
-- item
+- **item**
     - The generated menuitem
-- menuinfo `*required`
-    - Read [menuinfo](#menuinfo)
-
-#### menuinfo
-- Syntax {`id`, `text`, `html`, `attr`, `onclick`}
-- Read [Properties](#properties)
+- **menuinfo** `*required`
+    - Read [Properties](#properties)
 
 ## notification
 ```javascript
 const popup = jsUI.notification(notify);
 ```
-- popup
+- **popup**
     - The notification element
-- notify
-    - Syntax {`id`, `text`, `html`, `attr`, `onclick`, `timeout`}
+- **notify**
     - Read [Properties](#properties)
 
 ## table
 ```javascript
 const table = jsUI.table(array);
 ```
-- table
+- **table**
     - The table element created
-- array
+- **array**
     - An `Array` of text `string` for table head
 
 #### add
 ```javascript
 table.add(array);
 ````
+- **array**: An `Array` of [properties](#properties)
 
 #### clear
 ````javascript
@@ -78,6 +74,7 @@ table.clear();
 ````
 
 #### Properties
+- Syntax {`id`, `text`, `html`, `attr`, `onclick`, `timeout`}
 - **id**: The `id` of the element
 - **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
     - name: The name of the attribute
