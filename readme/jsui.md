@@ -60,14 +60,14 @@ const table = jsUI.table(array);
 - **table**
     - The table element created
 - **array**
-    - An `Array` of text `string` for table head
+    - An `Array` of text `String` for table head
 
 #### add
 ```javascript
 table.add(array);
 ````
 - **array**
-    - An `Array` of [properties](#properties)
+    - An `Array` of [properties](#properties) or text `String`
 
 #### clear
 ````javascript
