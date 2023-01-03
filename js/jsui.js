@@ -108,7 +108,7 @@ class JSUI {
         return popup;
     }
     add (object) {
-        var {id, text, html, style, attribute, onclick, timeout} = object;
+        var {id, text, html, style, attr, onclick, timeout} = object;
         var node = document.createElement('div');
         if (style !== undefined) {
             node.className = style;
@@ -122,13 +122,13 @@ class JSUI {
         else if (text !== undefined) {
             node.innerText = text;
         }
-        if (attribute !== undefined) {
-            if (!Array.isArray(attribute)) {
-                attribute = [attribute];
+        if (attr !== undefined) {
+            if (!Array.isArray(attr)) {
+                attr = [attr];
             }
-            attribute.forEach(function (object) {
-                var {attr, val} = object;
-                node[attr] = val;
+            attr.forEach(function (object) {
+                var {name, value} = object;
+                node[name] = value;
             });
         }
         if (onclick !== undefined) {
@@ -140,7 +140,6 @@ class JSUI {
             }, timeout);
         }
         node.parent = function (target) {
-            console.log(target);
             target.appendChild(node);
         };
         return node;

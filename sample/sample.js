@@ -16,9 +16,9 @@ document.querySelector('#filereader').addEventListener('change', async function 
 })
 
 var menu = jsUI.menulist([
-    {text: '按钮1', onclick: clickBtnA, attribute: getAttributes('btn1', '中文')},
-    {text: 'button2', onclick: clickBtnB, attribute: getAttributes('btn2', 'English')},
-    {text: 'ボタン3', onclick: clickBtnC, attribute: getAttributes('btn3', '日本語')}
+    {text: '按钮1', onclick: clickBtnA, attr: getAttributes('btn1', '中文')},
+    {text: 'button2', onclick: clickBtnB, attr: getAttributes('btn2', 'English')},
+    {text: 'ボタン3', onclick: clickBtnC, attr: getAttributes('btn3', '日本語')}
 ], false);
 
 function getAttributes(id, title) {
@@ -39,9 +39,13 @@ function clickBtnB(event) {
 }
 
 function clickBtnC(event) {
-    jsUI.notification({text: 'ボタン3', onclick: function() {
-        alert('ボタン3');
-    }, timeout: 3000});
+    jsUI.notification({
+        text: 'ボタン3',
+        onclick: function() {
+            alert('ボタン3を押しました！');
+        },
+        timeout: 3000
+    });
     entry.value = 'ボタン3';
 }
 
