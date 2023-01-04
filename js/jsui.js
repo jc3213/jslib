@@ -77,6 +77,7 @@ class JSUI {
                 }
                 var cell = add(object);
                 column.appendChild(cell);
+                return column;
             });
             body.appendChild(column);
         };
