@@ -76,8 +76,10 @@ const table = jsUI.table(array);
 
 #### add
 ```javascript
-table.add(array);
+const column = table.add(array);
 ````
+- **column**
+    - The generated table column
 - **array**
     - An `Array` of [properties](#properties) or text `String`
 
@@ -85,6 +87,7 @@ table.add(array);
 ````javascript
 table.clear();
 ````
+- Clear all table body content
 
 ## Properties
 
