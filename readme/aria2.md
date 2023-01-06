@@ -1,9 +1,17 @@
 ## Usage
 
-- Download
-    - [Click to download](https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js)
-- TamperMonkey
-    - `// @require https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js`
+#### Download
+[Latest](https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js)
+
+#### HTML
+```HTML
+<script src="https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js"></script>
+```
+
+#### TamperMonkey
+```javascript
+// @require https://raw.githubusercontent.com/jc3213/jslib/main/js/aria2.js
+```
 
 ## Syntax
 ```javascript
