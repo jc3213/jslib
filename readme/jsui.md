@@ -99,7 +99,7 @@ const {id, text, html, attr, onclick, timeout} = properties
 - **attr**: Syntax {`name, value`}, or an array contains attr. [Read More](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
     - name: The name of the attribute
     - value: The value of the attribute
-- **html**: The `innerHtml` content of the element [Not Compatible with **text**]
-- **text**: The `innerText` content of the element [Not Compatible with **html**]
+- **html**: The `innerHtml` content of the element, not Compatible with **text**
+- **text**: The `innerText` content of the element, not Compatible with **html**
 - **onclick**: The event that will be triggered if element is clicked
 - **timeout**: The elaspe time that the element will be shown
