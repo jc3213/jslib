@@ -43,7 +43,7 @@ const menu = jsUI.menulist(array, vertical);
 - **menu**
     - The generated flexiable menulist with menuitems
 - **array**
-    - An `Array` of [Properties](properties)
+    - An `Array` of [Properties](#properties)
 - **vertical**
     - `Boolean`, decide whether the menulist shall be vertical or horizontal
 
