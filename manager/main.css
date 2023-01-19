@@ -47,7 +47,6 @@ body.full {
 
 .full > #queue {
     border-bottom-width: 0px;
-    padding-bottom: 0px;
 }
 
 body > .session, body > .file, body > .uri,
