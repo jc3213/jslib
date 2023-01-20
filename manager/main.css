@@ -18,7 +18,7 @@ body {
     border-style: solid;
 }
 
-#array {
+#status {
     grid-area: 1 / 1 / 1 / 4;
 }
 
@@ -26,40 +26,40 @@ body {
     grid-area: 3 / 1 / 4 / 4;
 }
 
-body.full {
+.extend {
     width: 1280px;
     margin: 8px auto;
     grid-template-rows: none;
     grid-template-columns: repeat(2, 500px) repeat(2, auto);
 }
 
-.full > #array {
+.extend > #status {
     grid-area: 1 / 1 / 1 / 2;
 }
 
-.full > #speed {
+.extend > #speed {
     grid-area: 1 / 2 / 1 / 3;
 }
 
-.full > #menu {
+.extend > #menu {
     grid-area: 1 / 3 / 1 / 4;
 }
 
-.full > #queue {
+.extend > #queue {
     border-bottom-width: 0px;
 }
 
-body > .session, body > .file, body > .uri,
-.group0 #queue > :nth-child(n+2),
-.group1 #queue > :not(:nth-child(n+2):nth-child(-n+3)),
-.group2 #queue > :nth-child(-n+3),
+body > :nth-child(n+6),
+.array0 #queue > :nth-child(n+2),
+.array1 #queue > :not(:nth-child(n+2):nth-child(-n+3)),
+.array2 #queue > :nth-child(-n+3),
 .http [data-p2p], .p2p [data-http], #retry_btn {
     display: none;
 }
 
-.group0 #active_btn,
-.group1 #waiting_btn,
-.group2 #stopped_btn {
+.array0 #active_btn,
+.array1 #waiting_btn,
+.array2 #stopped_btn {
     border-style: inset;
 }
 

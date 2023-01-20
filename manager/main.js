@@ -14,11 +14,13 @@ var fileLET = document.querySelector('div.file');
 var uriLET = document.querySelector('div.uri');
 var activeId;
 
-document.querySelectorAll('#active_btn, #waiting_btn, #stopped_btn').forEach((tab, index) => {
+document.querySelectorAll('#status > button').forEach((tab, index) => {
     var {body} = document;
-    var type = 'group' + index;
+    var idx = index + '';
     tab.addEventListener('click', event => {
-        body.className = body.className === type ? '' : type;
+        var style = document.body.className;
+        var stats = style[5];
+        document.body.className = style.replace(stats, stats === idx ? '3' : idx);
     });
 });
 
@@ -69,8 +71,8 @@ function aria2StartUp() {
         aria2Client();
     }).catch(error => {
         activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
-        activeQueue.innerHTML = error.message;
-        waitingQueue.innerHTML = pausedQueue.innerHTML = completeQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
+        activeQueue.innerHTML = waitingQueue.innerHTML = completeQueue.innerHTML = error.message;
+        pausedQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
     });
 }
 
