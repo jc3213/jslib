@@ -3,7 +3,7 @@ body {
     grid-gap: 5px;
     width: 680px;
     margin: 8px;
-    grid-template-rows: 35px 493px 35px;
+    grid-template-rows: 35px 495px 35px;
 }
 
 #menu, #tool {
@@ -18,7 +18,7 @@ body {
     border-style: solid;
 }
 
-#status {
+#stats {
     grid-area: 1 / 1 / 1 / 4;
 }
 
@@ -33,7 +33,7 @@ body {
     grid-template-columns: repeat(2, 500px) repeat(2, auto);
 }
 
-.extend > #status {
+.extend > #stats {
     grid-area: 1 / 1 / 1 / 2;
 }
 
@@ -49,17 +49,17 @@ body {
     border-bottom-width: 0px;
 }
 
-body > :nth-child(n+6),
-.array0 #queue > :nth-child(n+2),
-.array1 #queue > :not(:nth-child(n+2):nth-child(-n+3)),
-.array2 #queue > :nth-child(-n+3),
+body > div:not([id]),
+#queue.act > :nth-child(n+2),
+#queue.wait > :not(:nth-child(n+2):nth-child(-n+3)),
+#queue.stop > :nth-child(-n+3),
 .http [data-p2p], .p2p [data-http], #retry_btn {
     display: none;
 }
 
-.array0 #active_btn,
-.array1 #waiting_btn,
-.array2 #stopped_btn {
+.act #active_btn,
+.wait #waiting_btn,
+.stop #stopped_btn {
     border-style: inset;
 }
 
