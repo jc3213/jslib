@@ -1,8 +1,8 @@
 body {
-    display: grid;
-    grid-gap: 5px;
     width: 680px;
     margin: 8px;
+    display: grid;
+    grid-gap: 5px;
     grid-template-rows: 35px 495px 35px;
 }
 
@@ -29,7 +29,7 @@ body {
 .extend {
     width: 1280px;
     margin: 8px auto;
-    grid-template-rows: none;
+    grid-template-rows: repeat(2, auto);
     grid-template-columns: repeat(2, 500px) repeat(2, auto);
 }
 

@@ -24,9 +24,25 @@ document.querySelectorAll('#stats > button').forEach((tab, index) => {
 });
 
 document.querySelector('#download_btn').addEventListener('click', async event => {
-    var url = prompt('Download Url');
-    var options = { 'user-agent': navigator.userAgent };
-    aria2RPC.call('aria2.addUri', [[url], options]);
+    var entry = prompt('Download Url');
+    try {
+        var json = JSON.parse(entry);
+        if (!Array.isArray(json)) {
+            json = [json];
+        }
+        json.forEach(({url, options}) => {
+            aria2RPC.call('aria2.addUri', [[url], options]);
+        });
+    }
+    catch(error) {
+        var urls = entry.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s;\|]+/g);
+        var options = { 'user-agent': navigator.userAgent };
+        if (urls) {
+            urls.forEach(url => {
+                aria2RPC.call('aria2.addUri', [[url], options]);
+            });
+        }
+    }
 });
 
 document.querySelector('#purge_btn').addEventListener('click', async event => {
