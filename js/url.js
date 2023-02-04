@@ -4,7 +4,7 @@ class URLComponents {
         if (protocolIndex === -1) {
             throw new Error('Invalid URL format!');
         }
-        var protocol = url.slice(0, protocolIndex);
+        var protocol = url.slice(0, protocolIndex + 1);
         var result = url.slice(protocolIndex + 3);
         var hostIndex = result.indexOf('/');
         var pathname = result.slice(hostIndex);

@@ -3,7 +3,12 @@ var urlCpnn = new URLComponents();
 var filereader = new PromiseFileReader();
 
 jsUI.css.innerText += `body {margin: auto; width: 600px;}
-#dropzone {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
+body > div {min-height: 100px; margin: 10px auto; border: 1px outset #000;}
+.url {display: grid; grid-gap: 3px; padding: 3px;}
+#url {grid-area: 1 / 1 / 1 / 6;}
+#submit {grid-area: 1 / 6 / 1 / 7;}
+.url > :nth-child(2n+3) {grid-area: auto / 1 / auto / 2;}
+.url > :nth-child(2n+2) {grid-area: auto / 2 / auto / 7;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px;}
