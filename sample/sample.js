@@ -1,4 +1,5 @@
 var jsUI = new JSUI();
+var urlCpnn = new URLComponents();
 var filereader = new PromiseFileReader();
 
 jsUI.css.innerText += `body {margin: auto; width: 600px;}
@@ -14,6 +15,15 @@ document.querySelector('#filereader').addEventListener('change', async function 
     entry.value = test_en + '\r\n' + test_ch + '\r\n' + test_ja;
     event.target.value = '';
 })
+
+document.querySelector('#submit').addEventListener('click', function (event) {
+    var url = document.querySelector('#url').value;
+    var components = urlCpnn.get(url);
+    Object.entries(components).forEach(function (entry) {
+        var [key, value] = entry;
+        document.querySelector('#' + key).value = value;
+    });
+});
 
 var menu = jsUI.menulist([
     {text: '按钮1', onclick: clickBtnA, attr: getAttributes('btn1', '中文')},
