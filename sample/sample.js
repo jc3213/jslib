@@ -68,19 +68,20 @@ var entry = document.createElement('textarea');
 entry.rows = '6';
 
 var dropzone = document.querySelector('#dropzone');
+dropzon.append(entry);
 
 var manager = document.createElement('div');
 manager.className = 'jsui-manager';
-manager.append(menu, entry);
+manager.append(menu);
 document.body.appendChild(manager);
 
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
-    entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
+    entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました';
 });
 manager.addEventListener('drop', function (event) {
     menu.after(entry);
-    entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました'
+    entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
 });
 
 var jsTable = jsUI.table(['测试标题', 'Test Title', 'テストタイトル']);
