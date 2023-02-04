@@ -3,7 +3,7 @@ var urlCpnn = new URLComponents();
 var filereader = new PromiseFileReader();
 
 jsUI.css.innerText += `body {margin: auto; width: 600px;}
-body > div {margin: 10px auto; border: 1px outset #000;}
+body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000;}
 .url {display: grid; grid-gap: 3px; padding: 3px;}
 #url {grid-area: 1 / 1 / 1 / 6;}
 #submit {grid-area: 1 / 6 / 1 / 7;}
@@ -68,7 +68,7 @@ var entry = document.createElement('textarea');
 entry.rows = '6';
 
 var dropzone = document.querySelector('#dropzone');
-dropzon.append(entry);
+dropzone.append(entry);
 
 var manager = document.createElement('div');
 manager.className = 'jsui-manager';
