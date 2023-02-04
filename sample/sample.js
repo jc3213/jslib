@@ -18,7 +18,6 @@ document.querySelector('#filereader').addEventListener('change', async function 
     var file = event.target.files[0];
     var text = await filereader.text(file);
     document.querySelector('#reader').value = text;
-    event.target.value = '';
 })
 
 document.querySelector('#submit').addEventListener('click', function (event) {
@@ -76,11 +75,11 @@ document.body.appendChild(manager);
 
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
-    entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました';
+    entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
 });
 manager.addEventListener('drop', function (event) {
     menu.after(entry);
-    entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
+    entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました';
 });
 
 var jsTable = jsUI.table(['测试标题', 'Test Title', 'テストタイトル']);
