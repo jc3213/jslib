@@ -8,7 +8,6 @@ class URLComponents {
         var result = url.slice(protocolIndex + 3);
         var hostIndex = result.indexOf('/');
         var pathname = result.slice(hostIndex);
-        var origin = url.slice(0, protocolIndex + hostIndex + 3);
         var temp = result.slice(0, hostIndex);
         var userIndex = temp.indexOf('@');
         if (userIndex === -1) {
@@ -23,6 +22,7 @@ class URLComponents {
             username = user.slice(0, passIndex);
             password = user.slice(passIndex + 1);
         }
+        var origin = protocol + '//' + host;
         var portIndex = host.lastIndexOf(':');
         if (portIndex === -1) {
             var hostname = host;
