@@ -1,14 +1,15 @@
 var jsUI = new JSUI();
-var urlCpnn = new URLComponents();
 var filereader = new PromiseFileReader();
+var url_components = new URLComponents();
+var url_result = document.querySelector('.url');
+var url_template = document.querySelector('template').content.querySelector('div');
 
 jsUI.css.innerText += `body {margin: auto; width: 600px;}
 body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000;}
-.url {display: grid; grid-gap: 3px; padding: 3px;}
-#url {grid-area: 1 / 1 / 1 / 6;}
-#submit {grid-area: 1 / 6 / 1 / 7;}
-.url > :nth-child(2n+3) {grid-area: auto / 1 / auto / 2;}
-.url > :nth-child(2n+2) {grid-area: auto / 2 / auto / 7;}
+.url {padding: 3px;}
+.url > * {display: flex; margin-top: 5px;}
+.url input {flex: 7;}
+.url label {flex: 1;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px;}
@@ -20,12 +21,19 @@ document.querySelector('#filereader').addEventListener('change', async function 
     document.querySelector('#reader').value = text;
 })
 
-document.querySelector('#submit').addEventListener('click', function (event) {
+document.querySelector('#submit').addEventListener('click', async function (event) {
     var url = document.querySelector('#url').value;
-    var components = urlCpnn.get(url);
+    var components = await url_components.get(url);
     Object.entries(components).forEach(function (entry) {
         var [key, value] = entry;
-        document.querySelector('#' + key).value = value;
+        var list = url_template.cloneNode(true);
+        var label = list.querySelector('label');
+        var input = list.querySelector('input');
+        console.log(key, value);
+        input.id = key;
+        label.innerText = key.charAt(0).toUpperCase() + key.slice(1);
+        input.value = value;
+        url_result.appendChild(list);
     });
 });
 

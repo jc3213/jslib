@@ -7,16 +7,15 @@
             <input id="filereader" type="file" accept=".json">
             <textarea id="reader" rows="8" disabled></textarea>
         </div>
+        <template>
+            <div>
+                <label></label><input disabled>
+            </div>
+        </template>
         <div class="url">
-            <input id="url" type="url"><input id="submit" type="submit">
-            <label for="protocol">Protocol</label><input id="protocol" disabled>
-            <label for="host">Host</label><input id="host" disabled>
-            <label for="pathname">Pathname</label><input id="pathname" disabled>
-            <label for="username">Username</label><input id="username" disabled>
-            <label for="password">Password</label><input id="password" disabled>
-            <label for="hostname">Hostname</label><input id="hostname" disabled>
-            <label for="port">Port</label><input id="port" disabled>
-            <label for="origin">Origin</label><input id="origin" disabled>
+            <div>
+                <input id="url" type="url"><button id="submit">Submit</button>
+            </div>
         </div>
         <script src="/jslib/js/jsui.js"></script>
         <script src="/jslib/js/url.js"></script>

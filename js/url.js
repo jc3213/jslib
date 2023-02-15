@@ -42,7 +42,9 @@ class URLComponents {
             var hostname = host.slice(0, portIndex);
             var port = host.slice(portIndex + 1);
         }
-        return {protocol, pathname, host, origin, username, password, hostname, port};
+        return new Promise(function (resolve, reject) {
+            resolve({protocol, pathname, host, origin, username, password, hostname, port});
+        });
     }
     set (components) {
         var {protocol, pathname, host, origin, username, password, hostname, port} = components;
@@ -68,6 +70,8 @@ class URLComponents {
         else {
             url += pathname;
         }
-        return url;
+        return new Promise(function (resolve, reject) {
+            resolve(url);
+        });
     }
 }
