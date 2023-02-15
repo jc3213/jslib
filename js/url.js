@@ -8,8 +8,14 @@ class URLComponents {
             var protocol = url.slice(0, protocolIndex + 1);
             var result = url.slice(protocolIndex + 3);
             var hostIndex = result.indexOf('/');
-            var pathname = result.slice(hostIndex);
-            var temp = result.slice(0, hostIndex);
+            if (hostIndex === -1) {
+                var pathname = '/';
+                var temp = result;
+            }
+            else {
+                pathname = result.slice(hostIndex);
+                temp = result.slice(0, hostIndex);
+            }
             var userIndex = temp.indexOf('@');
             if (userIndex === -1) {
                 var host = temp;
@@ -49,7 +55,7 @@ class URLComponents {
     set (components) {
         return new Promise(function (resolve, reject) {
             var {protocol, pathname, host, origin, username, password, hostname, port} = components;
-            if (!host && !hostname) {
+            if (!protocol || !host && !hostname && !origin) {
                 reject(new Error('Invalid URL components!'));
             }
             var url = protocol + '://';
@@ -59,8 +65,13 @@ class URLComponents {
             if (host) {
                 url += host;
             }
-            else if (hostname) {
-                url += hostname;
+            else {
+                if (hostname) {
+                    url += hostname;
+                }
+                else {
+                    url = origin;
+                }
                 if (port) {
                     url += ':' + port;
                 }
