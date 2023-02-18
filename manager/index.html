@@ -37,107 +37,109 @@
         <div id="tool">
             <button id="options_btn" i18n>popup_options</button>
         </div>
-        <div class="session">
-            <div id="name" class="title"></div>
-            <div>🖥️ <span id="local"></span></div>
-            <div>⏲️ <span id="day"></span><span id="hour"></span><span id="minute"></span><span id="second"></span><span id="infinite">∞</span></div>
-            <div>📦 <span id="remote"></span></div>
-            <div>📶️ <span id="connect"></span></div>
-            <div>⏬ <span id="download"></span></div>
-            <div data-p2p>⏫ <span id="upload"></span></div>
-            <div id="menu">
-                <button id="remove_btn">❌</button>
-                <button id="invest_btn">🔍</button>
-                <button id="retry_btn">🌌</button>
+        <div class="template">
+            <div class="session">
+                <div id="name" class="title"></div>
+                <div>🖥️ <span id="local"></span></div>
+                <div>⏲️ <span id="day"></span><span id="hour"></span><span id="minute"></span><span id="second"></span><span id="infinite">∞</span></div>
+                <div>📦 <span id="remote"></span></div>
+                <div>📶️ <span id="connect"></span></div>
+                <div>⏬ <span id="download"></span></div>
+                <div data-p2p>⏫ <span id="upload"></span></div>
+                <div id="menu">
+                    <button id="remove_btn">❌</button>
+                    <button id="invest_btn">🔍</button>
+                    <button id="retry_btn">🌌</button>
+                </div>
+                <div id="meter">
+                    <div id="ratio"></div>
+                </div>
+                <div id="options">
+                    <div class="flex">
+                        <div class="menu">
+                            <div class="title" i18n>aria2_download</div>
+                            <div>
+                                <input name="max-download-limit" type="text">
+                            </div>
+                        </div>
+                        <div class="menu" data-http>
+                            <div class="title" i18n>aria2_proxy</div>
+                            <div>
+                                <input name="all-proxy" type="url">
+                            </div>
+                        </div>
+                        <div class="menu" data-p2p>
+                            <div class="title" i18n>aria2_upload</div>
+                            <div>
+                                <input name="max-upload-limit" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex" data-http>
+                        <div class="menu">
+                            <div class="title" i18n>aria2_http_split</div>
+                            <div>
+                                <input name="split" type="number">
+                            </div>
+                        </div>
+                        <div class="menu">
+                            <div class="title" i18n>aria2_http_size</div>
+                            <div>
+                                <input name="min-split-size" type="text">
+                                <span class="float">B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex" data-p2p>
+                        <div class="menu">
+                            <div class="title" i18n>aria2_bt_ratio</div>
+                            <div>
+                                <input name="seed-ratio" type="number" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="menu">
+                            <div class="title" i18n>aria2_bt_seed</div>
+                            <div>
+                                <input name="seed-time" type="number">
+                                <span class="float" i18n>time_minute_full</span>
+                            </div>
+                        </div>
+                        <div class="menu">
+                            <div class="title" i18n>aria2_bt_remove</div>
+                            <div>
+                                <select name="bt-remove-unselected-file">
+                                    <option value="true" i18n>aria2_true</option>
+                                    <option value="false" i18n>aria2_false</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="title" i18n>aria2_files</div>
+                        <div id="files"></div>
+                        <button id="save_btn" class="float" i18n>aria2_save</button>
+                    </div>
+                    <div data-http>
+                        <div class="title" i18n>aria2_urls</div>
+                        <div class="fixed">
+                            <input type="url">
+                            <button id="append_btn">➕</button>
+                        </div>
+                        <div id="uris"></div>
+                    </div>
+                </div>
             </div>
-            <div id="meter">
+            <div class="uri">
+                <div id="uri"></div>
+                <div id="used" class="checked">0</div>
+                <div id="wait" class="suspend">0</div>
+            </div>
+            <div class="file">
+                <div id="index"></div>
+                <div id="name"></div>
+                <div id="size"></div>
                 <div id="ratio"></div>
             </div>
-            <div id="options">
-                <div class="flex">
-                    <div class="menu">
-                        <div class="title" i18n>aria2_download</div>
-                        <div>
-                            <input name="max-download-limit" type="text">
-                        </div>
-                    </div>
-                    <div class="menu" data-http>
-                        <div class="title" i18n>aria2_proxy</div>
-                        <div>
-                            <input name="all-proxy" type="url">
-                        </div>
-                    </div>
-                    <div class="menu" data-p2p>
-                        <div class="title" i18n>aria2_upload</div>
-                        <div>
-                            <input name="max-upload-limit" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex" data-http>
-                    <div class="menu">
-                        <div class="title" i18n>aria2_http_split</div>
-                        <div>
-                            <input name="split" type="number">
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="title" i18n>aria2_http_size</div>
-                        <div>
-                            <input name="min-split-size" type="text">
-                            <span class="float">B</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex" data-p2p>
-                    <div class="menu">
-                        <div class="title" i18n>aria2_bt_ratio</div>
-                        <div>
-                            <input name="seed-ratio" type="number" min="0" step="0.1">
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="title" i18n>aria2_bt_seed</div>
-                        <div>
-                            <input name="seed-time" type="number">
-                            <span class="float" i18n>time_minute_full</span>
-                        </div>
-                    </div>
-                    <div class="menu">
-                        <div class="title" i18n>aria2_bt_remove</div>
-                        <div>
-                            <select name="bt-remove-unselected-file">
-                                <option value="true" i18n>aria2_true</option>
-                                <option value="false" i18n>aria2_false</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="title" i18n>aria2_files</div>
-                    <div id="files"></div>
-                    <button id="save_btn" class="float" i18n>aria2_save</button>
-                </div>
-                <div data-http>
-                    <div class="title" i18n>aria2_urls</div>
-                    <div class="fixed">
-                        <input type="url">
-                        <button id="append_btn">➕</button>
-                    </div>
-                    <div id="uris"></div>
-                </div>
-            </div>
-        </div>
-        <div class="uri">
-            <div id="uri"></div>
-            <div id="used" class="checked">0</div>
-            <div id="wait" class="suspend">0</div>
-        </div>
-        <div class="file">
-            <div id="index"></div>
-            <div id="name"></div>
-            <div id="size"></div>
-            <div id="ratio"></div>
         </div>
         <script src="i18n.js"></script>
         <script src="lib.js"></script>

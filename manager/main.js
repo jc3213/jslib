@@ -11,9 +11,9 @@ var pausedQueue = queue.querySelector('.paused');
 var completeQueue = queue.querySelector('.complete');
 var removedQueue = queue.querySelector('.removed');
 var errorQueue = queue.querySelector('.error');
-var sessionLET = document.querySelector('div.session');
-var fileLET = document.querySelector('div.file');
-var uriLET = document.querySelector('div.uri');
+var sessionLET = document.querySelector('.template > .session');
+var fileLET = document.querySelector('.template > .file');
+var uriLET = document.querySelector('.template > .uri');
 var activeId;
 
 document.querySelectorAll('#stats > button').forEach((tab, index) => {
@@ -130,12 +130,6 @@ function updateSession(task, status) {
     }
     else {
         type = 'stopped';
-        task.querySelectorAll('input, select').forEach(entry => {
-            entry.disabled = true
-        });
-        if (task.classList.contains('http') && status !== 'complete') {
-            task.querySelector('#retry_btn').style.display = 'inline-block';
-        }
     }
     self[status + 'Queue'].appendChild(task);
     return type;
@@ -197,7 +191,6 @@ function parseSession(gid, status, bittorrent) {
     }
     else {
         task.classList.add('http');
-        task.querySelector('[name="max-upload-limit"]').disabled = true;
     }
     task.querySelector('#remove_btn').addEventListener('click', async event => {
         var status = task.parentNode.className;

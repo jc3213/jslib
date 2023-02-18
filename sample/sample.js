@@ -1,15 +1,17 @@
 var jsUI = new JSUI();
 var filereader = new PromiseFileReader();
 var url_components = new URLComponents();
-var url_result = document.querySelector('.url');
-var url_template = document.querySelector('template').content.querySelector('div');
+var url_result = document.querySelector('#urlcomponents > .result');
+var url_template = document.querySelector('.template > div');
 
 jsUI.css.innerText += `body {margin: auto; width: 600px;}
 body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000;}
-.url {padding: 3px;}
-.url > * {display: flex; margin-top: 5px;}
-.url input {flex: 7;}
-.url label {flex: 1;}
+.template {display: none;}
+#urlcomponents {padding: 3px;}
+#url {width: calc(100% - 61px); margin-right: 3px;}
+.result > * {display: flex; margin-top: 5px;}
+.result input {flex: 7;}
+.result label {flex: 1;}
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px;}
@@ -21,21 +23,30 @@ document.querySelector('#filereader').addEventListener('change', async function 
     document.querySelector('#reader').value = text;
 })
 
-document.querySelector('#submit').addEventListener('click', async function (event) {
+document.querySelector('#submit').addEventListener('click', function (event) {
     var url = document.querySelector('#url').value;
-    var components = await url_components.get(url);
+    url_result.innerHTML = '';
+    url_components.get(url).then(getURLComponnents).catch(errorURLFormat);
+});
+
+function getURLComponnents(components) {
     Object.entries(components).forEach(function (entry) {
         var [key, value] = entry;
         var list = url_template.cloneNode(true);
         var label = list.querySelector('label');
         var input = list.querySelector('input');
-        console.log(key, value);
         input.id = key;
         label.innerText = key.charAt(0).toUpperCase() + key.slice(1);
         input.value = value;
         url_result.appendChild(list);
     });
-});
+}
+
+function errorURLFormat(error) {
+    var warn = document.createElement('div');
+    warn.innerText = error.message;
+    url_result.appendChild(warn);
+}
 
 var menu = jsUI.menulist([
     {text: '按钮1', onclick: clickBtnA, attr: getAttributes('btn1', '中文')},
