@@ -210,7 +210,7 @@ function parseSession(gid, status, bittorrent) {
                 closeTaskDetail();
             }
             var [files, options] = await getTaskDetail(gid);
-            task.querySelectorAll('[name]').printOptions(options);
+            task.querySelectorAll('[name]').disposition(options);
             printTaskFiles(task, files);
             task.classList.add('extra');
             activeId = gid;
@@ -389,4 +389,20 @@ function getFileSize(bytes) {
     else {
         return (bytes / 10995116277.76 | 0) / 100 + 'T';
     }
+}
+
+NodeList.prototype.disposition = function (json) {
+    var options = {};
+    this.forEach(node => {
+        var {name} = node;
+        var value = json[name];
+        if (!value) {
+            return;
+        }
+        if (filesize[name]) {
+            value = getFileSize(value);
+        }
+        node.value = options[name] = value;
+    });
+    return options;
 }
