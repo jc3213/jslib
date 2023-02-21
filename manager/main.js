@@ -66,30 +66,26 @@ var {
     secret = '',
     refresh = 5000
 } = localStorage;
-aria2StartUp();
-
-function aria2StartUp() {
-    activeTask = [];
-    waitingTask = [];
-    stoppedTask = [];
-    aria2RPC = new Aria2(jsonrpc, secret);
-    aria2RPC.batch([
-        {method: 'aria2.getGlobalStat'},
-        {method: 'aria2.tellActive'},
-        {method: 'aria2.tellWaiting', params: [0, 999]},
-        {method: 'aria2.tellStopped', params: [0, 999]}
-    ]).then(result => {
-        var [{downloadSpeed, uploadSpeed}, active, waiting, stopped] = result;
-        [...active, ...waiting, ...stopped].forEach(printSession);
-        downloadStat.innerText = getFileSize(downloadSpeed);
-        uploadStat.innerText = getFileSize(uploadSpeed);
-        aria2Client();
-    }).catch(error => {
-        activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
-        activeQueue.innerHTML = waitingQueue.innerHTML = completeQueue.innerHTML = error.message;
-        pausedQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
-    });
-}
+var activeTask = [];
+var waitingTask = [];
+var stoppedTask = [];
+var aria2RPC = new Aria2(jsonrpc, secret);
+aria2RPC.batch([
+    {method: 'aria2.getGlobalStat'},
+    {method: 'aria2.tellActive'},
+    {method: 'aria2.tellWaiting', params: [0, 999]},
+    {method: 'aria2.tellStopped', params: [0, 999]}
+]).then(result => {
+    var [{downloadSpeed, uploadSpeed}, active, waiting, stopped] = result;
+    [...active, ...waiting, ...stopped].forEach(printSession);
+    downloadStat.innerText = getFileSize(downloadSpeed);
+    uploadStat.innerText = getFileSize(uploadSpeed);
+    aria2Client();
+}).catch(error => {
+    activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
+    activeQueue.innerHTML = waitingQueue.innerHTML = completeQueue.innerHTML = error.message;
+    pausedQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
+});
 
 function aria2Client() {
     aria2Alive = setInterval(updateManager, refresh);
