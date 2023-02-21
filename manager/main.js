@@ -361,6 +361,19 @@ function printTaskUris(task, uris) {
     });
 }
 
+function getDownloadName(bittorrent, [{path, uris}]) {
+    if (bittorrent && bittorrent.info) {
+        return bittorrent.info.name;
+    }
+    else if (path) {
+        return path.slice(path.lastIndexOf('/') + 1);
+    }
+    else if (uris[0]) {
+        return uris[0].uri;
+    }
+    return '???';
+}
+
 function getFileSize(bytes) {
     if (isNaN(bytes)) {
         return '?? ';
