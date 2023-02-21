@@ -61,31 +61,27 @@ document.querySelector('#options_btn').addEventListener('click', event => {
     location.reload();
 });
 
-var {
-    jsonrpc = 'http://localhost:6800/jsonrpc',
-    secret = '',
-    refresh = 5000
-} = localStorage;
-var activeTask = [];
-var waitingTask = [];
-var stoppedTask = [];
-var aria2RPC = new Aria2(jsonrpc, secret);
-aria2RPC.batch([
-    {method: 'aria2.getGlobalStat'},
-    {method: 'aria2.tellActive'},
-    {method: 'aria2.tellWaiting', params: [0, 999]},
-    {method: 'aria2.tellStopped', params: [0, 999]}
-]).then(result => {
-    var [{downloadSpeed, uploadSpeed}, active, waiting, stopped] = result;
-    [...active, ...waiting, ...stopped].forEach(printSession);
-    downloadStat.innerText = getFileSize(downloadSpeed);
-    uploadStat.innerText = getFileSize(uploadSpeed);
-    aria2Client();
-}).catch(error => {
-    activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
-    activeQueue.innerHTML = waitingQueue.innerHTML = completeQueue.innerHTML = error.message;
-    pausedQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
-});
+function aria2StartUp() {
+    activeTask = [];
+    waitingTask = [];
+    stoppedTask = [];
+    aria2RPC.batch([
+        {method: 'aria2.getGlobalStat'},
+        {method: 'aria2.tellActive'},
+        {method: 'aria2.tellWaiting', params: [0, 999]},
+        {method: 'aria2.tellStopped', params: [0, 999]}
+    ]).then(result => {
+        var [{downloadSpeed, uploadSpeed}, active, waiting, stopped] = result;
+        [...active, ...waiting, ...stopped].forEach(printSession);
+        downloadStat.innerText = getFileSize(downloadSpeed);
+        uploadStat.innerText = getFileSize(uploadSpeed);
+        aria2Client();
+    }).catch(error => {
+        activeStat.innertext = waitingStat.innerText = stoppedStat.innerText = downloadStat.innerText = uploadStat.innerText = '0';
+        activeQueue.innerHTML = waitingQueue.innerHTML = completeQueue.innerHTML = error.message;
+        pausedQueue.innerHTML = removedQueue.innerHTML = errorQueue.innerHTML = '';
+    });
+}
 
 function aria2Client() {
     aria2Alive = setInterval(updateManager, refresh);
@@ -406,3 +402,11 @@ NodeList.prototype.disposition = function (json) {
     });
     return options;
 }
+
+var {
+    jsonrpc = 'http://localhost:6800/jsonrpc',
+    secret = '',
+    refresh = 10000
+} = localStorage;
+var aria2RPC = new Aria2(jsonrpc, secret);
+aria2StartUp();
