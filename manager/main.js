@@ -403,6 +403,14 @@ NodeList.prototype.disposition = function (json) {
     return options;
 }
 
+var filesize = {
+    'min-split-size': 1,
+    'disk-cache': 1,
+    'max-download-limit': 1,
+    'max-overall-download-limit': 1,
+    'max-upload-limit': 1,
+    'max-overall-upload-limit': 1
+};
 var {
     jsonrpc = 'http://localhost:6800/jsonrpc',
     secret = '',
