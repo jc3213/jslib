@@ -58,7 +58,7 @@ class Aria2 {
                 return response.json();
             }
             else {
-                throw new Error(response.status);
+                throw new Error(response.statusText);
             }
         });
     }
