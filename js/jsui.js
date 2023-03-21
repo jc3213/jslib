@@ -48,9 +48,8 @@ class JSUI {
     }
     menulist (array, bool) {
         var {add} = this;
-        var menu;
         if (bool) {
-            menu = add({style: 'jsui-drop-menu'});
+            var menu = add({style: 'jsui-drop-menu'});
         }
         else {
             menu = add({style: 'jsui-basic-menu'});;
@@ -63,7 +62,18 @@ class JSUI {
         return menu;
     }
     menuitem (object) {
-        object.style = 'jsui-menu-item';
+        var {style} = object;
+        if (style === undefined) {
+            object.style = 'jsui-menu-item';
+        }
+        else {
+            if (Array.isArray(style)) {
+                object.style = ['jsui-menu-item', ...style];
+            }
+            else {
+                object.style = ['jsui-menu-item', style];
+            }
+        }
         var item = this.add(object);
         return item;
     }
