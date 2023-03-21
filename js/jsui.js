@@ -31,7 +31,7 @@ class JSUI {
         document.body.prepend(this.overlay);
         this.css.add = function (sel, style) {
             if (style !== undefined) {
-                stylesheet += `${sel} {$style}}`;
+                stylesheet += `${sel} {${style}}`;
             }
             else {
                 stylesheet += `${sel}`;
