@@ -1,8 +1,12 @@
 class JSUI {
     constructor () {
-        var css = document.createElement('style');
-        css.type = 'text/css';
-        var stylesheet = `
+        this.css = document.getElementById('jsui-stylesheet') ?? this.stylesheet();
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'jsui-notify-overlay';
+        document.body.prepend(this.overlay);
+    }
+    stylesheet() {
+        var style = `
         @media (prefers-color-scheme: light) {
             .jsui-menu-item, .jsui-table, .jsui-table-cell {border-color: #ffffff;}
         }
@@ -23,25 +27,27 @@ class JSUI {
         .jsui-table-cell, .jsui-table-button {flex: 1; padding: 5px; text-align: center; line-height: 100%; border-width: 1px; border-style: solid;}
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
         .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`;
-        this.css = css;
-        this.css.innerText = stylesheet;
-        document.head.appendChild(css);
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'jsui-notify-overlay';
-        document.body.prepend(this.overlay);
-        this.css.add = function (sel, style) {
-            if (style !== undefined) {
-                stylesheet += `${sel} {${style}}`;
+        var css = this.add({
+            tag: 'style',
+            id: 'jsui-stylesheet',
+            attr: {name: 'type', value: 'text/css'},
+            text: style
+        });
+        css.add = function (sel, string) {
+            if (string !== undefined) {
+                style += `${sel} {${string}}`;
             }
             else {
-                stylesheet += `${sel}`;
+                style += `${sel}`;
             }
-            css.innerText = stylesheet;
+            css.innerText = style;
         };
-        this.css.remove = function (style) {
-            stylesheet = stylesheet.replace(style, '');
-            css.innerText = stylesheet;
+        css.remove = function (string) {
+            style = style.replace(string, '');
+            css.innerText = style;
         };
+        document.head.appendChild(css);
+        return css;
     }
     menulist (array, bool) {
         var {add} = this;
