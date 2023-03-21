@@ -135,11 +135,17 @@ class JSUI {
             params = tag;
         }
         else {
-            throw new Error('Invalid parameters');
+            throw new Error('Invalid createElement parameters');
         }
         var {id, text, html, style, attr, onclick, timeout} = params;
         if (style !== undefined) {
-            node.className = style;
+            if (typeof style === 'string') {
+                style = style.split(' ');
+            }
+            else if (!Array.isArray(style)) {
+                throw new Error('Wrong classList format')
+            }
+            node.classList.add(...style);
         }
         if (id !== undefined) {
             node.id = id;
