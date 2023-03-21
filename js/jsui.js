@@ -108,9 +108,21 @@ class JSUI {
         popup.style.left = (clientWidth - popup.offsetWidth) / 2 + 'px';
         return popup;
     }
-    add (object) {
-        var {id, text, html, style, attr, onclick, timeout} = object;
-        var node = document.createElement('div');
+    add (tag, params) {
+        if (typeof tag === 'string') {
+            var node = document.createElement(tag);
+            if (typeof params !== 'object') {
+                return node;
+            }
+        }
+        else if (typeof tag === 'object') {
+            node = document.createElement('div');
+            params = tag;
+        }
+        else {
+            throw new Error('Invalid parameters');
+        }
+        var {id, text, html, style, attr, onclick, timeout} = params;
         if (style !== undefined) {
             node.className = style;
         }
