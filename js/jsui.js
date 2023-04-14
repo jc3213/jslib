@@ -16,11 +16,11 @@ class JSUI {
         .jsui-menu-disabled {padding: 4px; border-width: 0px; filter: contrast(25%);}
         .jsui-basic-menu, .jsui-drop-menu {margin: 0px; padding: 0px; user-select: none;}
         .jsui-basic-menu {display: flex; gap: 1px;}
-        .jsui-basic-menu > * {flex: 1;}
+        .jsui-basic-menu > * {flex: auto;}
         .jsui-table-head > * {background-color: #000000; color: #ffffff;}
         .jsui-table {border-width: 1px; border-style: solid;}
         .jsui-table-column {display: flex; gap: 1px; margin: 1px;}
-        .jsui-table-cell, .jsui-table-button {flex: 1; padding: 5px; text-align: center; line-height: 100%; border-width: 1px; border-style: solid;}
+        .jsui-table-cell, .jsui-table-button {flex: auto; padding: 5px; text-align: center; line-height: 100%; border-width: 1px; border-style: solid;}
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
         .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`
             css = this.add('style', {
