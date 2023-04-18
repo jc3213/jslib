@@ -1,10 +1,10 @@
-var jsUI = new JSUI();
+var jsUI = new JSUIex();
 var filereader = new PromiseFileReader();
 var url_components = new URLComponents();
 var url_result = document.querySelector('#urlcomponents > .result');
 var url_template = document.querySelector('.template > div');
 
-jsUI.css.innerText += `body {margin: auto; width: 600px;}
+jsUI.css.add(`body {margin: auto; width: 600px;}
 body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000;}
 .template {display: none;}
 #urlcomponents {padding: 3px;}
@@ -15,7 +15,7 @@ body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000
 textarea {width: 100%; resize: none;}
 .jsui-manager {border: 1px solid #000;}
 .jsui-table {height: 400px;}
-.jsui-table-button {background-color: #23ade5; color: #fff;}`;
+.jsui-table-button {background-color: #23ade5; color: #fff;}`);
 
 document.querySelector('#filereader').addEventListener('change', async function (event) {
     var file = event.target.files[0];
@@ -49,9 +49,9 @@ function errorURLFormat(error) {
 }
 
 var menu = jsUI.menulist([
-    {text: '按钮1', onclick: clickBtnA, attr: getAttributes('btn1', '中文')},
-    {text: 'button2', onclick: clickBtnB, attr: getAttributes('btn2', 'English')},
-    {text: 'ボタン3', onclick: clickBtnC, attr: getAttributes('btn3', '日本語')}
+    {text: '按钮1', onclick: clickBtnA, attrs: getAttributes('btn1', '中文')},
+    {text: 'button2', onclick: clickBtnB, attrs: getAttributes('btn2', 'English')},
+    {text: 'ボタン3', onclick: clickBtnC, attrs: getAttributes('btn3', '日本語')}
 ], false);
 
 function getAttributes(id, title) {
