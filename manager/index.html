@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8">
         <title i18n>extension_manager</title>
-        <link rel="stylesheet" href="https://jc3213.github.io/download_with_aria2/chromium/res/css/common.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jc3213/download_with_aria2@main/chromium/pages/common.css">
         <link rel="stylesheet" href="main.css">
     </head>
     <body class="full">
-        <div id="stats">
+    <body>
+        <div id="stat">
             <button id="active_btn" i18n>popup_active</button>
             <span id="active" class="stats">0</span>
             <button id="waiting_btn" i18n>popup_waiting</button>
@@ -54,73 +55,76 @@
                     <div id="ratio"></div>
                 </div>
                 <div id="options">
-                    <div class="flex">
-                        <div class="menu">
-                            <div class="title" i18n>aria2_download</div>
+                    <div class="menu flex">
+                        <div title="task_download_title">
+                            <div class="title" i18n>task_download</div>
                             <div>
-                                <input name="max-download-limit" type="text">
+                                <input id="max-download-limit" type="text">
+                                <span class="float">B/s</span>
                             </div>
                         </div>
-                        <div class="menu" data-http>
-                            <div class="title" i18n>aria2_proxy</div>
+                        <div title="task_upload_title">
+                            <div class="title" i18n>task_upload</div>
                             <div>
-                                <input name="all-proxy" type="url">
-                            </div>
-                        </div>
-                        <div class="menu" data-p2p>
-                            <div class="title" i18n>aria2_upload</div>
-                            <div>
-                                <input name="max-upload-limit" type="text">
+                                <input id="max-upload-limit" type="text">
+                                <span class="float">B/s</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex" data-http>
-                        <div class="menu">
+                    <div class="menu" title="task_proxy_title">
+                        <div class="title" i18n>task_proxy</div>
+                        <div class="flex">
+                            <input id="all-proxy" type="url">
+                            <button id="proxy_btn">🔖</button>
+                        </div>
+                    </div>
+                    <div class="menu flex" data-http>
+                        <div title="aria2_http_split_title">
                             <div class="title" i18n>aria2_http_split</div>
                             <div>
-                                <input name="split" type="number">
+                                <input id="split" type="number">
                             </div>
                         </div>
-                        <div class="menu">
+                        <div title="aria2_http_size_title">
                             <div class="title" i18n>aria2_http_size</div>
                             <div>
-                                <input name="min-split-size" type="text">
+                                <input id="min-split-size" type="text">
                                 <span class="float">B</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex" data-p2p>
-                        <div class="menu">
+                    <div class="menu flex" data-p2p>
+                        <div title="aria2_bt_ratio_title">
                             <div class="title" i18n>aria2_bt_ratio</div>
                             <div>
-                                <input name="seed-ratio" type="number" min="0" step="0.1">
+                                <input id="seed-ratio" type="number" min="0" step="0.1">
                             </div>
                         </div>
-                        <div class="menu">
+                        <div title="aria2_bt_seed_title">
                             <div class="title" i18n>aria2_bt_seed</div>
                             <div>
-                                <input name="seed-time" type="number">
+                                <input id="seed-time" type="number">
                                 <span class="float" i18n>time_minute_full</span>
                             </div>
                         </div>
-                        <div class="menu">
-                            <div class="title" i18n>aria2_bt_remove</div>
-                            <div>
-                                <select name="bt-remove-unselected-file">
-                                    <option value="true" i18n>aria2_true</option>
-                                    <option value="false" i18n>aria2_false</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="menu" title="aria2_bt_remove_title" data-p2p>
+                        <div class="title" i18n>aria2_bt_remove</div>
+                        <div>
+                            <select id="bt-remove-unselected-file">
+                                <option value="true" i18n>aria2_true</option>
+                                <option value="false" i18n>aria2_false</option>
+                            </select>
                         </div>
                     </div>
-                    <div>
-                        <div class="title" i18n>aria2_files</div>
+                    <div class="menu" title="task_files_title">
+                        <div class="title" i18n>task_files</div>
                         <div id="files"></div>
-                        <button id="save_btn" class="float" i18n>aria2_save</button>
+                        <button id="save_btn" class="float" i18n>common_save</button>
                     </div>
-                    <div data-http>
-                        <div class="title" i18n>aria2_urls</div>
-                        <div class="fixed">
+                    <div class="menu" title="task_urls_title" data-http>
+                        <div class="title" i18n>task_urls</div>
+                        <div class="flex">
                             <input type="url">
                             <button id="append_btn">➕</button>
                         </div>
@@ -140,7 +144,8 @@
                 <div id="ratio"></div>
             </div>
         </div>
-        <script src="https://jc3213.github.io/jslib/js/aria2.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/jc3213/jslib@main/js/aria2.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/jc3213/download_with_aria2@main/chromium/pages/popup/popup.js"></script>
         <script src="i18n.js"></script>
         <script src="main.js"></script>
     </body>
