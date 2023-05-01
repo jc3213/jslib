@@ -22,10 +22,9 @@ document.querySelector('#download_btn').addEventListener('click', event => {
 
 document.querySelector('#options_btn').addEventListener('click', event => {
     event.preventDefault();
-    jsonrpc_uri = prompt('JSON-RPC URI', jsonrpc_uri) ?? jsonrpc_uri;
-    jsonrpc_token = prompt('Secret Token', jsonrpc_token) ?? jsonrpc_token;
-    manager_interval = prompt('Refresh Interval', manager_interval) ?? manager_interval;
-    localStorage = {jsonrpc_uri, jsonrpc_token, manager_interval};
+    localStorage.jsonrpc_uri = jsonrpc_uri = prompt('JSON-RPC URI', jsonrpc_uri) ?? jsonrpc_uri;
+    localStorage.jsonrpc_token = jsonrpc_token = prompt('Secret Token', jsonrpc_token) ?? jsonrpc_token;
+    localStorage.manager_interval = manager_interval = prompt('Refresh Interval', manager_interval) ?? manager_interval;
     aria2Initial();
 });
 
@@ -88,16 +87,11 @@ var filesize = {
     'max-overall-upload-limit': 1
 };
 
-function aria2Initial() {
-    aria2Store = {jsonrpc_uri, jsonrpc_token, manager_interval};
-    aria2RPC = new Aria2(jsonrpc_uri, jsonrpc_token);
-    aria2StartUp();
-}
-
 var {
     jsonrpc_uri = 'http://localhost:6800/jsonrpc',
     jsonrpc_token = '',
     manager_interval = 10000
 } = localStorage;
 
-aria2Initial();
+var aria2RPC = new Aria2(jsonrpc_uri, jsonrpc_token);
+aria2StartUp();
