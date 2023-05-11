@@ -27,6 +27,10 @@ var usedLang = {
         'time_minute': 'm',
         'time_second': 's',
         'task_save': 'Save',
+        'option_jsonrpc_uri': 'JSON-RPC Address',
+        'option_jsonrpc_token': 'JSON-RPC Token',
+        'option_manager_interval': 'Refresh Interval',
+        'option_proxy_server': 'Proxy Server'
     },
     'zh': {
         'extension_manager': '任务管理器 - 通过 Aria2 下载',
@@ -56,6 +60,10 @@ var usedLang = {
         'time_minute': '分',
         'time_second': '秒',
         'task_save': '保存',
+        'option_jsonrpc_uri': 'JSON-RPC 地址',
+        'option_jsonrpc_token': 'JSON-RPC 密钥',
+        'option_manager_interval': '更新间隔',
+        'option_proxy_server': '代理服务器'
     }
 };
 var userLang = navigator.language.slice(0, 2);

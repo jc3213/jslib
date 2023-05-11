@@ -49,3 +49,15 @@ body {
     content: "s";
     vertical-align: sub;
 }
+
+#settings {
+    display: none;
+    position: absolute;
+    border-width: 1px;
+    border-style: solid;
+    top: 45px;
+    width: 50%;
+    padding: 8px;
+    right: 0px;
+}
+

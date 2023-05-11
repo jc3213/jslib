@@ -1,3 +1,7 @@
+var settings = document.querySelector('#settings');
+var aria2Alive;
+var aria2Socket;
+
 document.querySelector('#download_btn').addEventListener('click', event => {
     event.preventDefault();
     var entry = prompt('Download Url');
@@ -21,13 +25,26 @@ document.querySelector('#download_btn').addEventListener('click', event => {
 });
 
 document.querySelector('#options_btn').addEventListener('click', event => {
-    event.preventDefault();
-    localStorage.jsonrpc_uri = jsonrpc_uri = prompt('JSON-RPC URI', jsonrpc_uri) ?? jsonrpc_uri;
-    localStorage.jsonrpc_token = jsonrpc_token = prompt('Secret Token', jsonrpc_token) ?? jsonrpc_token;
-    localStorage.manager_interval = manager_interval = prompt('Refresh Interval', manager_interval) ?? manager_interval;
-    clearInterval(aria2Alive);
-    aria2Socket.close();
-    aria2Initial()
+    var {style} = settings;
+    if (style.display === 'block') {
+        style.display = 'none';
+    }
+    else {
+        style.display = 'block';
+        settings.querySelectorAll('input').forEach(input => {
+            var {id} = input;
+            input.value = localStorage[id];
+        });
+    }
+});
+
+settings.addEventListener('change', event => {
+    var {id, value} = event.target;
+    console.log(id, value);
+    localStorage[id] = aria2Store[id] = value;
+    if (id !== 'proxy_server') {
+        aria2Initial();
+    }
 });
 
 NodeList.prototype.disposition = function (json) {
@@ -89,16 +106,13 @@ var filesize = {
     'max-overall-upload-limit': 1
 };
 
+var {jsonrpc_uri = 'http://localhost:6800/jsonrpc', jsonrpc_token = '', manager_interval = 10000} = localStorage;
+aria2Store = {jsonrpc_uri, jsonrpc_token, manager_interval};
 
-var {
-    jsonrpc_uri = 'http://localhost:6800/jsonrpc',
-    jsonrpc_token = '',
-    manager_interval = 10000
-} = localStorage;
-
-function aria2Initial() {
-    aria2Store = {jsonrpc_uri, jsonrpc_token, manager_interval};
-    aria2RPC = new Aria2(jsonrpc_uri, jsonrpc_token);
+function aria2Initial() {    
+    clearInterval(aria2Alive);
+    if (aria2Socket) aria2Socket.close();
+    aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['jsonrpc_token']);
     aria2StartUp();
 }
 
