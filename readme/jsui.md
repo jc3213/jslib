@@ -20,7 +20,6 @@ const jsUI = new JSUI();
 
 ## Method
 - [new](#new)
-- [get](#get)
 
 #### new
 ```javascript
@@ -31,16 +30,6 @@ const node = jsUI.new(tag);
 - **tag**
     - *Default*: `div`
     - [HTML tag names](https://www.w3schools.com/TAGs/)
-
-
-#### get
-```javascript
-const node = jsUI.get(selector);
-```
-- **node**
-    - The HTML element node matches the `selector`
-- **selector**
-    - [Read more](https://www.w3schools.com/CSS/css_selectors.asp)
 
 ## Prototype
 - [text](#text)
