@@ -1,5 +1,5 @@
 class JSUI {
-    create (tag, params) {
+    new (tag, params) {
         if (typeof tag === 'string') {
             var node = document.createElement(tag);
             if (typeof params !== 'object') {
