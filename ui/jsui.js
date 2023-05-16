@@ -44,17 +44,41 @@ class JSUI {
         };
         node.attr = function (name, value) {
             if (typeof name === 'object') {
-                Object.keys(name).forEach(key => {
-                    node.setAttribute(key, name[key]);
-                });
+                var keys = Object.keys(name);
+                var length = keys.length;
+                for (var i = 0; i < length; i ++) {
+                    var key = keys[i];
+                    var val = name[key];
+                    node.setAttribute(key, val);
+                }
             }
             else {
                 node.setAttribute(name, value);
             }
             return node;
         };
+        node.css = function (name, value) {
+            if (typeof name === 'object') {
+                var keys = Object.keys(name);
+                var length = keys.length;
+                for (var i = 0; i < length; i ++) {
+                    var key = keys[i];
+                    var val = name[key];
+                    node.style[key] = val;
+                }
+            }
+            else {
+                node.style[name] = value;
+            }
+            return node;
+        }
         node.class = function (string) {
-            node.classList.toggle(string);
+            var names = string.match(/[^\s,]+/g);
+            var length = names.length;
+            for (var i = 0; i < length; i ++) {
+                var name = names[i];
+                node.classList.toggle(name);
+            }
             return node;
         };
         node.hide = function () {
