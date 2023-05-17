@@ -2,6 +2,7 @@ class JSUImax extends JSUI {
     constructor () {
         super();
         this.overlay = document.querySelector('div.jsui-notify-overlay') ?? this.new().class('jsui-notify-overlay');
+        document.body.append(this.overlay);
     }
     menu (bool) {
         var self = this;
