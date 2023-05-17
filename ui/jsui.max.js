@@ -46,9 +46,9 @@ class JSUImax extends JSUI {
             var length = array.length;
             for (var i = 0; i < length; i ++) {
                 var el = array[i];
+                var cell = self.new();
                 if (typeof el === 'object') {
                     var {text, onclick} = el;
-                    var cell = self.new();
                     if (text.startsWith('<') && text.endsWith('>')) {
                         cell.html(text);
                     }
@@ -59,8 +59,11 @@ class JSUImax extends JSUI {
                         cell.class('jsui-menu-cell').onclick(onclick);
                     }
                 }
+                else if (el.startsWith('<') && el.endsWith('>')) {
+                    cell.html(el);
+                }
                 else {
-                    cell = self.new().text(el);
+                    cell.text(el);
                 }
                 column.append(cell);
             }
@@ -68,15 +71,28 @@ class JSUImax extends JSUI {
             return column;
         };
         table.clear = function () {
-            var backup = thead.innerHTML;
-            table.html(backup);
+            var title = thead.innerHTML;
+            table.html(title);
         };
         table.append(thead);
         return table;
     }
-    notification (string) {
+    notification (string, number) {
         var {clientWidth} = document.documentElement;
-        var popup = this.new().class('jsui-notify-popup').text(string).onclick(event => popup.remove());
+        var popup = this.new().class('jsui-notify-popup').onclick(function (event) {
+            popup.remove();
+        });
+        if (string.startsWith('<') && string.endsWith('>')) {
+            popup.html(string);
+        }
+        else {
+            popup.text(string);
+        }
+        if (!isNaN(number)) {
+            popup.wait(number).then(function (popup) {
+                popup.remove();
+            });
+        }
         this.overlay.append(popup);
         popup.css('left', (clientWidth - popup.offsetWidth) / 2 + 'px');
         return popup;

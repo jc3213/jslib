@@ -106,7 +106,7 @@ class JSUI {
             node.addEventListener('change', callback);
             return node;
         };
-        node.delay = function (number) {
+        node.wait = function (number) {
             return new Promise(function (resolve) {
                 setTimeout(function () {
                     resolve(node);
