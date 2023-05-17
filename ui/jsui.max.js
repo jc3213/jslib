@@ -1,12 +1,40 @@
-class JSUIex extends JSUI {
+class JSUImax extends JSUI {
     constructor () {
         super();
         this.overlay = document.querySelector('div.jsui-notify-overlay') ?? this.new().class('jsui-notify-overlay');
     }
+    menu (bool) {
+        var self = this;
+        if (bool) {
+            var name = 'jsui-drop-menu';
+        }
+        else {
+            name = 'jsui-basic-menu';
+        }
+        var menu = self.new().class(name);
+        menu.add = function (string) {
+            var item = self.new().class('jsui-menu-item');
+            if (string.startsWith('<') && string.endsWith('>')) {
+                item.html(string);
+            }
+            else {
+                item.text(string);
+            }
+            menu.append(item);
+            return item;
+        };
+        menu.remove = function (number) {
+            var items = menu.childNodes;
+            var item = items[number];
+            item.remove();
+            return menu;
+        };
+        return menu;
+    }
     table (array) {
         var self = this;
         var table = self.new().class('jsui-table');
-        var thead = self.new().class('jsui-table-head');
+        var thead = self.new().class('jsui-table-title');
         var length = array.length;
         for (var i = 0; i < length; i ++) {
             var cell = self.new().text(array[i]);
@@ -18,15 +46,17 @@ class JSUIex extends JSUI {
             for (var i = 0; i < length; i ++) {
                 var el = array[i];
                 if (typeof el === 'object') {
-                    var {text, html, onclick} = el;
+                    var {text, onclick} = el;
                     var cell = self.new();
-                    if (html) {
-                        cell.html(html);
+                    if (text.startsWith('<') && text.endsWith('>')) {
+                        cell.html(text);
                     }
-                    else if (text) {
+                    else {
                         cell.text(text);
                     }
-                    cell.onclick(onclick);
+                    if (onclick !== undefined) {
+                        cell.class('jsui-menu-cell').onclick(onclick);
+                    }
                 }
                 else {
                     cell = self.new().text(el);
