@@ -1,6 +1,6 @@
 class JSUI {
     constructor () {
-        var stylesheet = `
+        var css = document.getElementById('jsui-stylesheet') ?? this.new('style').attr('id', 'jsui-stylesheet').text(`
         .jsui-menu-item {text-align: center; margin: 1px; padding: 3px 5px; border-width: 1px; border-classes: outset;}
         .jsui-menu-item:not(.jsui-menu-disabled):hover, .jsui-menu-cell:hover {cursor: pointer; filter: contrast(75%);}
         .jsui-menu-item:not(.jsui-menu-disabled):active, .jsui-menu-cell:active {filter: contrast(45%);}
@@ -14,9 +14,7 @@ class JSUI {
         .jsui-table > * > * {flex: 1; padding: 3px 5px; text-align: center; line-height: 100%; border-width: 1px; border-classes: solid;}
         .jsui-table-title > * {background-color: #000000; color: #ffffff;}
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
-        .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`;
-        var css = document.getElementById('jsui-stylesheet') ?? this.new('style').attr('id', 'jsui-stylesheet');
-        css.innerText = stylesheet;
+        .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`);
         css.add = function (string) {
             css.innerText += string;
             return css;
