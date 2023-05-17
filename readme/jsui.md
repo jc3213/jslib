@@ -1,7 +1,12 @@
+## Read More
+[JSUI with CSS](jsui_css.md)
+
+[JSUI Extended](jsui_ext.md)
+
 ## Usage
 
 #### Download
-[Latest](https://jc3213.github.io/jslib/ui/jsui.js)
+[JSUI](https://jc3213.github.io/jslib/ui/jsui.js)
 
 #### HTML
 ```HTML
