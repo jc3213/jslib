@@ -210,7 +210,6 @@ class JSUI {
         return popup;
     }
     dragndrop (source, target) {
-        // not fixed yet
         source.draggable = true;
         if (typeof target === 'function') {
             var ondragend = target;
@@ -269,14 +268,16 @@ class JSUI {
             if (!Array.isArray(target)) {
                 target = [target];
             }
-            target.forEach(function (element) {
+            var length = target.length;
+            for (var i = 0; i < length; i ++) {
+                var element = target[i];
                 element.addEventListener('dragover', function (event) {
                     event.preventDefault();
                 });
                 element.addEventListener('drop', function (event) {
                     element.appendChild(source);
                 });
-            });
+            }
         }
     }
 }
