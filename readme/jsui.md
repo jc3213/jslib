@@ -63,22 +63,28 @@ node.empty();
 #### attr
 ```javascript
 node.attr('name', 'value');
+```
+```javascript
 node.attr({name1: 'value1', name2: 'value2'});
 ````
 - **name**
-    - The attribute name, [read more](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
+    - The name of the attribute, [read more](https://developer.mozilla.org/docs/Web/HTML/Global_attributes)
 - **value**
     - The value of the attribute
 
 #### class
 ```javascript
 node.class('some-class');
+```
+```javascript
 node.class('this-class, that-class');
 ```
 
 #### css
 ```javascript
 node.css('width', '100px');
+```
+```javascript
 node.css({width: '100px', height: '200px'});
 ```
 
@@ -100,6 +106,10 @@ node.switch();
 #### wait
 ```javascript
 node.wait(number).then(dosomething);
+```
+```javascript
+await node.wait(number);
+dosomething();
 ```
 - **number**
     - The time to wait, *millisecond*
