@@ -77,7 +77,6 @@ manager.append(menu, entry);
 
 document.body.appendChild(manager);
 
-/** unfixed
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
     entry.value = 'Drag\'n\'Drop Complete\n已成功完成拖拽\nドラッグアンドドロップ成功';
@@ -86,7 +85,6 @@ manager.addEventListener('drop', function (event) {
     menu.after(entry);
     entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました';
 });
-**/
 
 var table = jsUI.table(['测试标题', 'Test Title', 'テストタイトル']);
 manager.append(table);
