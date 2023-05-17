@@ -1,4 +1,4 @@
-var jsUI = new JSUImax();
+var jsUI = new JSUI();
 var filereader = new PromiseFileReader();
 var url_components = new URLComponents();
 var url_result = document.querySelector('#urlcomponents > .result');
@@ -99,6 +99,6 @@ table.add([
 table.add(['中文2', 'English2', '日本語2', 'Español2']);
 
 function clickTabCelA(event) {
-    notification('测试1\nTest 1\nテスト1');
+    jsUI.notification('测试1\nTest 1\nテスト1');
     entry.value = '测试1\nTest 1\nテスト1';
 }
