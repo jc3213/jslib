@@ -47,7 +47,9 @@ function errorURLFormat(error) {
     url_result.append(warn);
 }
 
-var menu = jsUI.menu();
+var manager = jsUI.new().class('jsui-manager').parent(document.body);
+
+var menu = jsUI.menu().parent(manager);
 menu.add('按钮1').attr({id: 'btn1', title: '中文'}).onclick(clickBtnA);
 menu.add('button2').attr({id: 'btn2', title: 'English'}).onclick(clickBtnB);
 menu.add('ボタン3').attr({id: 'btn3', title: '日本語'}).onclick(clickBtnC);
@@ -67,15 +69,9 @@ function clickBtnC(event) {
     entry.value = 'ボタン3';
 }
 
-var entry = jsUI.new('textarea');
-entry.rows = '6';
+var entry = jsUI.new('textarea').attr('rows', 6).parent(manager);
 
 var dropzone = document.querySelector('#dropzone');
-
-var manager = jsUI.new().class('jsui-manager');
-manager.append(menu, entry);
-
-document.body.appendChild(manager);
 
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
@@ -86,8 +82,7 @@ manager.addEventListener('drop', function (event) {
     entry.value = 'Restored Position\n回到原来的位置\n元の位置に戻りました';
 });
 
-var table = jsUI.table(['测试标题', 'Test Title', 'テストタイトル']);
-manager.append(table);
+var table = jsUI.table(['测试标题', 'Test Title', 'テストタイトル']).parent(manager);
 
 table.add([
     {text: '中文1', onclick: clickTabCelA},

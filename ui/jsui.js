@@ -15,41 +15,36 @@ class JSUI {
         };
         node.attr = function (name, value) {
             if (typeof name === 'object') {
-                var keys = Object.keys(name);
-                var length = keys.length;
-                for (var i = 0; i < length; i ++) {
-                    var key = keys[i];
-                    var val = name[key];
-                    node.setAttribute(key, val);
-                }
+                Object.keys(name).forEach(function (key) {
+                    var value = name[key]
+                    node.setAttribute(key, value);
+                });
             }
             else {
                 node.setAttribute(name, value);
             }
             return node;
         };
+        node.class = function (string) {
+            string.match(/[^\s,]+/g).forEach(function (name) {
+                node.classList.toggle(name);
+            });
+            return node;
+        };
         node.css = function (name, value) {
             if (typeof name === 'object') {
-                var keys = Object.keys(name);
-                var length = keys.length;
-                for (var i = 0; i < length; i ++) {
-                    var key = keys[i];
-                    var val = name[key];
-                    node.style[key] = val;
-                }
+                Object.keys(name).forEach(function (key) {
+                    var value = name[key];
+                    node.style[key] = value;
+                });
             }
             else {
                 node.style[name] = value;
             }
             return node;
-        }
-        node.class = function (string) {
-            var names = string.match(/[^\s,]+/g);
-            var length = names.length;
-            for (var i = 0; i < length; i ++) {
-                var name = names[i];
-                node.classList.toggle(name);
-            }
+        };
+        node.parent = function (element) {
+            element.append(node);
             return node;
         };
         node.hide = function () {
@@ -68,14 +63,6 @@ class JSUI {
                 node.style.display = 'none';
             }
             return node;
-        }
-        node.onclick = function (callback) {
-            node.addEventListener('click', callback);
-            return node;
-        };
-        node.onchange = function (callback) {
-            node.addEventListener('change', callback);
-            return node;
         };
         node.wait = function (number) {
             return new Promise(function (resolve) {
@@ -83,6 +70,14 @@ class JSUI {
                     resolve(node);
                 }, number);
             });
+        };
+        node.onclick = function (callback) {
+            node.addEventListener('click', callback);
+            return node;
+        };
+        node.onchange = function (callback) {
+            node.addEventListener('change', callback);
+            return node;
         };
         return node;
     }

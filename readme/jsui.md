@@ -43,6 +43,7 @@ const node = jsUI.new(tag);
 - [attr](#attr)
 - [class](#class)
 - [css](#css)
+- [parent](#parent)
 - [hide](#hide)
 - [show](#show)
 - [switch](#switch)
@@ -91,6 +92,11 @@ node.css('width', '100px');
 ```
 ```javascript
 node.css({width: '100px', height: '200px'});
+```
+
+#### parent
+```javascript
+node.parent(parentNode);
 ```
 
 #### hide
