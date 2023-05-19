@@ -125,7 +125,7 @@ class JSUI {
             css.innerText += string;
             return css;
         };
-        css.remove = function (string) {
+        css.erase = function (string) {
             css.innerText.replace(string, '');
             return css;
         };
@@ -151,7 +151,7 @@ class JSUI {
             menu.append(item);
             return item;
         };
-        menu.remove = function (number) {
+        menu.erase = function (number) {
             var items = menu.childNodes;
             var item = items[number];
             item.remove();
@@ -194,9 +194,18 @@ class JSUI {
             table.append(column);
             return column;
         };
-        table.clear = function () {
+        table.erase = function (number) {
+            if (number > 0) {
+                var columns = table.childNodes;
+                var column = columns[number];
+                column.remove();
+            }
+            return table;
+        };
+        table.empty = function () {
             var title = thead.innerHTML;
             table.html(title);
+            return table;
         };
         table.append(thead);
         return table;
