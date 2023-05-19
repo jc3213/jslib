@@ -1,6 +1,6 @@
 class JSUI {
-    new (tag) {
-        var node = document.createElement(tag ?? 'div');
+    new (string) {
+        var node = document.createElement(string ?? 'div');
         node.text = function (string) {
             node.innerText = string;
             return node;

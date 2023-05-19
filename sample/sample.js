@@ -1,8 +1,8 @@
 var jsUI = new JSUI();
 var filereader = new PromiseFileReader();
 var url_components = new URLComponents();
-var url_result = document.querySelector('#urlcomponents > .result');
-var url_template = document.querySelector('.template > div');
+var url_result = jsUI.get('#urlcomponents > .result');
+var url_template = jsUI.get('.template > div');
 
 jsUI.css.add(`body {margin: auto; width: 600px;}
 body > div:not(.jsui-notify-overlay) {margin: 10px auto; border: 1px outset #000;}
@@ -17,15 +17,15 @@ textarea {width: 100%; resize: none;}
 .jsui-table {height: 400px;}
 .jsui-menu-item, .jsui-menu-cell {background-color: #23ade5; color: #fff;}`);
 
-document.querySelector('#filereader').addEventListener('change', async function (event) {
+jsUI.get('#filereader').onchange(async function (event) {
     var file = event.target.files[0];
     var text = await filereader.text(file);
-    document.querySelector('#reader').value = text;
-})
+    jsUI.get('#reader').value = text;
+});
 
-document.querySelector('#submit').addEventListener('click', function (event) {
-    var url = document.querySelector('#url').value;
-    url_result.innerHTML = '';
+jsUI.get('#submit').onclick(function (event) {
+    var url = jsUI.get('#url').value;
+    url_result.empty();
     url_components.get(url).then(getURLComponnents).catch(errorURLFormat);
 });
 
@@ -71,7 +71,7 @@ function clickBtnC(event) {
 
 var entry = jsUI.new('textarea').attr('rows', 6).parent(manager);
 
-var dropzone = document.querySelector('#dropzone');
+var dropzone = jsUI.get('#dropzone');
 
 jsUI.dragndrop(entry, [dropzone, manager]);
 dropzone.addEventListener('drop', event => {
