@@ -180,7 +180,7 @@ class JSUI {
             return table;
         };
         table.empty = function () {
-            var title = thead.innerHTML;
+            var title = thead.outerHTML;
             table.html(title);
             return table;
         };
