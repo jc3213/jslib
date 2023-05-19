@@ -4,26 +4,6 @@ class JSUI {
     }
     new (string) {
         var node = document.createElement(string ?? 'div');
-        this.extend(node);
-        return node;
-    }
-    get (string) {
-        var node = document.querySelector(string);
-        this.extend(node);
-        return node;
-    }
-    all (string) {
-        var {extend} = this;
-        var list = document.querySelectorAll(string);
-        list.each = function (callback) {
-            list.forEach(function (node) {
-                extend(node);
-                callback(node);
-            });
-        }
-        return list;
-    }
-    extend (node) {
         node.text = function (string) {
             node.innerText = string;
             return node;
