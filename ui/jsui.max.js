@@ -14,11 +14,11 @@ class JSUI {
         return node;
     }
     all (string) {
-        var {extend} = this;
+        var self = this;
         var list = document.querySelectorAll(string);
         list.each = function (callback) {
             list.forEach(function (node) {
-                extend(node);
+                self.extend(node);
                 callback(node);
             });
         }
