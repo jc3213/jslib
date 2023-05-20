@@ -1,6 +1,6 @@
 class NodeObserver {
-    timeout (selector, options = {}) {
-        var {anchorNode = document, timeout = 5} = options;
+    timeout (selector, options) {
+        var {anchorNode = document, timeout = 5} = options ?? {};
         return new Promise(function (resolve, reject) {
             var observer = setInterval(function () {
                 var element = anchorNode.querySelector(selector);
@@ -17,15 +17,8 @@ class NodeObserver {
         });
     }
     mutation (anchorNode, options, callback) {
-        if (typeof options === 'object') {
-            tagName = options.tagName ?? 'DIV';
-            options.tagName = tagName.toUpperCase();
-        }
-        else {
-            var tagName = options ?? 'DIV';
-            tagName = tagName.toUpperCase();
-            options = {tagName};
-        }
+        var {tagName = 'DIV'} = options;
+        options.tagName = tagName.toUpperCase();
         var match = Object.keys(options);
         var observer = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
