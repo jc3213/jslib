@@ -1,13 +1,16 @@
-function metalink4(array) {
-    var metalink = '<?xml version="1.0" encoding="UTF-8"?><metalink xmlns="urn:ietf:params:xml:ns:metalink">';
-    array.forEach(function (json) {
-        var {name, size, version, language, hash, url, metaurl} = json;
-        if (name) {
-            var file = '<file name="' + name + '">';
-        }
-        else {
-            file = '<file>';
-        }
+class Metalink4 {
+    text (object) {
+        return this.content(object).join('');
+    }
+    blob (object) {
+        return new Blob(this.content(object), {type: 'application/metalink+xml; charset=utf-8'});
+    }
+    content (object) {
+        var files = Array.isArray(object) ? object.map(this.convert) : [this.convert(object)];
+        return ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', ...files, '</metalink>'];
+    }
+    convert ({name, size, version, language, hash, url, metaurl}) {
+        var file = name ? '<file name="' + name + '">' : '<file>';
         if (size) {
             file += '<size>' + size + '</size>';
         }
@@ -18,29 +21,24 @@ function metalink4(array) {
             file += '<language>' + language + '</language>';
         }
         if (hash) {
-            hash.forEach(function (json) {
-                var {type, hash} = json;
+            hash.forEach(({type, hash}) => {
                 file += '<hash type="' + type + '">' + hash + '</hash>';
             });
         }
-        url.forEach(function (json) {
-            var {location, url} = json;
-            if (location) {
-                var uri = '<url location="' + location + '">' + url + '</url>';
-            }
-            else {
-                uri = '<url>' + url+ '</url>';
-            }
-            file += uri;
+        if (typeof url === 'string') {
+            url = [{url}];
+        }
+        else if (!Array.isArray(url)) {
+            url = [url];
+        }
+        url.forEach(({location, url}) => {
+            file += location ? '<url location="' + location + '">' + url + '</url>' : '<url>' + url+ '</url>';
         });
         if (metaurl) {
-            metaurl.forEach(function (json) {
-                var {type, url} = json;
+            metaurl.forEach(({type, url}) => {
                 file += '<metaurl metatype="' + type + '">' + url + '</metaurl>';
             });
         }
-        metalink += file + '</file>';
-    });
-    metalink += '</metalink>';
-    return metalink;
+        return file + '</file>';
+    }
 }
