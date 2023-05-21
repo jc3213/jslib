@@ -1,88 +1,22 @@
 class URLComponents {
     get (url) {
-        return new Promise(function (resolve, reject) {
-            var protocolIndex = url.indexOf('://');
-            if (protocolIndex === -1) {
-                reject(new Error('Invalid URL format!'));
-            }
-            var protocol = url.slice(0, protocolIndex + 1);
-            var result = url.slice(protocolIndex + 3);
-            var hostIndex = result.indexOf('/');
-            if (hostIndex === -1) {
-                var pathname = '/';
-                var temp = result;
-            }
-            else {
-                pathname = result.slice(hostIndex);
-                temp = result.slice(0, hostIndex);
-            }
-            var userIndex = temp.indexOf('@');
-            if (userIndex === -1) {
-                var host = temp;
-                var username = '';
-                var password = '';
-            }
-            else {
-                var user = temp.slice(0, userIndex);
-                var passIndex = user.indexOf(':');
-                host = temp.slice(userIndex + 1);
-                username = user.slice(0, passIndex);
-                password = user.slice(passIndex + 1);
-            }
-            var origin = protocol + '//' + host;
-            var portIndex = host.lastIndexOf(':');
-            if (portIndex === -1) {
-                var hostname = host;
-                var port = '';
-            }
-            else if (host[0] === '[') {
-                if (host[portIndex - 1] === ']') {
-                    var hostname = host.slice(0, portIndex);
-                    var port = host.slice(portIndex + 1);
-                }
-                else {
-                    var hostname = host;
-                    var port = '';
-                }
-            }
-            else {
-                var hostname = host.slice(0, portIndex);
-                var port = host.slice(portIndex + 1);
-            }
-            resolve({protocol, pathname, host, origin, username, password, hostname, port});
-        });
+        var regexp = /^([^\/]+)\/+(?:([^:]+):([^@]+)@)?(([^\/@:]+):?([^\/]+)?)(\/.*)$/;
+        var result = url.match(regexp);
+        var [uri, protocol, username = '', password = '', host, hostname, port = '', pathname] = result;
+        var origin = protocol + '//' + host;
+        return {protocol, pathname, host, origin, username, password, hostname, port};
     }
     set (components) {
-        return new Promise(function (resolve, reject) {
-            var {protocol, pathname, host, origin, username, password, hostname, port} = components;
-            if (!protocol || !host && !hostname && !origin) {
-                reject(new Error('Invalid URL components!'));
-            }
-            var url = protocol + '://';
-            if (username && password) {
-                url += username + ':' + password + '@';
-            }
-            if (host) {
-                url += host;
-            }
-            else {
-                if (hostname) {
-                    url += hostname;
-                }
-                else {
-                    url = origin;
-                }
-                if (port) {
-                    url += ':' + port;
-                }
-            }
-            if (!pathname) {
-                url += '/';
-            }
-            else {
-                url += pathname;
-            }
-            resolve(url);
-        });
+        var {protocol, pathname, host, origin, username, password, hostname, port} = components;
+        if (!protocol || !host && !hostname) {
+            throw new Error('Invalid URL components!');
+        }
+        var url = protocol.replace(':', '') + '://';
+        if (username && password) {
+            url += username + ':' + password + '@';
+        }
+        url += host ? host : port ? hostname + port : hostname;
+        url += '/' + pathname.replace('/', '');
+        return url;
     }
 }
