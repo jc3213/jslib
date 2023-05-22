@@ -40,7 +40,6 @@ document.querySelector('#options_btn').addEventListener('click', event => {
 
 settings.addEventListener('change', event => {
     var {id, value} = event.target;
-    console.log(id, value);
     localStorage[id] = aria2Store[id] = value;
     if (id !== 'proxy_server') {
         aria2Initial();
@@ -63,17 +62,8 @@ NodeList.prototype.disposition = function (json) {
     return options;
 }
 
-function getDownloadName(bittorrent, [{path, uris}]) {
-    if (bittorrent && bittorrent.info) {
-        return bittorrent.info.name;
-    }
-    else if (path) {
-        return path.slice(path.lastIndexOf('/') + 1);
-    }
-    else if (uris[0]) {
-        return uris[0].uri;
-    }
-    return '???';
+function getDownloadName(gid, bittorrent, [{path, uris}]) {
+    return bittorrent?.info?.name || path?.slice(path.lastIndexOf('/') + 1) || uris[0]?.uri || gid;
 }
 
 function getFileSize(bytes) {
