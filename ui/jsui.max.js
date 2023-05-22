@@ -13,100 +13,70 @@ class JSUI {
         this.extend(node);
         return node;
     }
-    all (string) {
-        var self = this;
-        var list = document.querySelectorAll(string);
-        list.each = function (callback) {
-            list.forEach(function (node) {
-                self.extend(node);
-                callback(node);
-            });
-        }
-        return list;
-    }
     extend (node) {
-        node.text = function (string) {
-            node.innerText = string;
-            return node;
-        };
-        node.html = function (string) {
+        node.body = (string) => {
             node.innerHTML = string;
             return node;
         };
-        node.empty = function () {
+        node.empty = () => {
             node.innerHTML = '';
             return node;
         };
-        node.attr = function (name, value) {
+        node.attr = (name, value) => {
             if (typeof name === 'object') {
-                Object.keys(name).forEach(function (key) {
-                    var value = name[key]
-                    node.setAttribute(key, value);
-                });
+                Object.keys(name).forEach((key) => node.setAttribute(key, name[key]));
             }
             else {
                 node.setAttribute(name, value);
             }
             return node;
         };
-        node.class = function (string) {
-            string.match(/[^\s,]+/g).forEach(function (name) {
-                node.classList.toggle(name);
-            });
+        node.class = (string) => {
+            string.match(/[^\s,]+/g).forEach((name) => node.classList.toggle(name));
             return node;
         };
-        node.css = function (name, value) {
+        node.css = (name, value) => {
             if (typeof name === 'object') {
-                Object.keys(name).forEach(function (key) {
-                    var value = name[key];
-                    node.style[key] = value;
-                });
+                Object.keys(name).forEach((key) => node.style[key] = name[key]);
             }
             else {
                 node.style[name] = value;
             }
             return node;
         };
-        node.parent = function (element) {
+        node.parent = (element) => {
             element.append(node);
             return node;
         };
-        node.hide = function () {
+        node.hide = () => {
             node.style.display = 'none';
             return node;
         };
-        node.show = function () {
+        node.show = () => {
             node.style.display = '';
             return node;
         };
-        node.switch = function () {
-            if (node.style.display === 'none') {
-                node.style.display = '';
-            }
-            else {
-                node.style.display = 'none';
-            }
+        node.switch = () => {
+            node.style.display = node.style.display === 'none' ? '' : 'none';
             return node;
         };
-        node.wait = function (number) {
-            return new Promise(function (resolve) {
-                setTimeout(function () {
-                    resolve(node);
-                }, number);
+        node.wait = (number) => {
+            return new Promise((resolve) => {
+                setTimeout(() => resolve(node), number);
             });
         };
-        node.onclick = function (callback) {
+        node.onclick = (callback) => {
             node.addEventListener('click', callback);
             return node;
         };
-        node.onchange = function (callback) {
+        node.onchange = (callback) => {
             node.addEventListener('change', callback);
             return node;
         };
         return node;
     }
     stylesheet () {
-        var css = this.new('style').attr('id', 'jsui-stylesheet').parent(document.head).text(`
+        var css = this.new('style').attr('id', 'jsui-stylesheet').parent(document.head).body(`
         .jsui-menu-item {text-align: center; margin: 1px; padding: 3px 5px; border-width: 1px; border-style: outset;}
         .jsui-menu-item:not(.jsui-menu-disabled):hover, .jsui-menu-cell:hover {cursor: pointer; filter: contrast(75%);}
         .jsui-menu-item:not(.jsui-menu-disabled):active, .jsui-menu-cell:active {filter: contrast(45%);}
@@ -121,90 +91,58 @@ class JSUI {
         .jsui-table-title > * {background-color: #000000; color: #ffffff;}
         .jsui-notify-overlay {position: fixed; top: 20px; left: 0px; z-index: 99999999;}
         .jsui-notify-popup {position: relative; background-color: #fff; cursor: pointer; padding: 5px 10px; margin: 5px; width: fit-content; border-radius: 3px; border: 1px outset #cccccc;}`);
-        css.add = function (string) {
+        css.add = (string) => {
             css.innerText += string;
             return css;
         };
-        css.erase = function (string) {
+        css.erase = (string) => {
             css.innerText.replace(string, '');
             return css;
         };
         return css;
     }
     menu (bool) {
-        var self = this;
-        if (bool) {
-            var name = 'jsui-drop-menu';
-        }
-        else {
-            name = 'jsui-basic-menu';
-        }
-        var menu = self.new().class(name);
-        menu.add = function (string) {
-            var item = self.new().class('jsui-menu-item');
-            if (string.startsWith('<') && string.endsWith('>')) {
-                item.html(string);
-            }
-            else {
-                item.text(string);
-            }
-            menu.append(item);
+        var menu = this.new().class(bool ? 'jsui-drop-menu' : 'jsui-basic-menu');
+        menu.add = (string) => {
+            var item = this.new().class('jsui-menu-item').body(string).parent(menu);
             return item;
         };
-        menu.erase = function (number) {
-            var items = menu.childNodes;
-            var item = items[number];
-            item.remove();
+        menu.erase = (number) => {
+            menu.childNodes[number].remove();
             return menu;
         };
         return menu;
     }
     table (array) {
-        var self = this;
-        var table = self.new().class('jsui-table');
-        var thead = self.new().class('jsui-table-title');
-        array.forEach(function (text) {
-            var cell = self.new().text(text);
-            thead.append(cell);
-        });
-        table.add = function (array) {
-            var column = self.new().class('jsui-table-column');
-            array.forEach(function (entry) {
-                var cell = self.new();
+        var table = this.new().class('jsui-table');
+        var thead = this.new().class('jsui-table-title');
+        array.forEach((text) => this.new().body(text).parent(thead));
+        table.add = (array) => {
+            var column = this.new().class('jsui-table-column').parent(table);
+            array.forEach((entry) => {
+                var cell = this.new().parent(column);
+                var type = typeof entry;
                 if (typeof entry === 'object') {
                     var {text, onclick} = entry;
-                    if (text.startsWith('<') && text.endsWith('>')) {
-                        cell.html(text);
-                    }
-                    else {
-                        cell.text(text);
-                    }
                     if (onclick !== undefined) {
                         cell.class('jsui-menu-cell').onclick(onclick);
                     }
                 }
-                else if (entry.startsWith('<') && entry.endsWith('>')) {
-                    cell.html(entry);
+                else if (type === 'string') {
+                    text = entry;
                 }
-                else {
-                    cell.text(entry);
-                }
-                column.append(cell);
+                cell.body(text);
             });
-            table.append(column);
             return column;
         };
-        table.erase = function (number) {
+        table.erase = (number) => {
             if (number > 0) {
-                var columns = table.childNodes;
-                var column = columns[number];
-                column.remove();
+                table.childNodes[number].remove();
             }
             return table;
         };
-        table.empty = function () {
-            var title = thead.innerHTML;
-            table.html(title);
+        table.empty = () => {
+            table.body(thead.outerHTML);
             return table;
         };
         table.append(thead);
@@ -212,21 +150,10 @@ class JSUI {
     }
     notification (string, number) {
         var {clientWidth} = document.documentElement;
-        var popup = this.new().class('jsui-notify-popup').onclick(function (event) {
-            popup.remove();
-        });
-        if (string.startsWith('<') && string.endsWith('>')) {
-            popup.html(string);
-        }
-        else {
-            popup.text(string);
-        }
+        var popup = this.new().class('jsui-notify-popup').body(string).parent(this.overlay).onclick((event) => popup.remove());
         if (!isNaN(number)) {
-            popup.wait(number).then(function (popup) {
-                popup.remove();
-            });
+            popup.wait(number).then((popup) => popup.remove());
         }
-        this.overlay.append(popup);
         popup.css('left', (clientWidth - popup.offsetWidth) / 2 + 'px');
         return popup;
     }

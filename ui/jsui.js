@@ -1,81 +1,65 @@
 class JSUI {
+    constructor () {
+        this.css = document.getElementById('jsui-stylesheet') ?? this.stylesheet();
+    }
     new (string) {
         var node = document.createElement(string ?? 'div');
-        node.text = function (string) {
-            node.innerText = string;
-            return node;
-        };
-        node.html = function (string) {
+        node.body = (string) => {
             node.innerHTML = string;
             return node;
         };
-        node.empty = function () {
+        node.empty = () => {
             node.innerHTML = '';
             return node;
         };
-        node.attr = function (name, value) {
+        node.attr = (name, value) => {
             if (typeof name === 'object') {
-                Object.keys(name).forEach(function (key) {
-                    var value = name[key]
-                    node.setAttribute(key, value);
-                });
+                Object.keys(name).forEach((key) => node.setAttribute(key, name[key]));
             }
             else {
                 node.setAttribute(name, value);
             }
             return node;
         };
-        node.class = function (string) {
-            string.match(/[^\s,]+/g).forEach(function (name) {
-                node.classList.toggle(name);
-            });
+        node.class = (string) => {
+            string.match(/[^\s,]+/g).forEach((name) => node.classList.toggle(name));
             return node;
         };
-        node.css = function (name, value) {
+        node.css = (name, value) => {
             if (typeof name === 'object') {
-                Object.keys(name).forEach(function (key) {
-                    var value = name[key];
-                    node.style[key] = value;
-                });
+                Object.keys(name).forEach((key) => node.style[key] = name[key]);
             }
             else {
                 node.style[name] = value;
             }
             return node;
         };
-        node.parent = function (element) {
+        node.parent = (element) => {
             element.append(node);
             return node;
         };
-        node.hide = function () {
+        node.hide = () => {
             node.style.display = 'none';
             return node;
         };
-        node.show = function () {
+        node.show = () => {
             node.style.display = '';
             return node;
         };
-        node.switch = function () {
-            if (node.style.display === 'none') {
-                node.style.display = '';
-            }
-            else {
-                node.style.display = 'none';
-            }
+        node.switch = () => {
+            node.style.display = node.style.display === 'none' ? '' : 'none';
             return node;
         };
-        node.wait = function (number) {
-            return new Promise(function (resolve) {
-                setTimeout(function () {
-                    resolve(node);
-                }, number);
+        node.wait = (number) => {
+            return new Promise((resolve) => {
+                setTimeout(() => resolve(node), number);
             });
         };
-        node.onclick = function (callback) {
+        node.onclick = (callback) => {
             node.addEventListener('click', callback);
             return node;
         };
-        node.onchange = function (callback) {
+        node.onchange = (callback) => {
             node.addEventListener('change', callback);
             return node;
         };

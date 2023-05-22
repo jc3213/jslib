@@ -43,11 +43,6 @@ function getURLComponnents(components) {
     });
 }
 
-function errorURLFormat(error) {
-    var warn = jsUI.new().text(error.message);
-    url_result.append(warn);
-}
-
 var manager = jsUI.new().class('jsui-manager').parent(document.body);
 
 var menu = jsUI.menu().parent(manager);
