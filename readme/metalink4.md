@@ -27,6 +27,11 @@ let blob = meta4.blob([obj1, obj2, obj3]);
     - Syntax { `url`, `name`, `size`, `version`, `language`, `hash`, `metaurl` }
     - [url](#url)
     - [name](#name)
+    - [size](#size)
+    - [version](#version)
+    - [language](#language)
+    - [hash](#hash)
+    - [metaurl](#metaurl)
 
 ### url *`required`*
 - The download url(s) of the file
