@@ -1,52 +1,64 @@
 ## Usage
 
-#### Download
-[Latest](https://raw.githubusercontent.com/jc3213/jslib/main/js/metalink4.js)
+### Download
+[Latest](https://jc3213.github.io/jslib/js/metalink4.js)
 
-#### HTML
+### HTML
 ```HTML
 <script src="metalink4.js"></script>
 ```
 
-#### TamperMonkey
+### TamperMonkey
 ```javascript
-// @require https://raw.githubusercontent.com/jc3213/jslib/main/js/metalink4.js
+// @require https://jc3213.github.io/jslib/js/metalink4.js
 ```
 
 ## Syntax
 ```javascript
-const meta4 = metalink4(array);
+let meta4 = new Metalink4();
+let text = meta4.text(object);
+let blob = meta4.blob([obj1, obj2, obj3]);
 ```
+- text
+    - `string`: text content of metalink4 file
+- blob
+    - `blob`: blob object of metalink4 file
+- object
+    - Syntax { `url`, `name`, `size`, `version`, `language`, `hash`, `metaurl` }
+    - [url](#url)
+    - [name](#name)
 
-### meta4
-The result of metalink file content as text `string`
+### url *`required`*
+- The download url(s) of the file
+- `string`
+- `object`: {*url*, *location*}
+  - `url`: *required*
+  - `location`: *optional*
+- `array`: [*obj1*, *obj2*, *obj3*]
 
-### array
-Array of object `[ object0, object1, ... ]`
+### name *`optional`*
+- The name of the file
 
-#### object
-Syntax { `url`, `name`, `size`, `version`, `language`, `hash`, `metaurl` }
+### size *`optional`*
+- The size of the file
+- `integer`
 
-#### url `*required`
-Array of [ {`url`, `location`}, {`url`, `location`} ]\
-**location** is optional
+### version *`optional`*
+- The version of the file
 
-#### name `Optional`
-The name of the file
+### language *`optional`*
+- The language of the file
 
-#### size `Optional`
-The size of the file **interger**
+### hash *`optional`*
+- The hash(es) of the file
+- `object`: {*type*, *hash*}
+  - `type`: *required*
+  - `hash`: *required*
+- `array`: [obj1, obj2, obj3}]
 
-#### version `Optional`
-The version of the file
-
-#### language `Optional`
-The language of the file
-
-#### hash `Optional`
-Array of [ {`type`, `hash`}, {`type`, `hash`} ]\
-Both **type** and **hash** are required\
-
-#### metaurl `Optional`
-Array of [ {`type`, `url`}, {`type`, `url`} ]\
-Both **type** and **url** are required\
+### metaurl *`optional`*
+- The metalink(s) of the file
+- `object`: {*type*, *url*}
+  - `type`: *required*
+  - `url`: *required*
+- `array`: [obj1, obj2, obj3}]
