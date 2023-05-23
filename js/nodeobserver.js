@@ -1,30 +1,26 @@
 class NodeObserver {
-    timeout (selector, options) {
-        var {anchorNode = document, timeout = 5} = options ?? {};
-        return new Promise(function (resolve, reject) {
-            var observer = setInterval(function () {
+    timeout (selector, {anchorNode = document, timeout = 5} = {}) {
+        return new Promise((resolve, reject) => {
+            var observer = setInterval(() => {
                 var element = anchorNode.querySelector(selector);
                 if (element) {
                     clearInterval(observer);
                     resolve(element);
                 }
-                timeout -= 0.25;
-                if (timeout === 0) {
+                if ((timeout -= 0.25) === 0) {
                     clearInterval(observer);
-                    reject(new Error('Can\'t find element with DOM Selector "' + selector + '"'));
+                    reject(new TypeError(`Unable to find element with selector "${selector}"`));
                 }
             }, 250);
         });
     }
-    mutation (anchorNode, options, callback) {
-        var {tagName = 'DIV'} = options;
-        options.tagName = tagName.toUpperCase();
+    mutation (anchorNode, callback, options = {}) {
+        options.tagName = options.tagName?.toUpperCase() ?? 'DIV';
         var match = Object.keys(options);
-        var observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                mutation.addedNodes.forEach(function (newNode) {
-                    var result = match.every(attr => options[attr] === newNode[attr]);
-                    if (result) {
+        var observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((newNode) => {
+                    if (match.every(attr => options[attr] === newNode[attr])) {
                         callback(newNode);
                     }
                 });
