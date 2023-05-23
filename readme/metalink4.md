@@ -25,13 +25,13 @@ let blob = meta4.blob([obj1, obj2, obj3]);
     - `blob`: blob object of metalink4 file
 - object
     - Syntax { `url`, `name`, `size`, `version`, `language`, `hash`, `metaurl` }
-    - [url](#url)
-    - [name](#name)
-    - [size](#size)
-    - [version](#version)
-    - [language](#language)
-    - [hash](#hash)
-    - [metaurl](#metaurl)
+    - [url](#url-required)
+    - [name](#name-optional)
+    - [size](#size-optional)
+    - [version](#version-optional)
+    - [language](#language-optional)
+    - [hash](#hash-optional)
+    - [metaurl](#metaurl-optional)
 
 ### url *`required`*
 - The download url(s) of the file
