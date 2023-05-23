@@ -1,23 +1,26 @@
 ## Usage
 
-#### Download
+### Download
 [Latest](https://jc3213.github.io/jslib/js/aria2.js)
 
-#### HTML
+### HTML
 ```HTML
 <script src="https://jc3213.github.io/jslib/js/aria2.js"></script>
 ```
 
-#### TamperMonkey
+### TamperMonkey
 ```javascript
 // @require https://jc3213.github.io/jslib/js/aria2.js
 ```
 
 ## Syntax
 ```javascript
-const aria2 = new Aria2(jsonrpc, secret);
+let aria2 = new Aria2(jsonrpc, secret);
 ```
-
+#### Code Sample
+```javascript
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "test.password");
+```
 - jsonrpc **required**
     - URL of aria2 JSON-RPC
     - Support protocols: `http`, `https`, `ws`, and `wss` 
@@ -28,9 +31,13 @@ const aria2 = new Aria2(jsonrpc, secret);
 - [call](#call)
 - [batch](#batch)
 
-#### call
+### call
 ```javascript
-const result = aria2.call(method, params);
+let result = aria2.call(method, params);
+```
+#### Code Sample
+```javascript
+let result = aria2.call('aria2.addUri', [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}]);
 ```
 - result
     - Promise object, returns the response from jsonrpc as an `object` if fulfilled
@@ -39,9 +46,15 @@ const result = aria2.call(method, params);
 - params **optional**
     - An array contains RPC method call parameters
 
-#### batch
+### batch
 ```javascript
-const result = aria2.batch(multi);
+let result = aria2.batch(multi);
+```
+#### Code Sample
+```javascript
+let result = aria2.batch([
+    {method: 'aria2.addUri', params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}]}
+]);
 ```
 - result
     - Promise object, returns the response from jsonrpc as an `array` if fulfilled
