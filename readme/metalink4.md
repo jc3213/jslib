@@ -43,6 +43,7 @@ let blob = meta4.blob([obj1, obj2, obj3]);
 
 ### name *`optional`*
 - The name of the file
+- `string`
 
 ### size *`optional`*
 - The size of the file
@@ -50,9 +51,11 @@ let blob = meta4.blob([obj1, obj2, obj3]);
 
 ### version *`optional`*
 - The version of the file
+- `string`
 
 ### language *`optional`*
 - The language of the file
+- `string`
 
 ### hash *`optional`*
 - The hash(es) of the file
