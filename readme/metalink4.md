@@ -39,7 +39,7 @@ let blob = meta4.blob([obj1, obj2, obj3]);
 - `object`: {*url*, *location*}
   - `url`: *required*
   - `location`: *optional*
-- `array`: [*obj1*, *obj2*, *obj3*]
+- `array`: [*obj1*, *obj2*, *obj3*, ...]
 
 ### name *`optional`*
 - The name of the file
@@ -69,4 +69,4 @@ let blob = meta4.blob([obj1, obj2, obj3]);
 - `object`: {*type*, *url*}
   - `type`: *required*
   - `url`: *required*
-- `array`: [obj1, obj2, obj3}]
+- `array`: [*obj1*, *obj2*, *obj3*, ...]
