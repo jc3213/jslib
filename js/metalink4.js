@@ -6,39 +6,37 @@ class Metalink4 {
         return new Blob(this.content(object), {type: 'application/metalink+xml; charset=utf-8'});
     }
     content (object) {
-        var files = Array.isArray(object) ? object.map(this.convert) : [this.convert(object)];
-        return ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', ...files, '</metalink>'];
+        return [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<metalink xmlns="urn:ietf:params:xml:ns:metalink">',
+            ...(Array.isArray(object) ? object : [object]).map(this.convert),
+            '</metalink>'
+        ];
     }
     convert ({name, size, version, language, hash, url, metaurl}) {
-        var file = name ? '<file name="' + name + '">' : '<file>';
+        var file = name ? `<file name="${name}">` : `<file>`;
         if (size) {
-            file += '<size>' + size + '</size>';
+            file += `<size>${size}</size>`;
         }
         if (version) {
-            file += '<version>' + version + '</version>';
+            file += `<version>${version}</version>`;
         }
         if (language) {
-            file += '<language>' + language + '</language>';
+            file += `<language>${language}</language>`;
         }
         if (hash) {
-            hash.forEach(({type, hash}) => {
-                file += '<hash type="' + type + '">' + hash + '</hash>';
+            (Array.isArray(hash) ? hash : [hash]).forEach(({type, hash}) => {
+                file += `<hash type="${type}">${hash}</hash>`;
             });
         }
-        if (typeof url === 'string') {
-            url = [{url}];
-        }
-        else if (!Array.isArray(url)) {
-            url = [url];
-        }
-        url.forEach(({location, url}) => {
-            file += location ? '<url location="' + location + '">' + url + '</url>' : '<url>' + url+ '</url>';
+        (typeof url === 'string' ? [{url}] : Array.isArray(url) ? url : [url]).forEach(({url, location}) => {
+            file += location ? `<url location="${location}">${url}</url>` : `<url>${url}</url>`;
         });
         if (metaurl) {
-            metaurl.forEach(({type, url}) => {
-                file += '<metaurl metatype="' + type + '">' + url + '</metaurl>';
+            (Array.isArray(metaurl) ? metaurl : [metaurl]).forEach(({type, url}) => {
+                file += `<metaurl metatype="${type}">${url}</metaurl>`;
             });
         }
-        return file + '</file>';
+        return file + `</file>`;
     }
 }
