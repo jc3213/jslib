@@ -25,19 +25,11 @@ document.querySelector('#download_btn').addEventListener('click', event => {
 });
 
 document.querySelector('#options_btn').addEventListener('click', event => {
-    var {style} = settings;
-    if (style.display === 'block') {
-        style.display = 'none';
-    }
-    else {
-        style.display = 'block';
-        settings.querySelectorAll('input').forEach(input => {
-            var {id} = input;
-            input.value = localStorage[id];
-        });
-    }
+    document.body.classList.toggle('options');
 });
 
+settings.style.left = document.querySelector('#options_btn').offsetLeft + 'px';
+settings.querySelectorAll('input').forEach(input => input.value = localStorage[input.id]);
 settings.addEventListener('change', event => {
     var {id, value} = event.target;
     localStorage[id] = aria2Store[id] = value;
