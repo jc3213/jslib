@@ -1,4 +1,4 @@
-var usedLang = {
+var languages = {
     'en': {
         'extension_manager': 'Task Manager - Download with Aria2',
         'common_default': 'Default',
@@ -80,8 +80,8 @@ var usedLang = {
         'option_proxy_server': '代理服务器'
     }
 };
-var userLang = navigator.language.slice(0, 2);
-var i18n = usedLang[userLang] ?? usedLang.en;
+var browser_lang = navigator.language.slice(0, 2);
+var i18n = languages[browser_lang] ?? languages.en;
 
 document.querySelectorAll('[i18n]').forEach(item => {
     item.innerText = i18n[item.innerText];

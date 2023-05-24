@@ -3,6 +3,10 @@ body {
     margin: 8px auto;
 }
 
+.full > #queue {
+    height: auto;
+}
+
 #settings {
     display: none;
     position: absolute;
@@ -38,22 +42,37 @@ body {
     content: "%";
 }
 
+:root {
+    --day: 'd';
+    --hour: 'h';
+    --minute: 'm';
+    --second: 's';
+}
+
 #day:not(:empty)::after {
-    content: "d";
+    content: var(--day);
     vertical-align: sub;
 }
 
-#hour:not(:empty)::after {
-    content: "h";
+#hour::after {
+    content: var(--hour);
     vertical-align: sub;
 }
 
 #minute:not(:empty)::after {
-    content: "m";
+    content: var(--minute);
     vertical-align: sub;
 }
 
 #second:not(:empty)::after {
-    content: "s";
+    content: var(--second);
     vertical-align: sub;
+}
+
+#infinite {
+    display: none;
+}
+
+#day:empty + #hour:empty + #minute:empty + #second:empty + #infinite {
+    display: inline-block;
 }
