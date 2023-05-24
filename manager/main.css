@@ -54,7 +54,7 @@ body {
     vertical-align: sub;
 }
 
-#hour::after {
+#hour:not(:empty)::after {
     content: var(--hour);
     vertical-align: sub;
 }
