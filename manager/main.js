@@ -1,48 +1,60 @@
 var optnbtn = document.querySelector('#options_btn');
-var settings = document.querySelector('#settings');
+var setting = document.querySelector('#setting');
+var adduri = document.querySelector('#adduri');
+var entry = adduri.querySelector('#entry');
+var enterbtn = adduri.querySelector('#enter_btn');
 var aria2Alive;
 var aria2Socket;
 
 document.addEventListener('click', (event) => {
     var {target} = event;
-    if (optnbtn !== target && !settings.contains(target)) {
-        document.body.classList.remove('options');
+    if (optnbtn !== target && !setting.contains(target)) {
+        container.classList.remove('options');
     }
 });
 
-document.querySelector('#options_btn').addEventListener('click', event => {
-    document.body.classList.toggle('options');
+downloadbtn.addEventListener('click', (event) => {
+    container.classList.toggle('adduri');
 });
 
-settings.style.right = '0px';
-settings.querySelectorAll('input').forEach(input => input.value = localStorage[input.id]);
-settings.addEventListener('change', event => {
+optionsbtn.addEventListener('click', (event) => {
+    container.classList.toggle('options');
+});
+
+entry.addEventListener('change', event => {
+    try {
+        entry.json = JSON.parse(entry.value);
+        entry.urls = null;
+        filename.disabled = true;
+    }
+    catch (error) {
+        entry.json = null;
+        entry.urls = entry.value.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s\n]+/g);
+        filename.disabled = false;
+    }
+});
+
+adduri.querySelector('#proxy_btn').addEventListener('click', (event) => {
+    event.target.previousElementSibling.value = localStorage.proxy_server;
+});
+
+enterbtn.addEventListener('click', async event => {
+    var {json, urls} = entry;
+    if (json) {
+        await aria2DownloadJSON(json, aria2Global);
+    }
+    else if (urls) {
+        await aria2DownloadUrls(urls, aria2Global);
+    }
+    container.classList.remove('adduri');
+});
+
+setting.querySelectorAll('input').forEach((input) => input.value = localStorage[input.id]);
+setting.addEventListener('change', (event) => {
     var {id, value} = event.target;
     localStorage[id] = aria2Store[id] = value;
     if (id !== 'proxy_server') {
         aria2Initial();
-    }
-});
-
-document.querySelector('#download_btn').addEventListener('click', event => {
-    event.preventDefault();
-    var entry = prompt('Download Url');
-    try {
-        var json = JSON.parse(entry);
-        if (!Array.isArray(json)) {
-            json = [json];
-        }
-        json.forEach(({url, options}) => {
-            aria2RPC.call('aria2.addUri', [[url], options]);
-        });
-    }
-    catch(error) {
-        var urls = entry.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s;\|]+/g);
-        if (urls) {
-            urls.forEach(url => {
-                aria2RPC.call('aria2.addUri', [[url]]);
-            });
-        }
     }
 });
 

@@ -29,7 +29,7 @@
             <div id="removed"><span>✔️</span><span i18n>popup_removed</span></div>
             <div id="error"><span>✔️</span><span i18n>popup_error</span></div>
         </div>
-        <div id="settings">
+        <div id="setting">
             <div class="menu">
                 <div class="title" i18n>option_jsonrpc_uri</div>
                 <input id="jsonrpc_uri" type="url">
@@ -45,6 +45,70 @@
             <div class="menu">
                 <div class="title" i18n>option_proxy_server</div>
                 <input id="proxy_server" type="url" placeholder="http://127.0.0.1:1280/">
+            </div>
+        </div>
+        <div id="adduri">
+            <div class="menu">
+                <div class="title" i18n>task_referer</div>
+                <div class="flex">
+                    <input id="referer" type="text">
+                    <button id="enter_btn" i18n>task_submit</button>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="title" i18n>task_batch</div>
+                <div>
+                    <textarea id="entry" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="menu flex">
+                <div>
+                    <div class="title" i18n>aria2_adv_dir</div>
+                    <div>
+                        <input id="dir" type="text">
+                    </div>
+                </div>
+                <div>
+                    <div class="title" i18n>task_proxy</div>
+                    <div class="flex">
+                        <input id="all-proxy" type="url">
+                        <button id="proxy_btn">🔖</button>
+                    </div>
+                </div>
+            </div>
+            <div class="menu flex">
+                <div>
+                    <div class="title" i18n>aria2_http_split</div>
+                    <div>
+                        <input id="split" type="number">
+                    </div>
+                    <span i18n>common_default</span>: <u><i>5</i></u>
+                </div>
+                <div>
+                    <div class="title" i18n>aria2_http_size</div>
+                    <div>
+                        <input id="min-split-size" type="text">
+                        <span class="float">B</span>
+                    </div>
+                    <span i18n>common_default</span>: <u><i>20M</i></u>
+                </div>
+            </div>
+            <div class="menu flex">
+                <div>
+                    <div class="title" i18n>aria2_max_connection</div>
+                    <div>
+                        <input id="max-connection-per-server" type="number">
+                    </div>
+                    <span i18n>common_default</span>: <u><i>1</i></u>
+                </div>
+                <div>
+                    <div class="title" i18n>task_download</div>
+                    <div>
+                        <input id="max-download-limit" type="text">
+                        <span class="float">B/s</span>
+                    </div>
+                    <span i18n>common_disabled</span>: <u><i>0</i></u>
+                </div>
             </div>
         </div>
         <hr>
@@ -163,7 +227,7 @@
                 <div id="ratio"></div>
             </div>
         </div>
-        <script src="https://jc3213.github.io/jslib/js/aria2.js"></script>
+        <script src="https://jc3213.github.io/jslib/aria2/aria2.max.js"></script>
         <script src="i18n.js"></script>
         <script src="https://jc3213.github.io/download_with_aria2/chromium/pages/popup/popup.js"></script>
         <script src="main.js"></script>

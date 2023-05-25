@@ -1,32 +1,57 @@
+@media (prefers-color-scheme: dark) {
+    textarea {
+        background-color: #4a4a4a;
+        color: #ffffff;
+    }
+}
+
 body {
     width: 1280px;
     margin: 8px auto;
+}
+
+textarea {
+    padding: 3px;
+    width: calc(100% - 12px);
+    resize: none;
+    border-width: 1px;
+    border-style: inset;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .full > #queue {
     height: auto;
 }
 
-#settings {
+#adduri, #setting {
     display: none;
     position: absolute;
     border-width: 1px;
     border-style: solid;
     top: 38px;
-    width: 50%;
+    width: 45%;
     padding: 8px;
     z-index: 999999;
 }
 
-.options > #settings {
+#adduri {
+    left: 0px;
+}
+
+#setting {
+    right: 0px;
+}
+
+.adduri > #adduri, .options > #setting {
     display: block;
 }
 
-.options #options_btn {
+.adduri #download_btn, .options #options_btn {
     border-style: inset;
 }
 
-.options #options_btn:active {
+.adduri #download_btn:active, .options #options_btn:active {
     border-style: outset;
 }
 
