@@ -25,12 +25,10 @@ entry.addEventListener('change', event => {
     try {
         entry.json = JSON.parse(entry.value);
         entry.urls = null;
-        filename.disabled = true;
     }
     catch (error) {
         entry.json = null;
         entry.urls = entry.value.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s\n]+/g);
-        filename.disabled = false;
     }
 });
 
@@ -41,10 +39,10 @@ adduri.querySelector('#proxy_btn').addEventListener('click', (event) => {
 enterbtn.addEventListener('click', async event => {
     var {json, urls} = entry;
     if (json) {
-        await aria2DownloadJSON(json, aria2Global);
+        await aria2RPC.addJSON(json, aria2Global);
     }
     else if (urls) {
-        await aria2DownloadUrls(urls, aria2Global);
+        await aria2RPC.addURI(urls, aria2Global);
     }
     container.classList.remove('adduri');
 });
