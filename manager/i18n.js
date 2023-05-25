@@ -102,3 +102,12 @@ document.querySelectorAll('[i18n]').forEach(item => {
 document.querySelectorAll('[title]').forEach(item => {
     item.title = i18n[item.title];
 });
+
+var css = document.createElement('style');
+css.innerText = `:root {
+    --day: "${i18n.time_day}";
+    --hour: "${i18n.time_hour}";
+    --minute: "${i18n.time_minute}";
+    --second: "${i18n.time_second}";
+}`;
+document.head.append(css);

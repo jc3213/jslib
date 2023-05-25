@@ -7,14 +7,16 @@ var firstRun = true;
 var aria2Alive;
 var aria2Socket;
 
-document.addEventListener('click', (event) => {
-    var {target} = event;
+document.addEventListener('click', ({target}) => {
     if (optnbtn !== target && !setting.contains(target)) {
         container.classList.remove('options');
     }
+    if (downloadbtn !== target && !adduri.contains(target)) {
+        container.classList.remove('adduri');
+    }
 });
 
-downloadbtn.addEventListener('click', async (event) => {
+downloadbtn.addEventListener('click', (event) => {
     container.classList.toggle('adduri');
 });
 
@@ -22,7 +24,7 @@ optionsbtn.addEventListener('click', (event) => {
     container.classList.toggle('options');
 });
 
-entry.addEventListener('change', event => {
+entry.addEventListener('change', (event) => {
     try {
         entry.json = JSON.parse(entry.value);
         entry.url = null;
@@ -33,11 +35,11 @@ entry.addEventListener('change', event => {
     }
 });
 
-adduri.querySelector('#proxy_btn').addEventListener('click', (event) => {
-    event.target.previousElementSibling.value = localStorage.proxy_server;
+adduri.querySelector('#proxy_btn').addEventListener('click', ({target}) => {
+    target.previousElementSibling.value = localStorage.proxy_server;
 });
 
-enterbtn.addEventListener('click', async event => {
+enterbtn.addEventListener('click', async (event) => {
     var {json, url, options = {}} = entry;
     if (json) {
         await aria2RPC.addJSON(json, options);
@@ -49,8 +51,8 @@ enterbtn.addEventListener('click', async event => {
 });
 
 setting.querySelectorAll('input').forEach((input) => input.value = localStorage[input.id]);
-setting.addEventListener('change', (event) => {
-    var {id, value} = event.target;
+setting.addEventListener('change', ({target}) => {
+    var {id, value} = target;
     localStorage[id] = aria2Store[id] = value;
     if (id !== 'proxy_server') {
         aria2Initial();

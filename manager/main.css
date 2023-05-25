@@ -76,13 +76,6 @@ textarea {
     content: "%";
 }
 
-:root {
-    --day: 'd';
-    --hour: 'h';
-    --minute: 'm';
-    --second: 's';
-}
-
 #day:not(:empty)::after {
     content: var(--day);
     vertical-align: sub;
