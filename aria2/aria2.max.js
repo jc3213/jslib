@@ -52,7 +52,7 @@ class Aria2 {
         });
     }
     addURI (url, options) {
-        var urls = Array.isArray(urls) ? url : [url]
+        var urls = Array.isArray(url) ? url : [url];
         var sessions = urls.map(url => ({method: 'aria2.addUri', params: options ? [[url], options] : [[url]]}));
         return aria2RPC.batch(sessions);
     }

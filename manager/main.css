@@ -24,6 +24,15 @@ textarea {
     height: auto;
 }
 
+#aria2_ver {
+    padding: 4px;
+    margin-right: 20px;
+}
+
+#aria2_ver::before {
+    content: "v";
+}
+
 #adduri, #setting {
     display: none;
     position: absolute;

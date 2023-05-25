@@ -3,6 +3,7 @@ var setting = document.querySelector('#setting');
 var adduri = document.querySelector('#adduri');
 var entry = adduri.querySelector('#entry');
 var enterbtn = adduri.querySelector('#enter_btn');
+var firstRun = true;
 var aria2Alive;
 var aria2Socket;
 
@@ -13,7 +14,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-downloadbtn.addEventListener('click', (event) => {
+downloadbtn.addEventListener('click', async (event) => {
     container.classList.toggle('adduri');
 });
 
@@ -24,11 +25,11 @@ optionsbtn.addEventListener('click', (event) => {
 entry.addEventListener('change', event => {
     try {
         entry.json = JSON.parse(entry.value);
-        entry.urls = null;
+        entry.url = null;
     }
     catch (error) {
         entry.json = null;
-        entry.urls = entry.value.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s\n]+/g);
+        entry.url = entry.value.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s\n]+/g);
     }
 });
 
@@ -37,12 +38,12 @@ adduri.querySelector('#proxy_btn').addEventListener('click', (event) => {
 });
 
 enterbtn.addEventListener('click', async event => {
-    var {json, urls} = entry;
+    var {json, url, options = {}} = entry;
     if (json) {
-        await aria2RPC.addJSON(json, aria2Global);
+        await aria2RPC.addJSON(json, options);
     }
-    else if (urls) {
-        await aria2RPC.addURI(urls, aria2Global);
+    else if (url) {
+        await aria2RPC.addURI(url, options);
     }
     container.classList.remove('adduri');
 });
@@ -59,7 +60,6 @@ setting.addEventListener('change', (event) => {
 NodeList.prototype.disposition = function (json) {
     var options = {};
     this.forEach(node => {
-        console.log(node);
         var {id} = node;
         var value = json[id];
         if (!value) {
@@ -110,11 +110,17 @@ var filesize = {
 var {jsonrpc_uri = 'http://localhost:6800/jsonrpc', jsonrpc_token = '', manager_interval = 10000} = localStorage;
 aria2Store = {jsonrpc_uri, jsonrpc_token, manager_interval};
 
-function aria2Initial() {    
+async function aria2Initial() {    
     clearInterval(aria2Alive);
-    if (aria2Socket) aria2Socket.close();
+    aria2Socket?.close();
     aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['jsonrpc_token']);
     aria2StartUp();
+    var [options, version] = await aria2RPC.batch([
+        {method: 'aria2.getGlobalOption'},
+        {method: 'aria2.getVersion'}
+    ]);
+    entry.options = adduri.querySelectorAll('input, textarea').disposition(options);
+    document.querySelector('#aria2_ver').innerText = version.version;
 }
 
 aria2Initial();
