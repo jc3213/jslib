@@ -1,6 +1,28 @@
+var optnbtn = document.querySelector('#options_btn');
 var settings = document.querySelector('#settings');
 var aria2Alive;
 var aria2Socket;
+
+document.addEventListener('click', (event) => {
+    var {target} = event;
+    if (optnbtn !== target && !settings.contains(target)) {
+        document.body.classList.remove('options');
+    }
+});
+
+document.querySelector('#options_btn').addEventListener('click', event => {
+    document.body.classList.toggle('options');
+});
+
+settings.style.right = '0px';
+settings.querySelectorAll('input').forEach(input => input.value = localStorage[input.id]);
+settings.addEventListener('change', event => {
+    var {id, value} = event.target;
+    localStorage[id] = aria2Store[id] = value;
+    if (id !== 'proxy_server') {
+        aria2Initial();
+    }
+});
 
 document.querySelector('#download_btn').addEventListener('click', event => {
     event.preventDefault();
@@ -21,20 +43,6 @@ document.querySelector('#download_btn').addEventListener('click', event => {
                 aria2RPC.call('aria2.addUri', [[url]]);
             });
         }
-    }
-});
-
-document.querySelector('#options_btn').addEventListener('click', event => {
-    document.body.classList.toggle('options');
-});
-
-settings.style.left = document.querySelector('#options_btn').offsetLeft + 'px';
-settings.querySelectorAll('input').forEach(input => input.value = localStorage[input.id]);
-settings.addEventListener('change', event => {
-    var {id, value} = event.target;
-    localStorage[id] = aria2Store[id] = value;
-    if (id !== 'proxy_server') {
-        aria2Initial();
     }
 });
 
