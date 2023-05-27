@@ -26,7 +26,7 @@ textarea {
 
 #aria2_ver {
     padding: 4px;
-    margin-right: 20px;
+    margin-right: 3px;
 }
 
 #aria2_ver::before {
@@ -44,11 +44,7 @@ textarea {
     z-index: 999999;
 }
 
-#adduri {
-    right: 0px;
-}
-
-#setting {
+#adduri, #setting {
     right: 0px;
 }
 
@@ -64,42 +60,38 @@ textarea {
     border-style: outset;
 }
 
-#download::after, #upload::after {
-    content: "B/s";
+#status > #active::before {
+    content: var(--active);
 }
 
-#remote::after, #local::after, #size::after {
-    content: "B";
+#status > #waiting::before {
+    content: var(--waiting);
 }
 
-#ratio::after {
-    content: "%";
+#status > #stopped::before {
+    content: var(--stopped);
+}
+
+#status > #download::before {
+    content: var(--download);
+}
+
+#status > #upload::before {
+    content: var(--upload);
 }
 
 #day:not(:empty)::after {
     content: var(--day);
-    vertical-align: sub;
 }
 
 #hour:not(:empty)::after {
     content: var(--hour);
-    vertical-align: sub;
 }
 
 #minute:not(:empty)::after {
     content: var(--minute);
-    vertical-align: sub;
 }
 
 #second:not(:empty)::after {
     content: var(--second);
-    vertical-align: sub;
-}
-
-#infinite {
-    display: none;
-}
-
-#day:empty + #hour:empty + #minute:empty + #second:empty + #infinite {
-    display: inline-block;
 }

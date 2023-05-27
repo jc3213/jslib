@@ -105,6 +105,11 @@ document.querySelectorAll('[title]').forEach(item => {
 
 var css = document.createElement('style');
 css.innerText = `:root {
+    --active: "${i18n.popup_active_queue}";
+    --waiting: "${i18n.popup_waiting_queue}";
+    --stopped: "${i18n.popup_stopped_queue}";
+    --download: "${i18n.popup_download_speed}";
+    --upload: "${i18n.popup_upload_speed}";
     --day: "${i18n.time_day}";
     --hour: "${i18n.time_hour}";
     --minute: "${i18n.time_minute}";
