@@ -33,31 +33,31 @@ textarea {
     content: "v";
 }
 
-#adduri, #setting {
+:not(.adduri) > #adduri, :not(.settings) > #setting {
     display: none;
+}
+
+#adduri, #setting {
     position: absolute;
     border-width: 1px;
     border-style: solid;
     top: 38px;
+    right: 0px;
     width: 45%;
     padding: 8px;
     z-index: 999999;
 }
 
-#adduri, #setting {
-    right: 0px;
-}
-
-.adduri > #adduri, .options > #setting {
-    display: block;
-}
-
-.adduri #download_btn, .options #options_btn {
+.adduri #download_btn, .settings #options_btn {
     border-style: inset;
 }
 
-.adduri #download_btn:active, .options #options_btn:active {
+.adduri #download_btn:active, .settings #options_btn:active {
     border-style: outset;
+}
+
+#adduri > :first-child {
+    margin-top: 0px;
 }
 
 #status > #active::before {

@@ -21,7 +21,7 @@ downloadbtn.addEventListener('click', (event) => {
 });
 
 optionsbtn.addEventListener('click', (event) => {
-    container.classList.toggle('options');
+    container.classList.toggle('settings');
 });
 
 entry.addEventListener('change', (event) => {
