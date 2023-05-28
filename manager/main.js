@@ -9,7 +9,7 @@ var aria2Socket;
 
 document.addEventListener('click', ({target}) => {
     if (optnbtn !== target && !setting.contains(target)) {
-        container.classList.remove('options');
+        container.classList.remove('setting');
     }
     if (downloadbtn !== target && !adduri.contains(target)) {
         container.classList.remove('adduri');
@@ -21,7 +21,7 @@ downloadbtn.addEventListener('click', (event) => {
 });
 
 optionsbtn.addEventListener('click', (event) => {
-    container.classList.toggle('settings');
+    container.classList.toggle('setting');
 });
 
 entry.addEventListener('change', (event) => {

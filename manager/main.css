@@ -20,8 +20,31 @@ textarea {
     overflow-x: hidden;
 }
 
-.full > #queue {
-    height: auto;
+body:not(.adduri) > #adduri, body:not(.setting) > #setting {
+    display: none;
+}
+
+body > #menu, #adduri, #setting {
+    position: fixed;
+    z-index: 999999;
+    border-width: 1px;
+    border-style: solid;
+}
+
+body > #menu {
+    padding: 5px;
+    top: 8px;
+    width: 1268px;
+}
+
+#adduri, #setting {
+    right: calc(50% - 640px);
+    width: 600px;
+    padding: 8px;
+}
+
+#choose, #adduri, #setting {
+    top: 48px;
 }
 
 #aria2_ver {
@@ -33,26 +56,11 @@ textarea {
     content: "v";
 }
 
-:not(.adduri) > #adduri, :not(.settings) > #setting {
-    display: none;
-}
-
-#adduri, #setting {
-    position: absolute;
-    border-width: 1px;
-    border-style: solid;
-    top: 38px;
-    right: 0px;
-    width: 45%;
-    padding: 8px;
-    z-index: 999999;
-}
-
-.adduri #download_btn, .settings #options_btn {
+.adduri #download_btn, .setting #options_btn {
     border-style: inset;
 }
 
-.adduri #download_btn:active, .settings #options_btn:active {
+.adduri #download_btn:active, .setting #options_btn:active {
     border-style: outset;
 }
 
