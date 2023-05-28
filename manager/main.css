@@ -56,6 +56,10 @@ body > #menu {
     content: "v";
 }
 
+#queue {
+    margin-top: 46px;
+}
+
 .adduri #download_btn, .setting #options_btn {
     border-style: inset;
 }
