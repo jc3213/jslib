@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
-        <div id="menu">
+        <div id="menu" class="flex">
             <button id="queue_btn" i18n>popup_queue</button>
             <button id="purge_btn" i18n>popup_purge</button>
             <div id="status">
@@ -80,7 +80,6 @@
                 <div>
                     <input id="split" type="number">
                 </div>
-                <span i18n>common_default</span>: <u><i>5</i></u>
             </div>
             <div class="menu">
                 <div class="title" i18n>aria2_http_size</div>
@@ -88,22 +87,19 @@
                     <input id="min-split-size" type="text">
                     <span class="float">B</span>
                 </div>
-                <span i18n>common_default</span>: <u><i>20M</i></u>
             </div>
             <div class="menu">
                 <div class="title" i18n>aria2_max_connection</div>
                 <div>
                     <input id="max-connection-per-server" type="number">
-                    </div>
-                    <span i18n>common_default</span>: <u><i>1</i></u>
                 </div>
+            </div>
             <div class="menu">
                 <div class="title" i18n>task_download</div>
                 <div>
                     <input id="max-download-limit" type="text">
                     <span class="float">B/s</span>
                 </div>
-                <span i18n>common_disabled</span>: <u><i>0</i></u>
             </div>
         </div>
         <hr>
