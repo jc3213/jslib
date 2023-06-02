@@ -1,3 +1,4 @@
+var downloadbtn = document.querySelector('#download_btn');
 var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
 var adduri = document.querySelector('#adduri');
@@ -9,20 +10,20 @@ var aria2Socket;
 
 document.addEventListener('click', ({target}) => {
     if (optnbtn !== target && !setting.contains(target)) {
-        container.classList.remove('setting');
+        manager.classList.remove('setting');
     }
     if (downloadbtn !== target && !adduri.contains(target)) {
-        container.classList.remove('adduri');
+        manager.classList.remove('adduri');
     }
 });
 
-downloadbtn.addEventListener('click', (event) => {
-    container.classList.toggle('adduri');
-});
+function managerDownload() {
+    manager.classList.toggle('adduri');
+}
 
-optionsbtn.addEventListener('click', (event) => {
-    container.classList.toggle('setting');
-});
+function managerOptions() {
+    manager.classList.toggle('setting');
+}
 
 entry.addEventListener('change', (event) => {
     try {
@@ -47,7 +48,7 @@ enterbtn.addEventListener('click', async (event) => {
     else if (url) {
         await aria2RPC.addURI(url, options);
     }
-    container.classList.remove('adduri');
+    manager.classList.remove('adduri');
 });
 
 setting.querySelectorAll('input').forEach((input) => input.value = localStorage[input.id]);
@@ -101,12 +102,12 @@ function getFileSize(bytes) {
 }
 
 var filesize = {
-    'min-split-size': 1,
-    'disk-cache': 1,
-    'max-download-limit': 1,
-    'max-overall-download-limit': 1,
-    'max-upload-limit': 1,
-    'max-overall-upload-limit': 1
+    'min-split-size': true,
+    'disk-cache': true,
+    'max-download-limit': true,
+    'max-overall-download-limit': true,
+    'max-upload-limit': true,
+    'max-overall-upload-limit': true
 };
 
 var {jsonrpc_uri = 'http://localhost:6800/jsonrpc', jsonrpc_token = '', manager_interval = 10000} = localStorage;
