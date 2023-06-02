@@ -3,16 +3,16 @@ var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
 var adduri = document.querySelector('#adduri');
 var entry = adduri.querySelector('#entry');
-var enterbtn = adduri.querySelector('#enter_btn');
 var firstRun = true;
 var aria2Alive;
 var aria2Socket;
 
 document.addEventListener('click', ({target}) => {
-    if (optnbtn !== target && !setting.contains(target)) {
+    var {id} = target;
+    if (id !== 'options_btn' && !setting.contains(target)) {
         manager.classList.remove('setting');
     }
-    if (downloadbtn !== target && !adduri.contains(target)) {
+    if (id !== 'download_btn' && !adduri.contains(target)) {
         manager.classList.remove('adduri');
     }
 });
@@ -36,11 +36,17 @@ entry.addEventListener('change', (event) => {
     }
 });
 
-adduri.querySelector('#proxy_btn').addEventListener('click', ({target}) => {
-    target.previousElementSibling.value = localStorage.proxy_server;
+adduri.addEventListener('click', ({target}) => {
+    var {id} = target;
+    if (id === 'proxy_btn') {
+        target.previousElementSibling.value = localStorage.proxy_server;
+    }
+    else if (id === 'enter_btn') {
+        downloadSubmit();
+    }
 });
 
-enterbtn.addEventListener('click', async (event) => {
+async function downloadSubmit() {
     var {json, url, options = {}} = entry;
     if (json) {
         await aria2RPC.addJSON(json, options);
@@ -48,8 +54,10 @@ enterbtn.addEventListener('click', async (event) => {
     else if (url) {
         await aria2RPC.addURI(url, options);
     }
+    entry.value = '';
+    entry.json = entry.url = null;
     manager.classList.remove('adduri');
-});
+}
 
 setting.querySelectorAll('input').forEach((input) => input.value = localStorage[input.id]);
 setting.addEventListener('change', ({target}) => {
