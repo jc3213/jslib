@@ -20,7 +20,7 @@ class NodeObserver {
         var observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 mutation.addedNodes.forEach((newNode) => {
-                    if (match.every(attr => options[attr] === newNode[attr])) {
+                    if (match.every(attr => options[attr] === newNode.getAttribute(attr))) {
                         callback(newNode);
                     }
                 });
