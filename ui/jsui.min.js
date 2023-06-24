@@ -66,7 +66,7 @@ class JSUI {
         return node;
     }
     stylesheet () {
-        var css = this.new('style').attr('id', 'jsui-stylesheet').parent(document.head).text(`
+        var css = this.new('style').attr('id', 'jsui-stylesheet').parent(document.head).body(`
         .jsui-menu-item {text-align: center; margin: 1px; padding: 3px 5px; border-width: 1px; border-style: outset;}
         .jsui-menu-item:not(.jsui-menu-disabled):hover, .jsui-menu-cell:hover {cursor: pointer; filter: contrast(75%);}
         .jsui-menu-item:not(.jsui-menu-disabled):active, .jsui-menu-cell:active {filter: contrast(45%);}
