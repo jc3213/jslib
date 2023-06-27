@@ -25,9 +25,10 @@ body > #menu, #adduri, #setting {
 }
 
 body > #menu {
-    top: 8px;
-    width: 1268px;
-    padding: 5px;
+    border-width: 0px 1px 1px;
+    padding: 8px;
+    top: 0px;
+    width: 1262px;
 }
 
 #adduri, #setting {
