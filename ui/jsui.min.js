@@ -5,11 +5,12 @@ class JSUI {
     new (string) {
         var node = document.createElement(string ?? 'div');
         node.body = (string) => {
-            node.innerHTML = string;
-            return node;
-        };
-        node.empty = () => {
-            node.innerHTML = '';
+            if (string) {
+                node.innerHTML = string;
+            }
+            else {
+                node.innerHTML = '';
+            }
             return node;
         };
         node.attr = (name, value) => {
@@ -21,8 +22,13 @@ class JSUI {
             }
             return node;
         };
-        node.class = (string) => {
-            string.match(/[^\s,]+/g).forEach((name) => node.classList.toggle(name));
+        node.class = (...args) => {
+            if (args.length === 0) {
+                node.className = '';
+            }
+            else {
+                args.forEach((arg) => node.classList.toggle(arg));
+            }
             return node;
         };
         node.css = (name, value) => {

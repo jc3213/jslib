@@ -5,6 +5,15 @@ class JSUI {
     }
     new (string) {
         var node = document.createElement(string ?? 'div');
+        this.extend(node);
+        return node;
+    }
+    get (string) {
+        var node = document.querySelector(string);
+        this.extend(node);
+        return node;
+    }
+    extend (node) {
         node.body = (string) => {
             if (string) {
                 node.innerHTML = string;
@@ -110,6 +119,41 @@ class JSUI {
         };
         return menu;
     }
+    table (array) {
+        var table = this.new().class('jsui-table');
+        var thead = this.new().class('jsui-table-title');
+        array.forEach((text) => this.new().body(text).parent(thead));
+        table.add = (array) => {
+            var column = this.new().class('jsui-table-column').parent(table);
+            array.forEach((entry) => {
+                var cell = this.new().parent(column);
+                var type = typeof entry;
+                if (typeof entry === 'object') {
+                    var {text, onclick} = entry;
+                    if (onclick !== undefined) {
+                        cell.class('jsui-menu-cell').onclick(onclick);
+                    }
+                }
+                else if (type === 'string') {
+                    text = entry;
+                }
+                cell.body(text);
+            });
+            return column;
+        };
+        table.erase = (number) => {
+            if (number > 0) {
+                table.childNodes[number].remove();
+            }
+            return table;
+        };
+        table.empty = () => {
+            table.body(thead.outerHTML);
+            return table;
+        };
+        table.append(thead);
+        return table;
+    }
     notification (string, number) {
         var {clientWidth} = document.documentElement;
         var popup = this.new().class('jsui-notify-popup').body(string).parent(this.overlay).onclick((event) => popup.remove());
@@ -118,5 +162,74 @@ class JSUI {
         }
         popup.css('left', (clientWidth - popup.offsetWidth) / 2 + 'px');
         return popup;
+    }
+    dragndrop (source, target) {
+        source.draggable = true;
+        if (typeof target === 'function') {
+            var ondragend = target;
+            target = undefined;
+        }
+        if (target === undefined) {
+            var top;
+            var left;
+            var height;
+            var width;
+            target = document;
+            source.style.position = 'fixed';
+            source.addEventListener('dragstart', function (event) {
+                var {clientHeight, clientWidth} = document.documentElement;
+                var {clientX, clientY, target} = event;
+                var {offsetHeight, offsetWidth} = target;
+                top = clientY;
+                left = clientX;
+                height = clientHeight - offsetHeight;
+                width = clientWidth - offsetWidth;
+                if (height < 0) {
+                    height = 0;
+                }
+                if (width < 0) {
+                    width = 0;
+                }
+            });
+            document.addEventListener('dragover', function (event) {
+                event.preventDefault();
+            });
+            document.addEventListener('drop', function (event) {
+                var {clientX, clientY} = event;
+                var {offsetTop, offsetLeft} = source;
+                top = offsetTop + clientY - top;
+                left = offsetLeft + clientX - left;
+                if (top < 0) {
+                    top = 0;
+                }
+                else if (top > height) {
+                    top = height;
+                }
+                if (left < 0) {
+                    left = 0;
+                }
+                else if (left > width) {
+                    left = width;
+                }
+                source.style.top = top + 'px';
+                source.style.left = left + 'px';
+                if (typeof ondragend === 'function') {
+                    ondragend({top, left, height, width});
+                }
+            });
+        }
+        else {
+            if (!Array.isArray(target)) {
+                target = [target];
+            }
+            target.forEach(function (element) {
+                element.addEventListener('dragover', function (event) {
+                    event.preventDefault();
+                });
+                element.addEventListener('drop', function (event) {
+                    element.appendChild(source);
+                });
+            });
+        }
     }
 }
