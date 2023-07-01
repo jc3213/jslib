@@ -25,7 +25,7 @@ jsUI.get('#filereader').onchange(async (event) => {
 
 jsUI.get('#submit').onclick(function (event) {
     var url = jsUI.get('#url').value;
-    url_result.empty();
+    url_result.body();
     var result = url_components.get(url);
     getURLComponnents(result);
 });
