@@ -33,34 +33,35 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc", "test.password");
 
 ### call
 ```javascript
-let result = aria2.call(method, params);
+let result = aria2.call(method, ...params);
 ```
 #### Code Sample
 ```javascript
-let result = aria2.call('aria2.addUri', [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}]);
+let result = aria2.call('aria2.addUri', ["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"});
 ```
 - result
     - Promise object, returns the response from jsonrpc as an `object` if fulfilled
 - method **required**
     - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 - params **optional**
-    - An array contains RPC method call parameters
+    - JSON-RPC method call parameters
 
 ### batch
 ```javascript
-let result = aria2.batch(multi);
+let result = aria2.batch([
+    [method, ...params],
+    [method, ...params]
+]);
 ```
 #### Code Sample
 ```javascript
 let result = aria2.batch([
-    {method: 'aria2.addUri', params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}]}
+    ['aria2.addUri', ["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}]
 ]);
 ```
 - result
-    - Promise object, returns the response from jsonrpc as an `array` if fulfilled
-- multi
-    - An array of `object`, syntax {`method`, `params` }
-    - method **required**
-        - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
-    - params **optional**
-        - An array contains RPC method call parameters
+    - Promise object, returns the response from jsonrpc as an `array` of `object` if fulfilled
+- method **required**
+    - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
+- params **optional**
+    -JSON-RPC method call parameters
