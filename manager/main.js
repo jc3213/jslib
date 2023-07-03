@@ -127,8 +127,7 @@ async function aria2Initial() {
     aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['jsonrpc_token']);
     aria2StartUp();
     var [options, version] = await aria2RPC.batch([
-        {method: 'aria2.getGlobalOption'},
-        {method: 'aria2.getVersion'}
+        ['aria2.getGlobalOption'], ['aria2.getVersion']
     ]);
     entry.options = adduri.querySelectorAll('input, textarea').disposition(options);
     document.querySelector('#aria2_ver').innerText = version.version;
