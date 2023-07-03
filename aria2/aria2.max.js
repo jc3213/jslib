@@ -8,12 +8,9 @@ class Aria2 {
     error (protocol) {
         throw new Error(`Invalid protocol: "${protocol}" is not supported.`);
     }
-    message (method, options) {
-        var params = Array.isArray(options) ? [...this.params, ...options] : [...this.params];
-        return {id: '', jsonrpc: '2.0', method, params};
-    }
-    call (method, options) {
-        var json = this.message(method, options);
+    call (method, ...options) {
+        var params = [...this.params, ...options];
+        var json = {id: '', jsonrpc: '2.0', method, params};
         return this.post(JSON.stringify(json)).then(({result, error}) => {
             if (result) {
                 return result;
@@ -22,7 +19,10 @@ class Aria2 {
         });
     }
     batch (array) {
-        var json = array.map(({method, params}) => this.message(method, params));
+        var json = array.map(([method, ...options]) => {
+            var params = [...this.params, ...options];
+            return {id: '', jsonrpc: '2.0', method, params};
+        });
         return this.post(JSON.stringify(json)).then((response) => {
             return response.map(({result, error}) => {
                 if (result) {
@@ -53,18 +53,15 @@ class Aria2 {
     }
     addURI (url, options) {
         var urls = Array.isArray(url) ? url : [url];
-        var sessions = urls.map(url => ({method: 'aria2.addUri', params: options ? [[url], options] : [[url]]}));
+        var sessions = urls.map((url) => ['aria2.addUri', [url], options]);
         return aria2RPC.batch(sessions);
     }
     addJSON (json, origin) {
         var jsons = Array.isArray(json) ? json : [json];
-        var sessions = jsons.map(entry => {
-            var {url, options} = entry;
-            if (!url) {
-                throw new SyntaxError('Wrong JSON format: "url" is required!');
-            }
+        var sessions = jsons.map(({url, options}) => {
+            var urls = Array.isArray(url) ? url : [url];
             options = options && origin ? {...origin, ...options} : options ? options : origin ? origin : {};
-            return {method: 'aria2.addUri', params: [[url], options]};
+            return ['aria2.addUri', urls, options];
         });
         return aria2RPC.batch(sessions);
     }
