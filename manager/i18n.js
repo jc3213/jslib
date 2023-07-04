@@ -8,7 +8,7 @@ var languages = {
         time_minute: 'm',
         time_second: 's',
         popup_newdld: 'New DL',
-        popup_queue: 'Queue',
+        popup_queue: 'Task Queue',
         popup_purge: 'Purge',
         popup_options: 'Options',
         popup_active: 'Downloading',
@@ -54,7 +54,7 @@ var languages = {
         time_minute: '分',
         time_second: '秒',
         popup_newdld: '新下载',
-        popup_queue: '队列',
+        popup_queue: '任务队列',
         popup_purge: '清理',
         popup_options: '选项',
         popup_active: '正在下载',
@@ -105,6 +105,7 @@ document.querySelectorAll('[title]').forEach(item => {
 
 var css = document.createElement('style');
 css.innerText = `:root {
+    --queue: "${i18n.popup_queue}";
     --active: "${i18n.popup_active_queue}";
     --waiting: "${i18n.popup_waiting_queue}";
     --stopped: "${i18n.popup_stopped_queue}";

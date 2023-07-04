@@ -31,14 +31,26 @@ body > #menu {
     width: 1262px;
 }
 
+#choose, #adduri, #setting {
+    top: 48px;
+}
+
+#choose {
+    left: calc(50% + 642px);
+}
+
+#choose::before {
+    content: var(--queue);
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
 #adduri, #setting {
     right: calc(50% - 640px);
     width: 600px;
     padding: 8px;
-}
-
-#choose, #adduri, #setting {
-    top: 48px;
 }
 
 #aria2_ver {
