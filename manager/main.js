@@ -3,9 +3,6 @@ var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
 var adduri = document.querySelector('#adduri');
 var entry = adduri.querySelector('#entry');
-var firstRun = true;
-var aria2Alive;
-var aria2Socket;
 
 document.addEventListener('click', ({target}) => {
     var {id} = target;
@@ -59,12 +56,17 @@ async function downloadSubmit() {
     manager.classList.remove('adduri');
 }
 
-setting.querySelectorAll('input').forEach((input) => input.value = localStorage[input.id]);
 setting.addEventListener('change', ({target}) => {
     var {id, value} = target;
-    localStorage[id] = aria2Store[id] = value;
-    if (id !== 'proxy_server') {
+    localStorage[id] = window[id] = value;
+    if (id === 'aria2Server' || id === 'aria2Token') {
+        clearInterval(aria2Alive);
+        aria2Socket?.close();
         aria2Initial();
+    }
+    else if (id === 'aria2Interval') {
+        clearInterval(aria2Alive);
+        aria2Alive = setInterval(updateManager, aria2Interval);
     }
 });
 
@@ -118,13 +120,7 @@ var filesize = {
     'max-overall-upload-limit': true
 };
 
-var {jsonrpc_uri = 'http://localhost:6800/jsonrpc', jsonrpc_token = '', manager_interval = 10000} = localStorage;
-aria2Store = {jsonrpc_uri, jsonrpc_token, manager_interval};
-
-async function aria2Initial() {    
-    clearInterval(aria2Alive);
-    aria2Socket?.close();
-    aria2RPC = new Aria2(aria2Store['jsonrpc_uri'], aria2Store['jsonrpc_token']);
+async function aria2Initial() {
     aria2StartUp();
     var [options, version] = await aria2RPC.batch([
         ['aria2.getGlobalOption'], ['aria2.getVersion']
@@ -133,4 +129,6 @@ async function aria2Initial() {
     document.querySelector('#aria2_ver').innerText = version.version;
 }
 
+var {aria2Server = 'http://localhost:6800/jsonrpc', aria2Token = '', aria2Interval = 10000, aria2Proxy = ''} = localStorage;
+setting.querySelectorAll('input').forEach((input) => input.value = window[input.id]);
 aria2Initial();
