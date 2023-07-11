@@ -1,7 +1,7 @@
 class Metalink4 {
     constructor (...args) {
         var content = args.map(this.content);
-        var array = ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', content, '</metalink>'];
+        var array = ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', ...content, '</metalink>'];
         var text = () => array.join('\n');
         var blob = () => new Blob(array, {type: 'application/metalink+xml; charset=utf-8'});
         return {array, text, blob};
