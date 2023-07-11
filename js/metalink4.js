@@ -1,19 +1,12 @@
 class Metalink4 {
-    text (object) {
-        return this.content(object).join('');
+    constructor (...args) {
+        var content = args.map(this.content);
+        var array = ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', content, '</metalink>'];
+        var text = () => array.join('\n');
+        var blob = () => new Blob(array, {type: 'application/metalink+xml; charset=utf-8'});
+        return {array, text, blob};
     }
-    blob (object) {
-        return new Blob(this.content(object), {type: 'application/metalink+xml; charset=utf-8'});
-    }
-    content (object) {
-        return [
-            '<?xml version="1.0" encoding="UTF-8"?>',
-            '<metalink xmlns="urn:ietf:params:xml:ns:metalink">',
-            ...(Array.isArray(object) ? object : [object]).map(this.convert),
-            '</metalink>'
-        ];
-    }
-    convert ({name, size, version, language, hash, url, metaurl}) {
+    content ({name, size, version, language, hash, url, metaurl}) {
         var file = name ? `<file name="${name}">` : `<file>`;
         if (size) {
             file += `<size>${size}</size>`;
