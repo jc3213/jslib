@@ -15,10 +15,13 @@
 
 ## Syntax
 ```javascript
-let meta4 = new Metalink4();
-let text = meta4.text(object);
-let blob = meta4.blob([obj1, obj2, obj3]);
+let meta4 = new Metalink4(obj1, ...[obj2, obj3]);
+let array = meta4.array;
+let text = meta4.text();
+let blob = meta4.blob();
 ```
+- array
+    - `array`: array of text of metalink4 file
 - text
     - `string`: text content of metalink4 file
 - blob
