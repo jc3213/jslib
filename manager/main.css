@@ -78,6 +78,11 @@ body > #menu {
     margin-top: 0px;
 }
 
+#status {
+    margin-right: 150px;
+    grid-template-columns: repeat(2, 1fr) repeat(3, 15%);
+}
+
 #status > #active::before {
     content: var(--active);
 }
