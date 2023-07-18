@@ -46,10 +46,10 @@ adduri.addEventListener('click', ({target}) => {
 async function downloadSubmit() {
     var {json, url, options = {}} = entry;
     if (json) {
-        await aria2RPC.addJSON(json, options);
+        await aria2RPC.addJson(json, options);
     }
     else if (url) {
-        await aria2RPC.addURI(url, options);
+        await aria2RPC.addUri(url, options);
     }
     entry.value = '';
     entry.json = entry.url = null;
