@@ -1,6 +1,6 @@
 class Aria2 {
     constructor (url, secret) {
-        var [protocol, http, socket] = url.match(/(^http)s?|^(ws)s?|^([^:]+)/);
+        const [protocol, http, socket] = url.match(/(^http)s?|^(ws)s?|^([^:]+)/);
         this.post = http ? this.fetch : socket ? this.websocket : this.error(protocol);
         this.jsonrpc = url;
         this.params = secret ? [`token:${secret}`] : [];
@@ -8,12 +8,8 @@ class Aria2 {
     error (protocol) {
         throw new Error(`Invalid protocol: "${protocol}" is not supported.`);
     }
-    message (method, options) {
-        var params = [...this.params, ...options];
-        return {id: '', jsonrpc: '2.0', method, params};
-    }
     call (method, ...options) {
-        var json = this.message(method, options);
+        const json = {id: '', jsonrpc: '2.0', method, params: [...this.params, ...options]};
         return this.post(JSON.stringify(json)).then(({result, error}) => {
             if (result) {
                 return result;
@@ -22,7 +18,7 @@ class Aria2 {
         });
     }
     batch (array) {
-        var json = array.map(([method, ...options]) => this.message(method, options));
+        const json = array.map(([method, ...options]) => ({id: '', jsonrpc: '2.0', method, params: [...this.params, ...options]}));
         return this.post(JSON.stringify(json)).then((response) => {
             return response.map(({result, error}) => {
                 if (result) {
@@ -42,7 +38,7 @@ class Aria2 {
     }
     websocket (message) {
         return new Promise((resolve, reject) => {
-            var socket = new WebSocket(this.jsonrpc);
+            const socket = new WebSocket(this.jsonrpc);
             socket.onopen = (event) => socket.send(message);
             socket.onclose = reject;
             socket.onmessage = (event) => {
@@ -51,18 +47,14 @@ class Aria2 {
             };
         });
     }
-    addURI (url, options) {
-        var urls = Array.isArray(url) ? url : [url];
-        var sessions = urls.map((url) => ['aria2.addUri', [url], options]);
-        return aria2RPC.batch(sessions);
+    addUri (url, options = {}) {
+        const urls = Array.isArray(url) ? url : [url];
+        const sessions = urls.map((url) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [...this.params, [url], options]}));
+        return this.post(JSON.stringify(sessions));
     }
-    addJSON (json, origin) {
-        var jsons = Array.isArray(json) ? json : [json];
-        var sessions = jsons.map(({url, options}) => {
-            var urls = Array.isArray(url) ? url : [url];
-            options = options && origin ? {...origin, ...options} : options ? options : origin ? origin : {};
-            return ['aria2.addUri', urls, options];
-        });
-        return aria2RPC.batch(sessions);
+    addJson (json, origin = {}) {
+        const jsons = Array.isArray(json) ? json : [json];
+        const sessions = jsons.map(({url, options = {}}) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [...this.params, Array.isArray(url) ? url : [url], {...origin, ...options}]}));
+        return this.post(JSON.stringify(sessions));
     }
 }
