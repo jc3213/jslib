@@ -52,9 +52,9 @@ class Aria2 {
         const sessions = urls.map((url) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [...this.params, [url], options]}));
         return this.post(JSON.stringify(sessions));
     }
-    addTorrent (torrent, options = {}) {
+    addTorrent (torrent) {
         const torrents = Array.isArray(torrent) ? torrent : [torrent];
-        const sessions = torrents.map((torrent) => ({id: '', jsonrpc: '2.0', method: 'aria2.addTorrent', params: [...this.params, torrent, options]}));
+        const sessions = torrents.map((torrent) => ({id: '', jsonrpc: '2.0', method: 'aria2.addTorrent', params: [...this.params, torrent]}));
         return this.post(JSON.stringify(sessions));
     }
     addMetalink (metalink, options = {}) {
