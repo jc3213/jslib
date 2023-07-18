@@ -3,6 +3,7 @@ var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
 var adduri = document.querySelector('#adduri');
 var entry = adduri.querySelector('#entry');
+var uploader = adduri.querySelector('#uploader');
 
 document.addEventListener('click', ({target}) => {
     var {id} = target;
@@ -41,6 +42,9 @@ adduri.addEventListener('click', ({target}) => {
     else if (id === 'enter_btn') {
         downloadSubmit();
     }
+    else if (id === 'upload_btn') {
+        uploader.click();
+    }
 });
 
 async function downloadSubmit() {
@@ -55,6 +59,19 @@ async function downloadSubmit() {
     entry.json = entry.url = null;
     manager.classList.remove('adduri');
 }
+
+uploader.addEventListener('change', async ({target}) => {
+    var file = target.files[0];
+    var b64encode = await getFileData(file);
+    if (file.name.endsWith('torrent')){
+        await aria2RPC.addTorrent(b64encode);
+    }
+    else {
+        await aria2RPC.addMetalink(b64encode, aria2Global);
+    }
+    target.value = '';
+    manager.classList.remove('adduri');
+});
 
 setting.addEventListener('change', ({target}) => {
     var {id, value} = target;
@@ -109,6 +126,17 @@ function getFileSize(bytes) {
     else {
         return `${(bytes / 10995116277.76 | 0) / 100}T`;
     }
+}
+
+function getFileData(file) {
+    return new Promise((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (event) => {
+            var base64 = reader.result.slice(reader.result.indexOf(',') + 1);
+            resolve(base64);
+        };
+        reader.readAsDataURL(file);
+    });
 }
 
 var filesize = {
