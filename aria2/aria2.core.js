@@ -3,13 +3,13 @@ class Aria2 {
         const [protocol, http, socket] = url.match(/(^http)s?|^(ws)s?|^([^:]+)/);
         this.post = http ? this.fetch : socket ? this.websocket : this.error(protocol);
         this.jsonrpc = url;
-        this.params = secret ? [`token:${secret}`] : [];
+        this.secret = `token:${secret}`;
     }
     error (protocol) {
         throw new Error(`Invalid protocol: "${protocol}" is not supported.`);
     }
     call (method, ...options) {
-        const json = {id: '', jsonrpc: '2.0', method, params: [...this.params, ...options]};
+        const json = {id: '', jsonrpc: '2.0', method, params: [this.secret, ...options]};
         return this.post(JSON.stringify(json)).then(({result, error}) => {
             if (result) {
                 return result;
@@ -18,7 +18,7 @@ class Aria2 {
         });
     }
     batch (array) {
-        const json = array.map(([method, ...options]) => ({id: '', jsonrpc: '2.0', method, params: [...this.params, ...options]}));
+        const json = array.map(([method, ...options]) => ({id: '', jsonrpc: '2.0', method, params: [this.secret, ...options]}));
         return this.post(JSON.stringify(json)).then((response) => {
             return response.map(({result, error}) => {
                 if (result) {
@@ -49,17 +49,17 @@ class Aria2 {
     }
     addUri (url, options = {}) {
         const urls = Array.isArray(url) ? url : [url];
-        const sessions = urls.map((url) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [...this.params, [url], options]}));
+        const sessions = urls.map((url) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [this.secret, [url], options]}));
         return this.post(JSON.stringify(sessions));
     }
     addTorrent (torrent) {
         const torrents = Array.isArray(torrent) ? torrent : [torrent];
-        const sessions = torrents.map((torrent) => ({id: '', jsonrpc: '2.0', method: 'aria2.addTorrent', params: [...this.params, torrent]}));
+        const sessions = torrents.map((torrent) => ({id: '', jsonrpc: '2.0', method: 'aria2.addTorrent', params: [this.secret, torrent]}));
         return this.post(JSON.stringify(sessions));
     }
     addMetalink (metalink, options = {}) {
         const metalinks = Array.isArray(metalink) ? metalink : [metalink];
-        const sessions = torrents.map((metalink) => ({id: '', jsonrpc: '2.0', method: 'aria2.addMetalink', params: [...this.params, metalink, options]}));
+        const sessions = torrents.map((metalink) => ({id: '', jsonrpc: '2.0', method: 'aria2.addMetalink', params: [this.secret, metalink, options]}));
         return this.post(JSON.stringify(sessions));
     }
 }

@@ -25,7 +25,9 @@ function managerOptions() {
 
 entry.addEventListener('change', (event) => {
     try {
-        entry.json = JSON.parse(entry.value);
+        var json = JSON.parse(entry.value);
+        var jsons = (Array.isArray(json) ? json : [json]);
+        entry.json = jsons.map(({url, options = {}}) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [aria2RPC.secret, [url], {...entry.options, ...options}]}));
         entry.url = null;
     }
     catch (error) {
@@ -50,7 +52,7 @@ adduri.addEventListener('click', ({target}) => {
 async function downloadSubmit() {
     var {json, url, options = {}} = entry;
     if (json) {
-        await aria2RPC.addJson(json, options);
+        await aria2RPC.post(JSON.stringify(entry.json));
     }
     else if (url) {
         await aria2RPC.addUri(url, options);
