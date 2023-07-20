@@ -1,3 +1,4 @@
+var storage = new CookiesStorage();
 var downloadbtn = document.querySelector('#download_btn');
 var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
@@ -10,8 +11,20 @@ document.addEventListener('click', ({target}) => {
     if (id !== 'options_btn' && !setting.contains(target)) {
         manager.classList.remove('setting');
     }
-    if (id !== 'download_btn' && !adduri.contains(target)) {
+    else if (id !== 'download_btn' && !adduri.contains(target)) {
         manager.classList.remove('adduri');
+    }
+    else if (id === 'proxy_btn') {
+        target.previousElementSibling.value = localStorage.proxy_server;
+    }
+    else if (id === 'enter_btn') {
+        downloadSubmit();
+    }
+    else if (id === 'upload_btn') {
+        uploader.click();
+    }
+    else if (id === 'commit_btn') {
+        storage.commit();
     }
 });
 
@@ -33,19 +46,6 @@ entry.addEventListener('change', (event) => {
     catch (error) {
         entry.json = null;
         entry.url = entry.value.match(/(https?:\/\/|ftp:\/\/|magnet:\?)[^\s\n]+/g);
-    }
-});
-
-adduri.addEventListener('click', ({target}) => {
-    var {id} = target;
-    if (id === 'proxy_btn') {
-        target.previousElementSibling.value = localStorage.proxy_server;
-    }
-    else if (id === 'enter_btn') {
-        downloadSubmit();
-    }
-    else if (id === 'upload_btn') {
-        uploader.click();
     }
 });
 
@@ -77,7 +77,8 @@ uploader.addEventListener('change', async ({target}) => {
 
 setting.addEventListener('change', ({target}) => {
     var {id, value} = target;
-    localStorage[id] = window[id] = value;
+    storage.set(id, value);
+    window[id] = value;
     if (id === 'aria2Server' || id === 'aria2Token') {
         clearInterval(aria2Alive);
         aria2Socket?.close();
@@ -90,9 +91,9 @@ setting.addEventListener('change', ({target}) => {
 });
 
 NodeList.prototype.disposition = function (json) {
-    var options = {};
-    this.forEach(node => {
-        var {id} = node;
+    var result = {};
+    this.forEach((node) => {
+        var id = node.dataset.id;
         var value = json[id];
         if (!value) {
             return;
@@ -100,9 +101,9 @@ NodeList.prototype.disposition = function (json) {
         if (filesize[id]) {
             value = getFileSize(value);
         }
-        node.value = options[id] = value;
+        node.value = result[id] = value;
     });
-    return options;
+    return result;
 }
 
 function getDownloadName(gid, bittorrent, [{path, uris}]) {
@@ -159,6 +160,9 @@ async function aria2Initial() {
     document.querySelector('#aria2_ver').innerText = version.version;
 }
 
-var {aria2Server = 'http://localhost:6800/jsonrpc', aria2Token = '', aria2Interval = 10000, aria2Proxy = ''} = localStorage;
-setting.querySelectorAll('input').forEach((input) => input.value = window[input.id]);
+setting.querySelectorAll('input').forEach((input) => {
+    var {id, dataset} = input;
+    window[id] = input.value = storage.get(id) || dataset.value;
+});
+
 aria2Initial();

@@ -10,11 +10,11 @@
     <body>
         <div id="menu" class="flex">
             <div id="status">
-                <div id="download">0</div>
-                <div id="upload">0</div>
-                <div id="active">0</div>
-                <div id="waiting">0</div>
-                <div id="stopped">0</div>
+                <div class="download"></div>
+                <div class="upload"></div>
+                <div>0</div>
+                <div>0</div>
+                <div>0</div>
             </div>
             <div id="aria2_ver"></div>
             <button id="download_btn" i18n>popup_newdld</button>
@@ -22,29 +22,32 @@
             <button id="options_btn" i18n>popup_options</button>
         </div>
         <div id="choose">
-            <div id="active" i18n>popup_active</div>
-            <div id="waiting" i18n>popup_waiting</div>
-            <div id="paused" i18n>popup_paused</div>
-            <div id="complete" i18n>popup_complete</div>
-            <div id="removed" i18n>popup_removed</div>
-            <div id="error" i18n>popup_error</div>
+            <div data-id="active" i18n>popup_active_queue</div>
+            <div data-id="waiting" i18n>popup_waiting_queue</div>
+            <div data-id="paused" i18n>popup_paused_queue</div>
+            <div data-id="complete" i18n>popup_complete_queue</div>
+            <div data-id="removed" i18n>popup_removed_queue</div>
+            <div data-id="error" i18n>popup_error_queue</div>
         </div>
-        <div id="setting">
-            <div class="menu">
+        <div id="setting" class="options">
+            <div>
                 <div class="title" i18n>option_jsonrpc_uri</div>
-                <input id="aria2Server" type="url">
+                <div class="flex">
+                    <input id="aria2Server" type="url" data-value="http://localhost:6800/jsonrpc">
+                    <button id="commit_btn" i18n>common_save</button>
+                </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>option_jsonrpc_token</div>
-                <input id="aria2Token" type="text" placeholder="$$secret$$">
+                <input id="aria2Token" type="text" placeholder="$$secret$$" data-value="">
             </div>
             <div class="menu">
                 <label class="title" i18n>option_manager_interval</label>
-                <input id="aria2Interval" type="number" min="5000" max="30000" step="1000">
+                <input id="aria2Interval" type="number" min="5000" max="30000" step="1000" data-value="10000">
             </div>
-            <div class="menu">
+            <div>
                 <div class="title" i18n>option_proxy_server</div>
-                <input id="aria2Proxy" type="url" placeholder="http://127.0.0.1:1280/">
+                <input id="aria2Proxy" type="url" placeholder="http://127.0.0.1:1280/" data-value="">
             </div>
         </div>
         <div id="adduri" class="options">
@@ -66,39 +69,39 @@
             <div class="menu">
                 <div class="title" i18n>aria2_adv_dir</div>
                 <div>
-                    <input id="dir" type="text">
+                    <input data-id="dir" type="text">
                 </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>task_proxy</div>
                 <div class="flex">
-                    <input id="all-proxy" type="url">
+                    <input data-id="all-proxy" type="url">
                     <button id="proxy_btn">🔖</button>
                 </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>aria2_http_split</div>
                 <div>
-                    <input id="split" type="number">
+                    <input data-id="split" type="number">
                 </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>aria2_http_size</div>
                 <div>
-                    <input id="min-split-size" type="text">
+                    <input data-id="min-split-size" type="text">
                     <span class="float">B</span>
                 </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>aria2_max_connection</div>
                 <div>
-                    <input id="max-connection-per-server" type="number">
+                    <input data-id="max-connection-per-server" type="number">
                 </div>
             </div>
             <div class="menu">
                 <div class="title" i18n>task_download</div>
                 <div>
-                    <input id="max-download-limit" type="text">
+                    <input data-id="max-download-limit" type="text">
                     <span class="float">B/s</span>
                 </div>
             </div>
@@ -114,106 +117,107 @@
         </div>
         <div class="template">
             <div class="session">
-                <div id="title" class="title"></div>
-                <div>🖥️ <span id="local"></span></div>
-                <div>⏲️ <span id="day"></span><span id="hour"></span><span id="minute"></span><span id="second"></span><span id="infinite">∞</span></div>
-                <div>📦 <span id="remote"></span></div>
-                <div>📶️ <span id="connect"></span></div>
-                <div>⏬ <span id="download"></span></div>
-                <div data-p2p>⏫ <span id="upload"></span></div>
-                <div id="menu">
-                    <button id="remove_btn">❌</button>
-                    <button id="detail_btn">🔍</button>
-                    <button id="retry_btn">🌌</button>
+                <div class="name title"></div>
+                <div>🖥️ <span class="completed"></span></div>
+                <div>⏲️ <span class="day"></span><span class="hour"></span><span class="minute"></span><span class="second"></span><span class="infinite">∞</span></div>
+                <div>📦 <span class="total"></span></div>
+                <div>📶️ <span class="connect"></span></div>
+                <div>⏬ <span class="download"></span></div>
+                <div data-p2p>⏫ <span class="upload"></span></div>
+                <div class="manage">
+                    <button data-id="remove_btn">❌</button>
+                    <button data-id="detail_btn">⚙️</button>
+                    <button data-id="retry_btn">🌌</button>
                 </div>
-                <div id="meter">
-                    <div id="ratio"></div>
+                <div class="meter" data-id="pause_btn">
+                    <div class="ratio" data-id="pause_btn"></div>
                 </div>
-                <div id="options" class="options">
-                    <div class="menu">
+                <div class="options">
+                    <div class="menu" title="task_download_title">
                         <div class="title" i18n>task_download</div>
                         <div>
-                            <input id="max-download-limit" type="text">
-                            <span class="float">B/s</span>
+                            <input data-id="max-download-limit" type="text">
+                            <span>B/s</span>
                         </div>
                     </div>
-                    <div class="menu" data-p2p>
+                    <div class="menu" title="task_upload_title" data-p2p>
                         <div class="title" i18n>task_upload</div>
                         <div>
-                            <input id="max-upload-limit" type="text">
-                            <span class="float">B/s</span>
+                            <input data-id="max-upload-limit" type="text">
+                            <span>B/s</span>
                         </div>
                     </div>
-                    <div class="menu">
+                    <div class="menu" title="task_proxy_title">
                         <div class="title" i18n>task_proxy</div>
                         <div class="flex">
-                            <input id="all-proxy" type="url">
-                            <button id="proxy_btn">🔖</button>
+                            <input data-id="all-proxy" type="url">
+                            <button data-id="proxy_btn">🔖</button>
                         </div>
                     </div>
-                    <div class="menu" data-http>
+                    <div class="menu" title="aria2_http_split_title" data-http>
                         <div class="title" i18n>aria2_http_split</div>
                         <div>
-                            <input id="split" type="number">
+                            <input data-id="split" type="number">
                         </div>
                     </div>
-                    <div class="menu" data-http>
+                    <div class="menu" title="aria2_http_size_title" data-http>
                         <div class="title" i18n>aria2_http_size</div>
                         <div>
-                            <input id="min-split-size" type="text">
-                            <span class="float">B</span>
+                            <input data-id="min-split-size" type="text">
+                            <span>B</span>
                         </div>
                     </div>
-                    <div class="menu" data-p2p>
+                    <div class="menu" title="aria2_bt_remove_title" data-p2p>
                         <div class="title" i18n>aria2_bt_remove</div>
                         <div>
-                            <select id="bt-remove-unselected-file">
+                            <select data-id="bt-remove-unselected-file">
                                 <option value="true" i18n>aria2_true</option>
                                 <option value="false" i18n>aria2_false</option>
                             </select>
                         </div>
                     </div>
-                    <div class="menu" data-p2p>
+                    <div class="menu" title="aria2_bt_ratio_title" data-p2p>
                         <div class="title" i18n>aria2_bt_ratio</div>
                         <div>
-                            <input id="seed-ratio" type="number" min="0" step="0.1">
+                            <input data-id="seed-ratio" type="number" min="0" step="0.1">
                         </div>
                     </div>
-                    <div class="menu" data-p2p>
+                    <div class="menu" title="aria2_bt_seed_title" data-p2p>
                         <div class="title" i18n>aria2_bt_seed</div>
                         <div>
-                            <input id="seed-time" type="number">
-                            <span class="float" i18n>time_minute_full</span>
+                            <input data-id="seed-time" type="number">
+                            <span i18n>time_minute_full</span>
                         </div>
                     </div>
-                    <div>
+                    <div title="task_files_title">
                         <div class="title" i18n>task_files</div>
-                        <div id="files"></div>
-                        <button id="save_btn" class="float" i18n>common_save</button>
+                        <div class="files"></div>
+                        <button data-id="save_btn" i18n>common_save</button>
                     </div>
-                    <div data-http>
+                    <div title="task_urls_title" data-http>
                         <div class="title" i18n>task_urls</div>
                         <div class="flex">
                             <input type="url">
-                            <button id="append_btn">➕</button>
+                            <button data-id="adduri_btn">➕</button>
                         </div>
-                        <div id="uris"></div>
+                        <div class="uris"></div>
                     </div>
                 </div>
             </div>
-            <div class="uri">
-                <div id="this_uri"></div>
-                <div id="used" class="ready">0</div>
-                <div id="wait">0</div>
-            </div>
             <div class="file">
-                <div id="this_file"></div>
-                <div id="name"></div>
-                <div id="size"></div>
-                <div id="done"></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="ratio"></div>
+            </div>
+            <div class="uri">
+                <div></div>
+                <div class="ready">0</div>
+                <div>0</div>
             </div>
         </div>
         <script src="/jslib/aria2/aria2.core.js"></script>
+        <script src="/jslib/js/cookies.js"></script>
         <script src="i18n.js"></script>
         <script src="https://jc3213.github.io/download_with_aria2/chromium/pages/popup/popup.js"></script>
         <script src="main.js"></script>

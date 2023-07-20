@@ -53,6 +53,10 @@ body > #menu {
     padding: 8px;
 }
 
+#setting > :first-child {
+    margin-top: 0px;
+}
+
 #aria2_ver {
     padding: 4px;
     margin-right: 3px;
@@ -83,38 +87,38 @@ body > #menu {
     grid-template-columns: repeat(2, 1fr) repeat(3, 15%);
 }
 
-#status > #active::before {
-    content: var(--active);
-}
-
-#status > #waiting::before {
-    content: var(--waiting);
-}
-
-#status > #stopped::before {
-    content: var(--stopped);
-}
-
-#status > #download::before {
+#status > :nth-child(1)::before {
     content: var(--download);
 }
 
-#status > #upload::before {
+#status > :nth-child(2)::before {
     content: var(--upload);
 }
 
-#day:not(:empty)::after {
+#status > :nth-child(3)::before {
+    content: var(--active);
+}
+
+#status > :nth-child(4)::before {
+    content: var(--waiting);
+}
+
+#status > :nth-child(5)::before {
+    content: var(--stopped);
+}
+
+.day:not(:empty)::after {
     content: var(--day);
 }
 
-#hour:not(:empty)::after {
+.hour:not(:empty)::after {
     content: var(--hour);
 }
 
-#minute:not(:empty)::after {
+.minute:not(:empty)::after {
     content: var(--minute);
 }
 
-#second:not(:empty)::after {
+.second:not(:empty)::after {
     content: var(--second);
 }

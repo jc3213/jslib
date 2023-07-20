@@ -3,6 +3,7 @@ var languages = {
         extension_manager: 'Task Manager - Download with Aria2',
         common_default: 'Default',
         common_disabled: 'Disabled',
+        common_save: 'Save',
         time_day: 'd',
         time_hour: 'h',
         time_minute: 'm',
@@ -11,17 +12,17 @@ var languages = {
         popup_queue: 'Task Queue',
         popup_purge: 'Purge',
         popup_options: 'Options',
-        popup_active: 'Downloading',
-        popup_waiting: 'Wait in Queue',
-        popup_paused: 'Download Paused',
-        popup_complete: 'Completed',
-        popup_removed: 'Download Stopped',
-        popup_error: 'Error Occured',
-        popup_active_queue: 'Active',
-        popup_waiting_queue: 'Waiting',
-        popup_stopped_queue: 'Stopped',
-        popup_download_speed: 'DL Speed',
-        popup_upload_speed: 'UL Speed',
+        popup_active_queue: 'Downloading',
+        popup_waiting_queue: 'Wait in Queue',
+        popup_paused_queue: 'Download Paused',
+        popup_complete_queue: 'Completed',
+        popup_removed_queue: 'Download Stopped',
+        popup_error_queue: 'Error Occured',
+        popup_download: 'DL Speed',
+        popup_upload: 'UL Speed',
+        popup_active: 'Active',
+        popup_waiting: 'Waiting',
+        popup_stopped: 'Stopped',
         task_submit: 'Submit',
         task_referer: 'Referer',
         task_batch: 'Download Urls',
@@ -50,6 +51,7 @@ var languages = {
         extension_manager: '任务管理器 - 通过 Aria2 下载',
         common_default: '默认',
         common_disabled: '禁用',
+        common_save: '保存',
         time_day: '日',
         time_hour: '时',
         time_minute: '分',
@@ -58,17 +60,17 @@ var languages = {
         popup_queue: '任务队列',
         popup_purge: '清理',
         popup_options: '选项',
-        popup_active: '正在下载',
-        popup_waiting: '等待队列',
-        popup_paused: '下载暂停',
-        popup_complete: '已经完成',
-        popup_removed: '下载停止',
-        popup_error: '发生错误',
-        popup_active_queue: '活跃',
-        popup_waiting_queue: '等待',
-        popup_stopped_queue: '停止',
-        popup_download_speed: '下载速度',
-        popup_upload_speed: '上传速度',
+        popup_active_queue: '正在下载',
+        popup_waiting_queue: '等待队列',
+        popup_paused_queue: '下载暂停',
+        popup_complete_queue: '已经完成',
+        popup_removed_queue: '下载停止',
+        popup_error_queue: '发生错误',
+        popup_download: '下载速度',
+        popup_upload: '上传速度',
+        popup_active: '活跃',
+        popup_waiting: '等待',
+        popup_stopped: '停止',
         task_submit: '确认',
         task_referer: '引用页',
         task_batch: '下载链接',
@@ -107,12 +109,12 @@ document.querySelectorAll('[title]').forEach(item => {
 
 var css = document.createElement('style');
 css.innerText = `:root {
+    --download: "${i18n.popup_download}";
+    --upload: "${i18n.popup_upload}";
+    --active: "${i18n.popup_active}";
+    --waiting: "${i18n.popup_waiting}";
+    --stopped: "${i18n.popup_stopped}";
     --queue: "${i18n.popup_queue}";
-    --active: "${i18n.popup_active_queue}";
-    --waiting: "${i18n.popup_waiting_queue}";
-    --stopped: "${i18n.popup_stopped_queue}";
-    --download: "${i18n.popup_download_speed}";
-    --upload: "${i18n.popup_upload_speed}";
     --day: "${i18n.time_day}";
     --hour: "${i18n.time_hour}";
     --minute: "${i18n.time_minute}";
