@@ -22,12 +22,12 @@
             <button id="options_btn" i18n>popup_options</button>
         </div>
         <div id="choose">
-            <div data-id="active" i18n>popup_active_queue</div>
-            <div data-id="waiting" i18n>popup_waiting_queue</div>
-            <div data-id="paused" i18n>popup_paused_queue</div>
-            <div data-id="complete" i18n>popup_complete_queue</div>
-            <div data-id="removed" i18n>popup_removed_queue</div>
-            <div data-id="error" i18n>popup_error_queue</div>
+            <div data-qid="active" i18n>popup_active_queue</div>
+            <div data-qid="waiting" i18n>popup_waiting_queue</div>
+            <div data-qid="paused" i18n>popup_paused_queue</div>
+            <div data-qid="complete" i18n>popup_complete_queue</div>
+            <div data-qid="removed" i18n>popup_removed_queue</div>
+            <div data-qid="error" i18n>popup_error_queue</div>
         </div>
         <div id="setting" class="options">
             <div>
@@ -76,7 +76,7 @@
                 <div class="title" i18n>task_proxy</div>
                 <div class="flex">
                     <input data-id="all-proxy" type="url">
-                    <button id="proxy_btn">🔖</button>
+                    <button id="proxy_btn">💾</button>
                 </div>
             </div>
             <div class="menu">
@@ -125,12 +125,12 @@
                 <div>⏬ <span class="download"></span></div>
                 <div data-p2p>⏫ <span class="upload"></span></div>
                 <div class="manage">
-                    <button data-id="remove_btn">❌</button>
-                    <button data-id="detail_btn">⚙️</button>
-                    <button data-id="retry_btn">🌌</button>
+                    <button data-bid="remove_btn">❌</button>
+                    <button data-bid="detail_btn">⚙️</button>
+                    <button data-bid="retry_btn">♻️</button>
                 </div>
-                <div class="meter" data-id="pause_btn">
-                    <div class="ratio" data-id="pause_btn"></div>
+                <div class="meter" data-bid="pause_btn">
+                    <div class="ratio" data-bid="pause_btn"></div>
                 </div>
                 <div class="options">
                     <div class="menu" title="task_download_title">
@@ -151,7 +151,7 @@
                         <div class="title" i18n>task_proxy</div>
                         <div class="flex">
                             <input data-id="all-proxy" type="url">
-                            <button data-id="proxy_btn">🔖</button>
+                            <button data-bid="proxy_btn">💾</button>
                         </div>
                     </div>
                     <div class="menu" title="aria2_http_split_title" data-http>
@@ -192,13 +192,13 @@
                     <div title="task_files_title">
                         <div class="title" i18n>task_files</div>
                         <div class="files"></div>
-                        <button data-id="save_btn" i18n>common_save</button>
+                        <button data-bid="save_btn" i18n>common_save</button>
                     </div>
                     <div title="task_urls_title" data-http>
                         <div class="title" i18n>task_urls</div>
                         <div class="flex">
                             <input type="url">
-                            <button data-id="adduri_btn">➕</button>
+                            <button data-bid="adduri_btn">➕</button>
                         </div>
                         <div class="uris"></div>
                     </div>
@@ -217,7 +217,6 @@
             </div>
         </div>
         <script src="/jslib/aria2/aria2.core.js"></script>
-        <script src="/jslib/js/cookies.js"></script>
         <script src="i18n.js"></script>
         <script src="https://jc3213.github.io/download_with_aria2/chromium/pages/popup/popup.js"></script>
         <script src="main.js"></script>

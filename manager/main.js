@@ -1,4 +1,3 @@
-var storage = new CookiesStorage();
 var downloadbtn = document.querySelector('#download_btn');
 var optnbtn = document.querySelector('#options_btn');
 var setting = document.querySelector('#setting');
@@ -24,7 +23,7 @@ document.addEventListener('click', ({target}) => {
         uploader.click();
     }
     else if (id === 'commit_btn') {
-        storage.commit();
+        //
     }
 });
 
@@ -77,7 +76,6 @@ uploader.addEventListener('change', async ({target}) => {
 
 setting.addEventListener('change', ({target}) => {
     var {id, value} = target;
-    storage.set(id, value);
     window[id] = value;
     if (id === 'aria2Server' || id === 'aria2Token') {
         clearInterval(aria2Alive);
@@ -162,7 +160,7 @@ async function aria2Initial() {
 
 setting.querySelectorAll('input').forEach((input) => {
     var {id, dataset} = input;
-    window[id] = input.value = storage.get(id) || dataset.value;
+    window[id] = input.value = dataset.value;
 });
 
 aria2Initial();
