@@ -10,13 +10,13 @@ class Aria2 {
     }
     call (method, ...options) {
         const json = {id: '', jsonrpc: '2.0', method, params: [this.secret, ...options]};
-        return this.post(JSON.stringify(json)).then(this.result);
+        return this.post(JSON.stringify(json)).then(this.parse);
     }
     batch (array) {
         const json = array.map(([method, ...options]) => ({id: '', jsonrpc: '2.0', method, params: [this.secret, ...options]}));
-        return this.post(JSON.stringify(json)).then((response) => response.map(this.result));
+        return this.post(JSON.stringify(json)).then((response) => response.map(this.parse));
     }
-    result ({result, error}) {
+    parse ({result, error}) {
         if (result) {
             return result;
         }
