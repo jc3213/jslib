@@ -7,13 +7,7 @@ var uploader = adduri.querySelector('#uploader');
 
 document.addEventListener('click', ({target}) => {
     var {id} = target;
-    if (id !== 'options_btn' && !setting.contains(target)) {
-        manager.classList.remove('setting');
-    }
-    else if (id !== 'download_btn' && !adduri.contains(target)) {
-        manager.classList.remove('adduri');
-    }
-    else if (id === 'proxy_btn') {
+    if (id === 'proxy_btn') {
         target.previousElementSibling.value = localStorage.proxy_server;
     }
     else if (id === 'enter_btn') {
@@ -22,8 +16,11 @@ document.addEventListener('click', ({target}) => {
     else if (id === 'upload_btn') {
         uploader.click();
     }
-    else if (id === 'commit_btn') {
-        //
+    if (id !== 'options_btn' && !setting.contains(target)) {
+        manager.classList.remove('setting');
+    }
+    if (id !== 'download_btn' && !adduri.contains(target)) {
+        manager.classList.remove('adduri');
     }
 });
 
