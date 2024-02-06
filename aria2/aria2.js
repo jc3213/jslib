@@ -35,9 +35,7 @@ class Aria2 {
         });
     }
     handler ({result, error}) {
-        if (result) {
-            return result;
-        }
+        if (result) { return result; }
         throw error;
     }
     message (method, ...options) {
