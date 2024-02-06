@@ -27,7 +27,7 @@ class Aria2 {
         return this.post(JSON.stringify(json)).then(this.handler);
     }
     batch (messages) {
-        const json = messages.map(message => this.message(...message));
+        const json = messages.map((message) => this.message(...message));
         return this.post(JSON.stringify(json)).then((response) => response.map(this.handler));
     }
     fetch (body) {
@@ -46,17 +46,17 @@ class Aria2 {
     }
     addUri (url, options = {}) {
         const urls = Array.isArray(url) ? url : [url];
-        const sessions = urls.map((url) => ({id: '', jsonrpc: '2.0', method: 'aria2.addUri', params: [this.secret, [url], options]}));
+        const sessions = urls.map((url) => this.message('aria2.addUri', [url], options));
         return this.post(JSON.stringify(sessions));
     }
     addTorrent (torrent) {
         const torrents = Array.isArray(torrent) ? torrent : [torrent];
-        const sessions = torrents.map((torrent) => ({id: '', jsonrpc: '2.0', method: 'aria2.addTorrent', params: [this.secret, torrent]}));
+        const sessions = torrents.map((torrent) => this.message('aria2.addTorrent', torrent));
         return this.post(JSON.stringify(sessions));
     }
     addMetalink (metalink, options = {}) {
         const metalinks = Array.isArray(metalink) ? metalink : [metalink];
-        const sessions = torrents.map((metalink) => ({id: '', jsonrpc: '2.0', method: 'aria2.addMetalink', params: [this.secret, metalink, options]}));
+        const sessions = torrents.map((metalink) => this.message('aria2.addMetalink', metalink, options));
         return this.post(JSON.stringify(sessions));
     }
 }
