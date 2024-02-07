@@ -2,7 +2,7 @@ class Aria2WS {
     constructor (url, secret) {
         this.jsonrpc = url;
         this.secret = `token:${secret}`;
-        this.websocket = this.connect(url.replace('http', 'ws'));
+        this.websocket = this.connect(url);
     }
     connect (url) {
         return new Promise((resolve, reject) => {
