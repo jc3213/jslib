@@ -17,8 +17,9 @@ class Aria2WS {
     set onmessage (callback) {
         this.websocket.then((websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))));
     }
-    send (message) {
+    send (method, ...params) {
         return new Promise((resolve, reject) => {
+            const message = JSON.stringify({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] });
             this.websocket.then((websocket) => {
                 websocket.onmessage = (event) => resolve(JSON.parse(event.data));
                 websocket.onerror = (error) => reject(error);
