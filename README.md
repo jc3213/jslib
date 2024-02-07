@@ -1,5 +1,5 @@
 ## JavaScript Library
-- [Aria2 JSON RPC](/readme/aria2.md)
+- [Aria2 JSON RPC](/aria2/aria2.md)
 - [URL Components](/readme/url.md)
 - [Promise File Reader](/readme/filereader.md)
 - [Metalink4](/readme/metalink4.md)
