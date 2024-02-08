@@ -17,14 +17,14 @@ class Aria2WS {
     set onmessage (callback) {
         this.websocket.then((websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))));
     }
-    send (method, ...params) {
+    send (...messages) {
+        const message = JSON.stringify( messages.map(({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] })) );
         return new Promise((resolve, reject) => {
-            const message = JSON.stringify({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] });
             this.websocket.then((websocket) => {
                 websocket.onmessage = (event) => resolve(JSON.parse(event.data));
                 websocket.onerror = (error) => reject(error);
                 websocket.send(message);
             });
-        }).then(({result, error}) => { if (result) { return result; } throw error; });
+        }).then((json) => json.map(({result, error}) => { if (result) { return result; } throw error }));
     }
 }
