@@ -42,8 +42,7 @@ var languages = {
         aria2_bt_remove: 'Remove Unselected Files',
         aria2_true: 'True',
         aria2_false: 'False',
-        option_jsonrpc_uri: 'JSON-RPC Address',
-        option_jsonrpc_token: 'JSON-RPC Token',
+        option_jsonrpc: 'JSON-RPC Server',
         option_manager_interval: 'Refresh Interval',
         option_proxy_server: 'Proxy Server'
     },
@@ -90,8 +89,7 @@ var languages = {
         aria2_bt_remove: '删除未选定文件',
         aria2_true: '是',
         aria2_false: '否',
-        option_jsonrpc_uri: 'JSON-RPC 地址',
-        option_jsonrpc_token: 'JSON-RPC 密钥',
+        option_jsonrpc: 'JSON-RPC 服务器',
         option_manager_interval: '更新间隔',
         option_proxy_server: '代理服务器'
     }

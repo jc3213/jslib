@@ -31,21 +31,24 @@
         </div>
         <div id="setting" class="options">
             <div>
-                <div class="title" i18n>option_jsonrpc_uri</div>
+                <div class="title" i18n>option_jsonrpc</div>
                 <div class="flex">
-                    <input id="aria2Server" type="url" data-value="http://localhost:6800/jsonrpc">
+                    <select id="aria2Scheme" data-value="http">
+                        <option value="http" selected>HTTP</option>
+                        <option value="https">HTTPS</option>
+                        <option value="ws">WS</option>
+                        <option value="wss">WSS</option>
+                    </select>
+                    <input id="aria2Host" type="url" data-value="http://localhost:6800/jsonrpc">
+                    <input id="aria2Secret" type="text" placeholder="$$secret$$" data-value="">
                     <button id="commit_btn" i18n>common_save</button>
                 </div>
-            </div>
-            <div class="menu">
-                <div class="title" i18n>option_jsonrpc_token</div>
-                <input id="aria2Token" type="text" placeholder="$$secret$$" data-value="">
             </div>
             <div class="menu">
                 <label class="title" i18n>option_manager_interval</label>
                 <input id="aria2Interval" type="number" min="5000" max="30000" step="1000" data-value="10000">
             </div>
-            <div>
+            <div class="menu">
                 <div class="title" i18n>option_proxy_server</div>
                 <input id="aria2Proxy" type="url" placeholder="http://127.0.0.1:1280/" data-value="">
             </div>
@@ -216,7 +219,7 @@
                 <div>0</div>
             </div>
         </div>
-        <script src="/jslib/aria2/aria2.core.js"></script>
+        <script src="/jslib/aria2/aria2.js"></script>
         <script src="i18n.js"></script>
         <script src="https://jc3213.github.io/download_with_aria2/chromium/pages/popup/popup.js"></script>
         <script src="main.js"></script>

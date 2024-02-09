@@ -1,6 +1,6 @@
-var downloadbtn = document.querySelector('#download_btn');
-var optnbtn = document.querySelector('#options_btn');
+var [downloadbtn, optnbtn] = document.querySelectorAll('#download_btn, #options_btn');
 var setting = document.querySelector('#setting');
+var options = setting.querySelectorAll('select, input');
 var adduri = document.querySelector('#adduri');
 var entry = adduri.querySelector('#entry');
 var uploader = adduri.querySelector('#uploader');
@@ -8,19 +8,23 @@ var uploader = adduri.querySelector('#uploader');
 document.addEventListener('click', ({target}) => {
     var {id} = target;
     if (id === 'proxy_btn') {
-        target.previousElementSibling.value = localStorage.proxy_server;
+        target.previousElementSibling.value = localStorage.aria2Proxy;
+        return;
     }
-    else if (id === 'enter_btn') {
-        downloadSubmit();
+    if (id === 'enter_btn') {
+        return downloadSubmit();
     }
-    else if (id === 'upload_btn') {
-        uploader.click();
+    if (id === 'upload_btn') {
+        return uploader.click();
+    }
+    if (id === 'commit_btn') {
+        return managerOptionsSave();
     }
     if (id !== 'options_btn' && !setting.contains(target)) {
-        manager.classList.remove('setting');
+        return manager.classList.remove('setting');
     }
     if (id !== 'download_btn' && !adduri.contains(target)) {
-        manager.classList.remove('adduri');
+        return manager.classList.remove('adduri');
     }
 });
 
@@ -30,6 +34,10 @@ function managerDownload() {
 
 function managerOptions() {
     manager.classList.toggle('setting');
+}
+
+function managerOptionsSave() {
+    options.forEach(({id, dataset}) => { localStorage[id] = window[id] ?? dataset.value; });
 }
 
 entry.addEventListener('change', (event) => {
@@ -51,7 +59,7 @@ async function downloadSubmit() {
         await aria2RPC.post(JSON.stringify(entry.json));
     }
     else if (url) {
-        await aria2RPC.addUri(url, options);
+        await aria2RPC.call({method: 'aria2.addUri', params: [url, options]});
     }
     entry.value = '';
     entry.json = entry.url = null;
@@ -62,21 +70,24 @@ uploader.addEventListener('change', async ({target}) => {
     var file = target.files[0];
     var b64encode = await getFileData(file);
     if (file.name.endsWith('torrent')){
-        await aria2RPC.addTorrent(b64encode);
+        await aria2RPC.call({method: 'aria2.addTorrent', params: [b64encode]});
     }
     else {
-        await aria2RPC.addMetalink(b64encode, aria2Global);
+        await aria2RPC.call({method: 'aria2.addMetalink', params: [b64encode, aria2Global]});
     }
     target.value = '';
     manager.classList.remove('adduri');
 });
 
-setting.addEventListener('change', ({target}) => {
-    var {id, value} = target;
+setting.addEventListener('change', (event) => {
+    var {id, value} = event.target;
     window[id] = value;
-    if (id === 'aria2Server' || id === 'aria2Token') {
+    if (id === 'aria2Scheme') {
+        aria2RPC.method = aria2Scheme;
+    }
+    if (id === 'aria2Host' || id === 'aria2Secret') {
         clearInterval(aria2Alive);
-        aria2Socket?.close();
+        aria2RPC.disconnect();
         aria2Initial();
     }
     else if (id === 'aria2Interval') {
@@ -109,21 +120,19 @@ function getFileSize(bytes) {
     if (isNaN(bytes)) {
         return '??';
     }
-    else if (bytes < 1024) {
+    if (bytes < 1024) {
         return bytes;
     }
-    else if (bytes < 1048576) {
+    if (bytes < 1048576) {
         return `${(bytes / 10.24 | 0) / 100}K`;
     }
-    else if (bytes < 1073741824) {
+    if (bytes < 1073741824) {
         return `${(bytes / 10485.76 | 0) / 100}M`;
     }
-    else if (bytes < 1099511627776) {
+    if (bytes < 1099511627776) {
         return `${(bytes / 10737418.24 | 0) / 100}G`;
     }
-    else {
-        return `${(bytes / 10995116277.76 | 0) / 100}T`;
-    }
+    return `${(bytes / 10995116277.76 | 0) / 100}T`;
 }
 
 function getFileData(file) {
@@ -146,18 +155,18 @@ var filesize = {
     'max-overall-upload-limit': true
 };
 
+
+
 async function aria2Initial() {
-    aria2StartUp();
-    var [options, version] = await aria2RPC.batch([
-        ['aria2.getGlobalOption'], ['aria2.getVersion']
-    ]);
+    await aria2ClientSetUp();
+    var [options, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
     entry.options = adduri.querySelectorAll('input, textarea').disposition(options);
     document.querySelector('#aria2_ver').innerText = version.version;
 }
 
-setting.querySelectorAll('input').forEach((input) => {
+options.forEach((input) => {
     var {id, dataset} = input;
-    window[id] = input.value = dataset.value;
+    window[id] = input.value = localStorage[id] ?? dataset.value;
 });
 
 aria2Initial();
