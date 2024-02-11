@@ -32,8 +32,7 @@ let aria2 = new Aria2("http", "localhost:6800", "test.password");
     - string, secret token of aria2 json-rpc
 
 ## Method
-- [scheme](#scheme)
-- [host](#host)
+- [method](#method)
 - [secret](#secret)
 - [call](#call)
 
@@ -43,17 +42,12 @@ aria2.method = scheme;
 ```
 - scheme
     - `http`, `https`, `ws`, and `wss`
-### host
-```javascript
-aria2.host = host;
-```
-- host
-    - `hostname:port`
 ### secret
 ```javascript
-aria2.secret = secret;
+aria2.secret = "token:" + secret;
+aria2.secret = `token:${secret}`;
 ```
-- scheme
+- secret
     - string, secret token of aria2 json-rpc
 ### call
 ```javascript
