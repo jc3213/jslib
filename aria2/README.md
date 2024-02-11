@@ -36,11 +36,11 @@ let aria2 = new Aria2("http", "localhost:6800", "test.password");
 - [secret](#secret)
 - [call](#call)
 
-### scheme
+### method
 ```javascript
 aria2.method = scheme;
 ```
-- scheme
+- method
     - `http`, `https`, `ws`, and `wss`
 ### secret
 ```javascript
