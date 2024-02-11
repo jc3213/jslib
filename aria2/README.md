@@ -45,7 +45,6 @@ aria2.method = scheme;
 ### secret
 ```javascript
 aria2.secret = "token:" + secret;
-aria2.secret = `token:${secret}`;
 ```
 - secret
     - string, secret token of aria2 json-rpc
