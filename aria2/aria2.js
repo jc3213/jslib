@@ -15,23 +15,28 @@ class Aria2 {
     set host (host) {
         this._host = host;
         this._jsonrpc = `${this._scheme}://${host}/jsonrpc`;
-        this.disconnect().then( () => this.connect() );
+        this.disconnect().then(() => {
+            this.connect();
+            this.websocket.then( (websocket) => this.onmessage = this.messager );
+        });
     }
     set secret (secret) {
         this._secret = `token:${secret}`;
     }
     connect () {
-        this.websocket = new Promise((resolve, reject) => {
+        return this.websocket = new Promise((resolve, reject) => {
             const websocket = new WebSocket(this._jsonrpc.replace('http', 'ws'));
             websocket.onopen = (event) => resolve(websocket);
             websocket.onerror = (error) => reject(error);
         });
     }
     disconnect () {
-        this.websocket.then( (websocket) => websocket.close() );
+        return this.websocket.then( (websocket) => websocket.close() );
     }
     set onmessage (callback) {
-        this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
+        if (typeof callback !== 'function') { return; }
+        this.messager = callback;
+        this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this.messager(JSON.parse(event.data))) );
     }
     send (message) {
         return new Promise((resolve, reject) => {
