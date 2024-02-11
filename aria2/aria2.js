@@ -3,7 +3,7 @@ class Aria2 {
         this._host = host;
         this.scheme = scheme;
         this.secret = secret;
-        this.connect();
+        this.websocket = this.connect();
     }
     set scheme (scheme) {
         const methods = { 'http': this.fetch, 'https': this.fetch, 'ws': this.send, 'wss': this.send };
@@ -16,7 +16,7 @@ class Aria2 {
         this._host = host;
         this._jsonrpc = `${this._scheme}://${host}/jsonrpc`;
         this.disconnect().then(() => {
-            this.connect();
+            this.websocket = this.connect();
             this.websocket.then( (websocket) => this.onmessage = this.messager );
         });
     }
@@ -24,7 +24,7 @@ class Aria2 {
         this._secret = `token:${secret}`;
     }
     connect () {
-        return this.websocket = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const websocket = new WebSocket(this._jsonrpc.replace('http', 'ws'));
             websocket.onopen = (event) => resolve(websocket);
             websocket.onerror = (error) => reject(error);
