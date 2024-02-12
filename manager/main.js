@@ -36,7 +36,7 @@ function managerOptions() {
 }
 
 function managerOptionsSave() {
-    options.forEach(({id, dataset}) => { localStorage[id] = storage[id] = window[id] ?? dataset.value; });
+    options.forEach(({id, dataset}) => { localStorage[id] = window[id] ?? dataset.value; });
     if (!aria2Storage['manager_newtab']) {
         close();
     }
