@@ -37,7 +37,9 @@ function managerOptions() {
 }
 
 function managerOptionsSave() {
-    options.forEach(({id, dataset}) => { localStorage[id] = window[id] ?? dataset.value; });
+    var storage = {};
+    options.forEach(({id, dataset}) => { localStorage[id] = storage[id] = window[id] ?? dataset.value; });
+    console.log(storage);
 }
 
 entry.addEventListener('change', (event) => {
@@ -82,17 +84,21 @@ uploader.addEventListener('change', async ({target}) => {
 setting.addEventListener('change', (event) => {
     var {id, value} = event.target;
     window[id] = value;
-    if (id === 'aria2Scheme') {
-        aria2RPC.method = aria2Scheme;
-    }
-    if (id === 'aria2Host' || id === 'aria2Secret') {
-        clearInterval(aria2Alive);
-        aria2RPC.disconnect();
-        aria2Initial();
-    }
-    else if (id === 'aria2Interval') {
-        clearInterval(aria2Alive);
-        aria2Alive = setInterval(updateManager, aria2Interval);
+    switch (id) {
+        case 'aria2Scheme':
+            aria2RPC.method = value;
+            break;
+        case 'aria2Host':
+            clearInterval(aria2Alive);
+            aria2RPC.disconnect();
+            aria2Initial();
+        case 'aria2Secret':
+            aria2RPC.secret = 'token:' + value;
+            break;
+        case 'aria2Interval':
+            clearInterval(aria2Alive);
+            aria2Alive = setInterval(updateManager, aria2Interval);
+            break;
     }
 });
 
@@ -155,13 +161,11 @@ var filesize = {
     'max-overall-upload-limit': true
 };
 
-
-
 async function aria2Initial() {
     await aria2ClientSetUp();
     var [options, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
-    entry.options = adduri.querySelectorAll('input, textarea').disposition(options);
-    document.querySelector('#aria2_ver').innerText = version.version;
+    entry.options = adduri.querySelectorAll('input, textarea').disposition(options.result);
+    document.querySelector('#aria2_ver').innerText = version.result.version;
 }
 
 options.forEach((input) => {
