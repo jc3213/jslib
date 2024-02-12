@@ -6,7 +6,7 @@ class Aria2 {
         this.connect();
     }
     set method (scheme) {
-        const methods = { 'http': this.fetch, 'https': this.fetch, 'ws': this.send, 'wss': this.send };
+        const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
         this.jsonrpc = scheme + '://' + this.host + '/jsonrpc';
         this.call = methods[scheme];
         if (!this.call) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
@@ -39,7 +39,7 @@ class Aria2 {
             });
         }));
     }
-    fetch (...entry) {
+    post (...entry) {
         return this.messager(entry, (body) => fetch(this.jsonrpc, {method: 'POST', body}).then((response) => {
             if (response.ok) { return response.json(); } throw new Error(response.statusText);
         }));
