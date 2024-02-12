@@ -2,11 +2,11 @@ class Aria2WS {
     constructor (url, secret) {
         this.jsonrpc = url;
         this.secret = `token:${secret}`;
-        this.websocket = this.connect(url);
+        this.connect();
     }
     connect (url) {
-        return new Promise((resolve, reject) => {
-            const websocket = new WebSocket(url);
+        this.websocket =  new Promise((resolve, reject) => {
+            const websocket = new WebSocket(this.jsonrpc);
             websocket.onopen = (event) => resolve(websocket);
             websocket.onerror = (error) => reject(error);
         });
@@ -18,7 +18,7 @@ class Aria2WS {
         this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
     }
     send (...messages) {
-        const message = JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params]}) ));
+        const message = JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) ));
         return new Promise((resolve, reject) => {
             this.websocket.then((websocket) => {
                 websocket.onmessage = (event) => resolve(JSON.parse(event.data));
