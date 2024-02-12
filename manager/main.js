@@ -103,6 +103,29 @@ setting.addEventListener('change', (event) => {
     window[id] = changes[id] = value;
 });
 
+async function aria2Initial() {
+    await aria2ClientSetUp();
+    var [options, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
+    entry.options = adduri.querySelectorAll('input, textarea').disposition(options.result);
+    document.querySelector('#aria2_ver').innerText = version.result.version;
+}
+
+options.forEach((input) => {
+    var {id, dataset} = input;
+    window[id] = input.value = localStorage[id] ?? dataset.value;
+});
+
+aria2Initial();
+
+var filesize = {
+    'min-split-size': true,
+    'disk-cache': true,
+    'max-download-limit': true,
+    'max-overall-download-limit': true,
+    'max-upload-limit': true,
+    'max-overall-upload-limit': true
+};
+
 NodeList.prototype.disposition = function (json) {
     var result = {};
     this.forEach((node) => {
@@ -152,26 +175,3 @@ function getFileData(file) {
         reader.readAsDataURL(file);
     });
 }
-
-var filesize = {
-    'min-split-size': true,
-    'disk-cache': true,
-    'max-download-limit': true,
-    'max-overall-download-limit': true,
-    'max-upload-limit': true,
-    'max-overall-upload-limit': true
-};
-
-async function aria2Initial() {
-    await aria2ClientSetUp();
-    var [options, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
-    entry.options = adduri.querySelectorAll('input, textarea').disposition(options.result);
-    document.querySelector('#aria2_ver').innerText = version.result.version;
-}
-
-options.forEach((input) => {
-    var {id, dataset} = input;
-    window[id] = input.value = localStorage[id] ?? dataset.value;
-});
-
-aria2Initial();
