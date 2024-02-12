@@ -8,8 +8,7 @@ class Aria2 {
     set method (scheme) {
         const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
         this.jsonrpc = scheme + '://' + this.host + '/jsonrpc';
-        this.call = methods[scheme];
-        if (!this.call) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
+        if (!(this.call = methods[scheme])) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
     }
     connect () {
         this.websocket = new Promise((resolve, reject) => {
@@ -24,24 +23,23 @@ class Aria2 {
     set onmessage (callback) {
         this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
     }
-    messager (entry, callback) {
-        const json = entry.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) );
-        return callback(JSON.stringify(json)).then((response) => {
-            return response.map( ({result, error}) => { if (result) { return result; } throw error; } );
-        });
+    json (array) {
+        const json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) );
+        return JSON.stringify(json);
     }
-    send (...entry) {
-        return this.messager(entry, (message) => new Promise((resolve, reject) => {
+    send (...messages) {
+        return new Promise((resolve, reject) => {
             this.websocket.then((websocket) => {
                 websocket.onmessage = (event) => resolve(JSON.parse(event.data));
                 websocket.onerror = (error) => reject(error);
-                websocket.send(message);
+                websocket.send(this.json(messages));
             });
-        }));
+        });
     }
-    post (...entry) {
-        return this.messager(entry, (body) => fetch(this.jsonrpc, {method: 'POST', body}).then((response) => {
-            if (response.ok) { return response.json(); } throw new Error(response.statusText);
-        }));
+    post (...messages) {
+        return fetch(this.jsonrpc, {method: 'POST', body: this.json(messages)}).then((response) => {
+            if (response.ok) { return response.json(); }
+            throw new Error(response.statusText);
+        });
     }
 }
