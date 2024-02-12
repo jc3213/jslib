@@ -37,9 +37,6 @@ function managerOptions() {
 
 function managerOptionsSave() {
     options.forEach(({id, dataset}) => { localStorage[id] = window[id] ?? dataset.value; });
-    if (!aria2Storage['manager_newtab']) {
-        close();
-    }
     if ('manager_interval' in changes) {
         clearInterval(aria2Alive);
         aria2Alive = setInterval(updateManager, aria2Interval);
