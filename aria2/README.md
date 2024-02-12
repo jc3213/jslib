@@ -45,7 +45,7 @@ let aria2 = new Aria2("http", "localhost:6800", "test.password");
 ```javascript
 aria2.method = scheme;
 ```
-- #### scheme
+- ##### scheme
 - `http`, `https`, `ws`, and `wss`
 ### secret
 ```javascript
