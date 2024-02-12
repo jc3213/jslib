@@ -1,9 +1,8 @@
 var [downloadbtn, optnbtn] = document.querySelectorAll('#download_btn, #options_btn');
-var setting = document.querySelector('#setting');
+var [setting, adduri] = document.querySelectorA;;('#setting, #adduri');
 var options = setting.querySelectorAll('select, input');
-var adduri = document.querySelector('#adduri');
-var entry = adduri.querySelector('#entry');
-var uploader = adduri.querySelector('#uploader');
+var [entry, uploader] = adduri.querySelectorAll('#entry, #uploader');
+var changes = {};
 
 document.addEventListener('click', ({target}) => {
     var {id} = target;
@@ -37,9 +36,30 @@ function managerOptions() {
 }
 
 function managerOptionsSave() {
-    var storage = {};
     options.forEach(({id, dataset}) => { localStorage[id] = storage[id] = window[id] ?? dataset.value; });
-    console.log(storage);
+    if (!aria2Storage['manager_newtab']) {
+        close();
+    }
+    if ('manager_interval' in changes) {
+        clearInterval(aria2Alive);
+        aria2Alive = setInterval(updateManager, aria2Interval);
+    }
+    aria2UpdateRPC(changes);
+    changes = {};
+}
+
+function aria2UpdateRPC(changes) {
+    if ('jsonrpc_host' in changes) {
+        clearInterval(aria2Alive);
+        aria2RPC.disconnect();
+        return aria2ClientSetUp();
+    }
+    if ('jsonrpc_scheme' in changes) {
+        aria2RPC.method = aria2Scheme;
+    }
+    if ('jsonrpc_secret' in changes) {
+        aria2RPC.secret = aria2Secret;
+    }
 }
 
 entry.addEventListener('change', (event) => {
@@ -83,23 +103,7 @@ uploader.addEventListener('change', async ({target}) => {
 
 setting.addEventListener('change', (event) => {
     var {id, value} = event.target;
-    window[id] = value;
-    switch (id) {
-        case 'aria2Scheme':
-            aria2RPC.method = value;
-            break;
-        case 'aria2Host':
-            clearInterval(aria2Alive);
-            aria2RPC.disconnect();
-            aria2Initial();
-        case 'aria2Secret':
-            aria2RPC.secret = 'token:' + value;
-            break;
-        case 'aria2Interval':
-            clearInterval(aria2Alive);
-            aria2Alive = setInterval(updateManager, aria2Interval);
-            break;
-    }
+    window[id] = changes[id] = value;
 });
 
 NodeList.prototype.disposition = function (json) {
