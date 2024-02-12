@@ -35,13 +35,18 @@ let aria2 = new Aria2("http", "localhost:6800", "test.password");
 - [method](#method)
 - [secret](#secret)
 - [call](#call)
+    - Use `WebSocket` or `HTTP Post` based on [scheme](#scheme)
+- [send](#call)
+    - Use `WebSocket` method only
+- [post](#call)
+    - Use `HTTP Post` method only
 
 ### method
 ```javascript
 aria2.method = scheme;
 ```
-- method
-    - `http`, `https`, `ws`, and `wss`
+- #### scheme
+- `http`, `https`, `ws`, and `wss`
 ### secret
 ```javascript
 aria2.secret = "token:" + secret;
