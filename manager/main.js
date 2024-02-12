@@ -1,5 +1,5 @@
 var [downloadbtn, optnbtn] = document.querySelectorAll('#download_btn, #options_btn');
-var [setting, adduri] = document.querySelectorA;;('#setting, #adduri');
+var [setting, adduri] = document.querySelectorAll('#setting, #adduri');
 var options = setting.querySelectorAll('select, input');
 var [entry, uploader] = adduri.querySelectorAll('#entry, #uploader');
 var changes = {};
