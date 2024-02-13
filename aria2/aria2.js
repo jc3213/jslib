@@ -7,7 +7,7 @@ class Aria2 {
     }
     set method (scheme) {
         const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
-        this.jsonrpc = scheme + '://' + this.host + '/jsonrpc';
+        this.jsonrpc = scheme + '://' + this.host;
         if (!(this.call = methods[scheme])) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
     }
     connect () {
