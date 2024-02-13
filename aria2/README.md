@@ -15,11 +15,11 @@
 
 ## Syntax
 ```javascript
-let aria2 = new Aria2(scheme, host, secret);
+let aria2 = new Aria2(scheme, url, secret);
 ```
 #### Code Sample
 ```javascript
-let aria2 = new Aria2("http", "localhost:6800", "test.password");
+let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
 ```
 - scheme
     - *required*
