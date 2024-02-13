@@ -15,7 +15,7 @@
 
 ## Syntax
 ```javascript
-let aria2 = new Aria2(scheme, host, secret);
+let aria2 = new Aria2(scheme, url, secret);
 ```
 #### Code Sample
 ```javascript
