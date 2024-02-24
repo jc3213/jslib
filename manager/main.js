@@ -1,8 +1,10 @@
+var aria2Global = {};
+var changes = {};
 var [downloadbtn, optnbtn] = document.querySelectorAll('#download_btn, #options_btn');
 var [setting, adduri] = document.querySelectorAll('#setting, #adduri');
 var options = setting.querySelectorAll('select, input');
+var download = adduri.querySelectorAll('input');
 var [entry, uploader] = adduri.querySelectorAll('#entry, #uploader');
-var changes = {};
 
 NodeList.prototype.disposition = function (json) {
     var result = {};
@@ -128,9 +130,9 @@ setting.addEventListener('change', (event) => {
 
 async function aria2Initial() {
     await aria2ClientSetUp();
-    var [options, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
-    entry.options = adduri.querySelectorAll('input, textarea').disposition(options.result);
-    document.querySelector('#aria2_ver').innerText = version.result.version;
+    var [global, version] = await aria2RPC.call({method: 'aria2.getGlobalOption'}, {method: 'aria2.getVersion'});
+    aria2Global = options = download.disposition(taskOptionsSetUp(global.result));
+    document.querySelector('#aria2_ver').textContent = version.result.version;
 }
 
 options.forEach((input) => {
