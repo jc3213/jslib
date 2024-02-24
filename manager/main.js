@@ -4,6 +4,18 @@ var options = setting.querySelectorAll('select, input');
 var [entry, uploader] = adduri.querySelectorAll('#entry, #uploader');
 var changes = {};
 
+NodeList.prototype.disposition = function (json) {
+    var result = {};
+    this.forEach((node) => {
+        var id = node.dataset.rid;
+        var value = json[id];
+        if (value) {
+            node.value = result[id] = value;
+        }
+    });
+    return result;
+}
+
 document.addEventListener('click', ({target}) => {
     var {id} = target;
     if (id === 'proxy_btn') {
@@ -98,6 +110,17 @@ uploader.addEventListener('change', async ({target}) => {
     manager.classList.remove('adduri');
 });
 
+function getFileData(file) {
+    return new Promise((resolve) => {
+        var reader = new FileReader();
+        reader.onload = (event) => {
+            var base64 = reader.result.slice(reader.result.indexOf(',') + 1);
+            resolve(base64);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
 setting.addEventListener('change', (event) => {
     var {id, value} = event.target;
     window[id] = changes[id] = value;
@@ -116,43 +139,3 @@ options.forEach((input) => {
 });
 
 aria2Initial();
-
-var filesize = {
-    'min-split-size': true,
-    'disk-cache': true,
-    'max-download-limit': true,
-    'max-overall-download-limit': true,
-    'max-upload-limit': true,
-    'max-overall-upload-limit': true
-};
-
-NodeList.prototype.disposition = function (json) {
-    var result = {};
-    this.forEach((node) => {
-        var id = node.dataset.id;
-        var value = json[id];
-        if (!value) {
-            return;
-        }
-        if (filesize[id]) {
-            value = getFileSize(value);
-        }
-        node.value = result[id] = value;
-    });
-    return result;
-}
-
-function getDownloadName(gid, bittorrent, [{path, uris}]) {
-    return bittorrent?.info?.name || path?.slice(path.lastIndexOf('/') + 1) || uris[0]?.uri || gid;
-}
-
-function getFileData(file) {
-    return new Promise((resolve) => {
-        var reader = new FileReader();
-        reader.onload = (event) => {
-            var base64 = reader.result.slice(reader.result.indexOf(',') + 1);
-            resolve(base64);
-        };
-        reader.readAsDataURL(file);
-    });
-}
