@@ -32,19 +32,19 @@ document.addEventListener('click', ({target}) => {
         return managerOptionsSave();
     }
     if (id !== 'options_btn' && !setting.contains(target)) {
-        return manager.classList.remove('setting');
+        return manager.remove('setting');
     }
     if (id !== 'download_btn' && !adduri.contains(target)) {
-        return manager.classList.remove('adduri');
+        return manager.remove('adduri');
     }
 });
 
 function managerDownload() {
-    manager.classList.toggle('adduri');
+    manager.toggle('adduri');
 }
 
 function managerOptions() {
-    manager.classList.toggle('setting');
+    manager.toggle('setting');
 }
 
 function managerOptionsSave() {
@@ -94,7 +94,7 @@ async function downloadSubmit() {
     }
     entry.value = '';
     entry.json = entry.url = null;
-    manager.classList.remove('adduri');
+    manager.remove('adduri');
 }
 
 uploader.addEventListener('change', async ({target}) => {
@@ -107,7 +107,7 @@ uploader.addEventListener('change', async ({target}) => {
         await aria2RPC.call({method: 'aria2.addMetalink', params: [b64encode, aria2Global]});
     }
     target.value = '';
-    manager.classList.remove('adduri');
+    manager.remove('adduri');
 });
 
 function getFileData(file) {
