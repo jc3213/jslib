@@ -1,25 +1,25 @@
 class Aria2 {
     constructor (scheme, url, secret) {
-        this._url = url;
         this.scheme = scheme;
+        this.url = url;
         this.secret = secret;
     }
     set scheme (scheme) {
         const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
         if (methods[scheme] === undefined) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
-        this._jsonrpc = scheme + '://' + this._url;
         this._scheme = scheme;
+        this._jsonrpc = scheme + '://' + this._url;
         this.call = methods[scheme];
     }
     get scheme () {
         return this._scheme;
     }
     set url (url) {
-        this.disconnect().then((event) => {
-            this._jsonrpc = this._scheme + '://' + url;
-            this._url = url;
-            this.connect();
-        });
+        if (this._url === url) { return; }
+        this._url = url;
+        this._jsonrpc = this._scheme + '://' + url;
+        if (this.websocket === undefined) { return this.connect(); }
+        this.disconnect().then( (event) => this.connect() );
     }
     get url () {
         return this._url;
@@ -27,9 +27,15 @@ class Aria2 {
     get jsonrpc () {
         return this._jsonrpc;
     }
+    set secret (secret) {
+        this._secret = 'token:' + secret;
+    }
+    get secret () {
+        return this._secret;
+    }
     connect () {
         this.websocket = new Promise((resolve, reject) => {
-            const websocket = new WebSocket(this.jsonrpc.replace('http', 'ws'));
+            const websocket = new WebSocket(this._jsonrpc.replace('http', 'ws'));
             websocket.onopen = (event) => resolve(websocket);
             websocket.onerror = (error) => reject(error);
         });
@@ -57,13 +63,13 @@ class Aria2 {
         }));
     }
     post (...messages) {
-        return fetch(this.jsonrpc, {method: 'POST', body: this.json(messages)}).then((response) => {
+        return fetch(this._jsonrpc, {method: 'POST', body: this.json(messages)}).then((response) => {
             if (response.ok) { return response.json(); }
             throw new Error(response.statusText);
         });
     }
     json (array) {
-        const json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) );
+        const json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this._secret, ...params] }) );
         return JSON.stringify(json);
     }
 }
