@@ -41,7 +41,7 @@ class Aria2 {
         });
     }
     disconnect () {
-        this.websocket.then((websocket) => new Promise((resolve, reject) => {
+        return this.websocket.then((websocket) => new Promise((resolve, reject) => {
             websocket.onclose = (event) => resolve(event);
             websocket.onerror = (error) => reject(error);
             websocket.close();
