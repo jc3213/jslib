@@ -1,14 +1,31 @@
 class Aria2 {
     constructor (scheme, url, secret) {
-        this.url = url;
-        this.secret = 'token:' + secret;
-        this.method = scheme;
-        this.connect();
+        this._url = url;
+        this.scheme = scheme;
+        this.secret = secret;
     }
-    set method (scheme) {
+    set scheme (scheme) {
         const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
-        this.jsonrpc = scheme + '://' + this.url;
-        if (!(this.call = methods[scheme])) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
+        if (methods[scheme] === undefined) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
+        this._jsonrpc = scheme + '://' + this._url;
+        this._scheme = scheme;
+        this.call = methods[scheme];
+    }
+    get scheme () {
+        return this._scheme;
+    }
+    set url (url) {
+        this.disconnect().then((event) => {
+            this._jsonrpc = this._scheme + '://' + url;
+            this._url = url;
+            this.connect();
+        });
+    }
+    get url () {
+        return this._url;
+    }
+    get jsonrpc () {
+        return this._jsonrpc;
     }
     connect () {
         this.websocket = new Promise((resolve, reject) => {
@@ -26,11 +43,11 @@ class Aria2 {
     }
     set onmessage (callback) {
         if (typeof callback !== 'function') { return; }
-        if (this.messager === undefined) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this.messager(JSON.parse(event.data))) ); }
-        this.messager = callback;
+        if (this._onmessage === undefined) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))) ); }
+        this._onmessage = callback;
     }
     get onmessage () {
-        return this.messager;
+        return this._onmessage;
     }
     send (...messages) {
         return this.websocket.then((websocket) => new Promise((resolve, reject) => {
