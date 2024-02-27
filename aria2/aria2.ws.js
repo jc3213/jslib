@@ -1,4 +1,4 @@
-class Aria2WS {
+class Aria2WebSocket {
     constructor (url, secret) {
         this.jsonrpc = url;
         this.secret = `token:${secret}`;
@@ -12,7 +12,11 @@ class Aria2WS {
         });
     }
     disconnect () {
-        this.websocket.then( (websocket) => websocket.close() );
+        return this.websocket.then((websocket) => new Promise((resolve, reject) => {
+            websocket.onclose = (event) => resolve(event);
+            websocket.onerror = (error) => reject(error);
+            websocket.close();
+        }));
     }
     set onmessage (callback) {
         this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
