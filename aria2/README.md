@@ -53,10 +53,12 @@ aria2.url = url; // set new url
 ```
 - url
     - `${hostname}:${port}/jsonrpc`
-- ##### hostname
+- hostname
     - `www.example.com`
-- ##### port
+- port
     - `6800` *default*
+- **CAUTION**
+    - You have to set your event listener with `onmessage` again
 
 ### secret
 ```javascript
