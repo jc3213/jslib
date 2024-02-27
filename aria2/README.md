@@ -93,7 +93,7 @@ let response = aria2.call({ method: "aria2.addUri", params: [["https://github.co
     - JSON-RPC method call parameters
 
 ## Event
-- #####onmessage
+- ##### onmessage
     - The event listener for `WebSocket` message event
 ```javascript
 console.log(aria2.onmessage); // current event listener
