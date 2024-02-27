@@ -19,7 +19,12 @@ class Aria2WebSocket {
         }));
     }
     set onmessage (callback) {
-        this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
+        if (typeof callback !== 'function') { return; }
+        if (this._onmessage === undefined) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))) ); }
+        this._onmessage = callback;
+    }
+    get onmessage () {
+        return this._onmessage;
     }
     send (...messages) {
         const message = JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) ));
@@ -29,6 +34,6 @@ class Aria2WebSocket {
                 websocket.onerror = (error) => reject(error);
                 websocket.send(message);
             });
-        }).then( (json) => json.map( ({result, error}) => { if (result) { return result; } throw error; } ) );
+        });
     }
 }
