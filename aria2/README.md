@@ -22,13 +22,13 @@ let aria2 = new Aria2(scheme, url, secret);
 ```javascript
 let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
 ```
-- scheme
+- [scheme](#scheme)
     - *required*
     - `http`, `https`, `ws`, and `wss` 
-- host
+- [url](#url)
     - *required*
-    - `hostname:port`
-- secret
+    - `${hostname}:${port}/jsonrpc`
+- [secret](#secret)
     - *optional*
     - string, secret token of aria2 json-rpc
 
@@ -53,9 +53,9 @@ aria2.url = url; // set new url
 ```
 - url
     - `${hostname}:${port}/jsonrpc`
-- hostname
+- ##### hostname
     - `www.example.com`
-- port
+- ##### port
     - `6800` *default*
 
 ### secret
