@@ -17,6 +17,7 @@
 ```javascript
 let aria2 = new Aria2(scheme, url, secret);
 ```
+
 #### Code Sample
 ```javascript
 let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
@@ -31,9 +32,42 @@ let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
     - *optional*
     - string, secret token of aria2 json-rpc
 
-## Method
-- [method](#method)
+## Getter & Setter
+- [scheme](#scheme)
+- [url](#url)
 - [secret](#secret)
+- [onmessage](#onmessage)
+
+### scheme
+```javascript
+console.log(aria2.scheme); // current scheme
+aria2.scheme = scheme; // set new scheme
+```
+- scheme
+    - `http`, `https`, `ws`, and `wss`
+
+### url
+```javascript
+console.log(aria2.url); // current url
+aria2.url = url; // set new url
+```
+- url
+    - `${hostname}:${port}/jsonrpc`
+- hostname
+    - `www.example.com`
+- port
+    - `6800` *default*
+
+### secret
+```javascript
+console.log(aria2.secret); // current secret token
+aria2.secret = secret; // set new secret token
+```
+- secret
+    - `string`, secret token of aria2 json-rpc
+    - returns `token:${secret}`
+
+## Method
 - [call](#call)
     - Use `WebSocket` or `HTTP Post` based on [scheme](#scheme)
 - [send](#call)
@@ -41,30 +75,27 @@ let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
 - [post](#call)
     - Use `HTTP Post` method only
 
-### method
-```javascript
-aria2.method = scheme;
-```
-- ##### scheme
-- `http`, `https`, `ws`, and `wss`
-### secret
-```javascript
-aria2.secret = "token:" + secret;
-```
-- secret
-    - string, secret token of aria2 json-rpc
 ### call
 ```javascript
-let result = aria2.call({ method, params });
-let result = aria2.call({ method, params }, { method, params });
+let response = aria2.call({ method, params });
+let response = aria2.call({ method, params }, { method, params }, ..., { method, params });
 ```
+
 #### Code Sample
 ```javascript
-let result = aria2.call({ method: "aria2.addUri", params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}] });
+let response = aria2.call({ method: "aria2.addUri", params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}] });
 ```
-- result
+- response
     - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
 - method **required**
     - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 - params **optional**
     - JSON-RPC method call parameters
+
+## Event
+- #####onmessage
+    - The event listener for `WebSocket` message event
+```javascript
+console.log(aria2.onmessage); // current event listener
+aria2.onmessage = function (response) { do something with response; } // set new event listener
+```
