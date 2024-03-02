@@ -4,22 +4,24 @@
     </head>
     <body>
         <div id="dropzone">
-            <input id="filereader" type="file" accept=".json">
-            <textarea id="reader" rows="8" disabled></textarea>
+            <label for="filereader">File Reader</label>
+            <input id="filereader" type="file">
         </div>
+        <div>
+            <label for="chromei18ntrim">Chrome i18n Trimmer</label>
+            <input id="chromei18ntrim" type="file" accept=".json">
+        </div>
+        <textarea id="fileresult" rows="8" disabled></textarea>
         <div class="template">
             <div>
                 <label></label><input disabled>
             </div>
         </div>
         <div id="urlcomponents">
-            <div>
-                <input id="url" type="url"><button id="submit">Submit</button>
-            </div>
-            <div class="result"></result>
+            <input id="url" type="url"><button id="submit">Submit</button>
         </div>
-        <script src="/jslib/ui/jsui.max.js"></script>
-        <script src="/jslib/js/url.js"></script>
+        <div id="urlresult"></result>
+        <script src="/jslib/ui/jsui.full.js"></script>
         <script src="/jslib/js/filereader.js"></script>
         <script src="sample.js"></script>
     </body>

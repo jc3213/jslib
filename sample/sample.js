@@ -1,7 +1,7 @@
 var jsUI = new JSUI();
 var filereader = new PromiseFileReader();
-var url_components = new URLComponents();
-var url_result = jsUI.get('#urlcomponents > .result');
+var url_result = jsUI.get('#urlresult');
+var file_result = jsUI.get('#fileresult');
 var url_template = jsUI.get('.template > div');
 
 jsUI.css.add(`body {margin: auto; width: 600px;}
@@ -18,9 +18,16 @@ textarea {width: 100%; resize: none;}
 .jsui-menu-item, .jsui-menu-cell {background-color: #23ade5; color: #fff;}`);
 
 jsUI.get('#filereader').onchange(async (event) => {
+    var text = await filereader.text(event.target.files[0]);
+    file_result.value = text;
+});
+
+jsUI.get('#chromei18ntrim').onchange(async (event) => {
     var file = event.target.files[0];
-    var text = await filereader.text(file);
-    jsUI.get('#reader').value = text;
+    var json = await filereader.json(event.target.files[0]);
+    var result = {};
+    Object.keys(json).forEach((key) => result[key] = json[key].message);
+    file_result.value = JSON.stringify(result, null, 4);
 });
 
 jsUI.get('#submit').onclick(function (event) {

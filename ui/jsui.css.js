@@ -91,7 +91,7 @@ class JSUI {
             css.innerText += string;
             return css;
         };
-        css.erase = (string) => {
+        css.purge = (string) => {
             css.innerText.replace(string, '');
             return css;
         };

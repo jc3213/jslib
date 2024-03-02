@@ -92,7 +92,7 @@ class JSUI {
             css.innerText += string;
             return css;
         };
-        css.erase = (string) => {
+        css.purge = (string) => {
             css.innerText.replace(string, '');
             return css;
         };
@@ -104,7 +104,7 @@ class JSUI {
             var item = this.new().class('jsui-menu-item').body(string).parent(menu);
             return item;
         };
-        menu.erase = (number) => {
+        menu.purge = (number) => {
             menu.childNodes[number].remove();
             return menu;
         };
