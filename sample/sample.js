@@ -20,14 +20,14 @@ textarea {width: 100%; resize: none;}
 jsUI.get('#filereader').onchange(async (event) => {
     var text = await filereader.text(event.target.files[0]);
     file_result.value = text;
+    event.target.value = '';
 });
 
-jsUI.get('#chromei18ntrim').onchange(async (event) => {
+jsUI.get('#jsonreader').onchange(async (event) => {
     var file = event.target.files[0];
     var json = await filereader.json(event.target.files[0]);
-    var result = {};
-    Object.keys(json).sort().forEach((key) => result[key] = json[key]);
     file_result.value = JSON.stringify(json, null, 4);
+    event.target.value = '';
 });
 
 jsUI.get('#submit').onclick(function (event) {
