@@ -25,6 +25,8 @@ jsUI.get('#filereader').onchange(async (event) => {
 jsUI.get('#chromei18ntrim').onchange(async (event) => {
     var file = event.target.files[0];
     var json = await filereader.json(event.target.files[0]);
+    var result = {};
+    Object.keys(json).sort().forEach((key) => result[key] = json[key]);
     file_result.value = JSON.stringify(json, null, 4);
 });
 
