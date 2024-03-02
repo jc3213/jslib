@@ -4,12 +4,12 @@
         <title>Javascript Library Test Sample</title>
     </head>
     <body>
-        <div id="dropzone">
-            <label for="filereader">File Reader</label>
-            <input id="filereader" type="file">
+        <div id="dropzone" >
+            <button><label for="filereader">File Reader</label></button>
+            <button><label for="chromei18ntrim">JSON Reader</label></button>
         </div>
-        <div>
-            <label for="chromei18ntrim">JSON Reader</label>
+        <div style="display: none;">
+            <input id="filereader" type="file">
             <input id="chromei18ntrim" type="file" accept=".json">
         </div>
         <textarea id="fileresult" rows="8" disabled></textarea>
