@@ -23,12 +23,12 @@ class MatchPattern {
             return this.caches[host];
         }
         let result;
-        let [tld, sld, sbd, ...useless] = host.split('.').reverse();
+        let [tld, sld, sub, ...useless] = host.split('.').reverse();
         if (sld === undefined) {
             result = hostname;
         }
         else if (sld in this.tlds) {
-            result = '*.' + sbd + '.' + sld + '.' + tld;
+            result = '*.' + sub + '.' + sld + '.' + tld;
         }
         else {
             result = '*.' + sld + '.' + tld;
