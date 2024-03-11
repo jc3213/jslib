@@ -45,7 +45,7 @@ matchPattern.remove('github.com');
 matchPattern.match('www.bing.com'); // false
 ```
 - match `www.bing.com` with match patterns
-- returns `false`, if you haven't added any hostname that is `*.bing.com`
+- returns `false`, if you haven't added any [hostname](#hostname) that is `*.bing.com`
 
 #### hostname
 - *Sub Domain*.*Second Level Domain*.*Top Level Domain*
