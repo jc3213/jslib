@@ -3,24 +3,10 @@ class MatchPattern {
         hosts?.forEach((host) => this.caches[host] = this.add(host));
     }
     add (host) {
-        if (this.caches[host] !== undefined) {
-            return this.caches[host];
-        }
-        let result;
-        let [tld, sld, sbd, ...useless] = host.split('.').reverse();
-        if (sld === undefined) {
-            result = host;
-        }
-        else if (sld in this.tlds) {
-            result = '*.' + sbd + '.' + sld + '.' + tld;
-        }
-        else {
-            result = '*.' + sld + '.' + tld;
-        }
-        this.caches[host] = result;
+        const result = this.make(host);
         this.hosts.push(host);
         this.matchpatterns.push(result);
-        this.make();
+        this.generator();
         return result;
     }
     remove (host) {
@@ -30,10 +16,27 @@ class MatchPattern {
         const index = this.hosts.indexOf(host);
         this.hosts.splice(index, 1);
         this.matchpatterns.splice(index, 1);
-        delete this.caches[host];
-        this.make();
+        this.generator();
     }
-    make () {
+    make (host) {
+        if (this.caches[host] !== undefined) {
+            return this.caches[host];
+        }
+        let result;
+        let [tld, sld, sbd, ...useless] = host.split('.').reverse();
+        if (sld === undefined) {
+            result = hostname;
+        }
+        else if (sld in tlds) {
+            result = '*.' + sbd + '.' + sld + '.' + tld;
+        }
+        else {
+            result = '*.' + sld + '.' + tld;
+        }
+        caches[host] = result;
+        return result;
+    }
+    generator () {
         this.regexp = this.matchpatterns.length === 0 ? /!/ : new RegExp('^(' + this.matchpatterns.join('|').replace(/\./g, '\\.').replace(/\\?\.?\*\\?\.?/g, '.*') + ')$');
     }
     match (host) {
