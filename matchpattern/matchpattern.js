@@ -1,6 +1,6 @@
 class MatchPattern {
     constructor (hosts) {
-        hosts?.forEach((host) => this.caches[host] = this.add(host));
+        hosts?.forEach((host) => this.add(host));
     }
     add (host) {
         const result = this.make(host);
@@ -27,13 +27,13 @@ class MatchPattern {
         if (sld === undefined) {
             result = hostname;
         }
-        else if (sld in tlds) {
+        else if (sld in this.tlds) {
             result = '*.' + sbd + '.' + sld + '.' + tld;
         }
         else {
             result = '*.' + sld + '.' + tld;
         }
-        caches[host] = result;
+        this.caches[host] = result;
         return result;
     }
     generator () {
