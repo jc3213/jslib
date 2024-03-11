@@ -42,9 +42,10 @@ class MatchPattern {
     match (host) {
         return this.regexp.test(host);
     }
-    hosts = [];
     caches = {};
+    hosts = [];
     matchpatterns = [];
+    regexp = /!/;
     tlds = {
         'aero': true,
         'app': true,
