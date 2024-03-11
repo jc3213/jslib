@@ -10,10 +10,10 @@ class MatchPattern {
         return result;
     }
     remove (host) {
-        if (this.caches[host] === undefined) {
+        const index = this.hosts.indexOf(host);
+        if (index === -1) {
             return;
         }
-        const index = this.hosts.indexOf(host);
         this.hosts.splice(index, 1);
         this.matchpatterns.splice(index, 1);
         this.generator();
@@ -37,7 +37,13 @@ class MatchPattern {
         return result;
     }
     generator () {
-        this.regexp = this.matchpatterns.length === 0 ? /!/ : new RegExp('^(' + this.matchpatterns.join('|').replace(/\./g, '\\.').replace(/\\?\.?\*\\?\.?/g, '.*') + ')$');
+        if (this.matchpatterns.length === 0) {
+            this.regexp = /!/;
+        }
+        else {
+            const patterns = [...new Set(this.matchpatterns)];
+            this.regexp = new RegExp('^(' + patterns.join('|').replace(/\./g, '\\.').replace(/\\?\.?\*\\?\.?/g, '.*') + ')$');
+        }
     }
     match (host) {
         return this.regexp.test(host);
