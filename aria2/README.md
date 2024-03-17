@@ -17,10 +17,16 @@
 ```javascript
 let aria2 = new Aria2(scheme, url, secret);
 ```
+```javascript
+let aria2 = new Aria2(jsonrpc, secret);
+```
 
 #### Code Sample
 ```javascript
 let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
+```
+```javascript
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "test.password");
 ```
 - [scheme](#scheme)
     - *required*
