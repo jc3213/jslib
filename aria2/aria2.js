@@ -9,7 +9,7 @@ class Aria2 {
     set scheme (scheme) {
         const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
         this.call = methods[scheme];
-        if (this.call === undefined) { throw new Error('Invalid scheme: ' + scheme + ' is not supported!'); }
+        if (this.call === undefined) { throw new Error('Invalid JSON-RPC scheme: "' + scheme + '" is not supported!'); }
         this._scheme = scheme;
         this._jsonrpc = scheme + '://' + this._url;
     }
