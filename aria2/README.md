@@ -63,8 +63,6 @@ aria2.url = url; // set new url
     - `www.example.com`
 - port
     - `6800` *default*
-- **CAUTION**
-    - You have to set your event listener with `onmessage` again
 
 ### secret
 ```javascript
