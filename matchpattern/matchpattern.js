@@ -42,7 +42,7 @@ class MatchPattern {
     ipv4 (ipv4) {
         let [network, host, ...useless] = ipv4.split('.');
         let result = network + '.' + host + '.*';
-        this.caches[host] = result;
+        this.caches[ipv4] = result;
         return result;
     }
     generator () {
