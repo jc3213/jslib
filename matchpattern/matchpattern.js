@@ -41,7 +41,9 @@ class MatchPattern {
     }
     ipv4 (ipv4) {
         let [network, host, ...useless] = ipv4.split('.');
-        return network + '.' + host + '.*';
+        let result = network + '.' + host + '.*';
+        this.caches[host] = result;
+        return result;
     }
     generator () {
         if (this.matchpatterns.length === 0) {
