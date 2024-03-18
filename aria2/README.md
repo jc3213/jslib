@@ -35,15 +35,12 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc", "password");
 let aria2 = new Aria2("http://localhost:6800/jsonrpc#password");
 ```
 
-- [scheme](#scheme)
+- [scheme](#scheme) + [url](#url)
     - *required*
-    - `http`, `https`, `ws`, and `wss` 
-- [url](#url)
+- jsonrpc
     - *required*
-    - `${hostname}:${port}/jsonrpc`
 - [secret](#secret)
     - *optional*
-    - string, secret token of aria2 json-rpc
 
 ## Getter & Setter
 - [scheme](#scheme)
