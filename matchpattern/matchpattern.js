@@ -19,8 +19,11 @@ class MatchPattern {
         this.generator();
     }
     make (host) {
-        if (this.caches[host] !== undefined) {
+        if (this.caches[host]) {
             return this.caches[host];
+        }
+        if (/((25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}(25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])/.test(host)) {
+            return this.ipv4(host);
         }
         let result;
         let [tld, sld, sub, ...useless] = host.split('.').reverse();
@@ -35,6 +38,10 @@ class MatchPattern {
         }
         this.caches[host] = result;
         return result;
+    }
+    ipv4 (ipv4) {
+        let [network, host, ...useless] = ipv4.split('.');
+        return network + '.' + host + '.*';
     }
     generator () {
         if (this.matchpatterns.length === 0) {
