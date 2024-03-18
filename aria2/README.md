@@ -26,13 +26,13 @@ let aria2 = new Aria2(jsonrpcWithSecret);
 
 #### Code Sample
 ```javascript
-let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "test.password");
+let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "password");
 ```
 ```javascript
-let aria2 = new Aria2("http://localhost:6800/jsonrpc", "test.password");
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "password");
 ```
 ```javascript
-let aria2 = new Aria2("http://localhost:6800/jsonrpc#test.password");
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#password");
 ```
 
 - [scheme](#scheme)
