@@ -22,7 +22,7 @@ class MatchPattern {
         if (this.caches[host]) {
             return this.caches[host];
         }
-        if (/((25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}(25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])/.test(host)) {
+        if (/((25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9])\.){3}25[0-5]|(2[0-4]|1[0-9]|[1-9])?[0-9]/.test(host)) {
             return this.ipv4(host);
         }
         let result;
