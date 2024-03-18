@@ -110,6 +110,14 @@ let response = aria2.call({ method: "aria2.addUri", params: [["https://github.co
 console.log(aria2.onmessage); // current message event listener
 aria2.onmessage = callback; // set new message event listener
 ```
+
+#### Code Sample
+```javascript
+aria2.onmessage = function (response) {
+    if (!response.method) { return; }
+    console.log(response);
+}
+```
 - callback
     - `function`, (response: object) => void
     - returns `${callback}`
