@@ -34,6 +34,7 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc", "test.password");
 ```javascript
 let aria2 = new Aria2("http://localhost:6800/jsonrpc#test.password");
 ```
+
 - [scheme](#scheme)
     - *required*
     - `http`, `https`, `ws`, and `wss` 
@@ -79,6 +80,25 @@ aria2.secret = secret; // set new secret token
     - `string`, secret token of aria2 json-rpc
     - returns `token:${secret}`
 
+### onmessage
+```javascript
+console.log(aria2.onmessage); // current message event listener
+aria2.onmessage = callback; // set new message event listener
+```
+
+#### Code Sample
+```javascript
+aria2.onmessage = function (response) {
+    if (!response.method) { return; }
+    console.log(response);
+}
+```
+
+- callback
+    - `function`, (response: object) => void
+    - returns `${callback}`
+    - Used for JSON-RPC over WebSocket notifications
+
 ## Method
 - [call](#call)
     - Use `WebSocket` or `HTTP Post` based on [scheme](#scheme)
@@ -103,22 +123,3 @@ let response = aria2.call({ method: "aria2.addUri", params: [["https://github.co
     - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 - params **optional**
     - JSON-RPC method call parameters
-
-## Event
-### onmessage
-```javascript
-console.log(aria2.onmessage); // current message event listener
-aria2.onmessage = callback; // set new message event listener
-```
-
-#### Code Sample
-```javascript
-aria2.onmessage = function (response) {
-    if (!response.method) { return; }
-    console.log(response);
-}
-```
-- callback
-    - `function`, (response: object) => void
-    - returns `${callback}`
-    - Used for JSON-RPC over WebSocket notifications
