@@ -114,7 +114,7 @@ let response = aria2.call({ method, params }, { method, params }, ..., { method,
 
 #### Code Sample
 ```javascript
-let response = aria2.call({ method: "aria2.addUri", params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}] });
+let response = aria2.call({ method: "aria2.tellActive" }, { method: "aria2.tellWating" }, { method: "aria2.tellStopped" });
 ```
 ```javascript
 let response = aria2.post({ method: "aria2.getVersion" });
