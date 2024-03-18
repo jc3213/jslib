@@ -107,13 +107,19 @@ aria2.onmessage = function (response) {
 ### call
 ```javascript
 let response = aria2.call({ method, params });
+```
+```javascript
 let response = aria2.call({ method, params }, { method, params }, ..., { method, params });
 ```
 
 #### Code Sample
 ```javascript
 let response = aria2.call({ method: "aria2.addUri", params: [["https://github.com/jc3213/jslib/archive/refs/heads/main.zip"], {out: "jslib.main.zip"}] });
+```
+```javascript
 let response = aria2.post({ method: "aria2.getVersion" });
+```
+```javascript
 let response = aria2.send({ method: "aria2.getGlobalOption" });
 ```
 - response
