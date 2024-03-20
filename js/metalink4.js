@@ -18,9 +18,7 @@ class Metalink {
         if (language) {
             file += lnsp + '<language>' + language + '</language>';
         }
-        if (hashes) {
-            hashes.forEach(({type, hash}) => file += lnsp + '<hash type="' + type + '">' + hash + '</hash>');
-        }
+        hashes?.forEach(({type, hash}) => file += lnsp + '<hash type="' + type + '">' + hash + '</hash>');
         urls.forEach((url) => {
             if (typeof url === 'string') {
                 file += lnsp + '<url>' + url + '</url>';
@@ -29,9 +27,7 @@ class Metalink {
                 file += url.location ?  lnsp + '<location="' + url.location + '">' + url.url + '</url>' : lnsp + '<url>' + url.url + '</url>';
             }
         });
-        if (metaurls) {
-            metaurls.forEach(({type, url}) => file += lnsp + '<metaurl metatype="' + type + '">' + url + '</metaurl>');
-        }
+        metaurls?.forEach(({type, url}) => file += lnsp + '<metaurl metatype="' + type + '">' + url + '</metaurl>');
         return '\n    ' + file + '\n    </file>';
     }
     save (filename) {
