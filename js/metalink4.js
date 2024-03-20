@@ -30,9 +30,7 @@ class Metalink {
             }
         });
         if (metaurls) {
-            metaurls.forEach(({type, url}) => {
-                file += lnsp + '<metaurl metatype="' + type + '">' + url + '</metaurl>';
-            });
+            metaurls.forEach(({type, url}) => file += lnsp + '<metaurl metatype="' + type + '">' + url + '</metaurl>');
         }
         return '\n    ' + file + '\n    </file>';
     }
