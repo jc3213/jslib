@@ -1,6 +1,6 @@
 ## JavaScript Library
-- [Aria2 JSON RPC](/aria2/aria2.md)
-- [Promise File Reader](/readme/filereader.md)
+- [Aria2 JSON RPC](/aria2)
+- [Promise File Reader](/filereader)
 - [Metalink4](/readme/metalink4.md)
 
 ## Javascript UI
