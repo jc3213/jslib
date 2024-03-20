@@ -1,9 +1,12 @@
 class Metalink {
     constructor (...args) {
         let result = '';
+        let encoder = new TextEncoder();
         args.forEach((obj) => result += this.meta4(obj));
         this.text = '<?xml version="1.0" encoding="UTF-8"?>\n<metalink xmlns="urn:ietf:params:xml:ns:metalink">' + result + '\n</metalink>';
-        this.arrayOfText = this.text.split(/\n\s*/);
+        this.lines = this.text.split(/\n\s*/);
+        this.arrayBuffer = encoder.encode(this.text);
+        this.dataURL = 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(this.text)));
         this.blob = new Blob([this.text], {type: 'application/metalink+xml; charset=utf-8'});
     }
     meta4 ({name, size, version, language, hashes, urls, metaurls}) {
