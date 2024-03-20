@@ -3,7 +3,7 @@ class Metalink {
         let result = '';
         args.forEach((obj) => result += this.meta4(obj));
         this.text = '<?xml version="1.0" encoding="UTF-8"?>\n<metalink xmlns="urn:ietf:params:xml:ns:metalink">' + result + '\n</metalink>';
-        this.arrayOfText = this.text.split(/\n\s+/);
+        this.arrayOfText = this.text.split(/\n\s*/);
         this.blob = new Blob([this.text], {type: 'application/metalink+xml; charset=utf-8'});
     }
     meta4 ({name, size, version, language, hashes, urls, metaurls}) {
