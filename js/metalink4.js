@@ -1,12 +1,5 @@
-class Metalink4 {
-    constructor (...args) {
-        var content = args.map(this.content);
-        var array = ['<?xml version="1.0" encoding="UTF-8"?>', '<metalink xmlns="urn:ietf:params:xml:ns:metalink">', ...content, '</metalink>'];
-        var text = () => array.join('\n');
-        var blob = () => new Blob(array, {type: 'application/metalink+xml; charset=utf-8'});
-        return {array, text, blob};
-    }
-    content ({name, size, version, language, hash, url, metaurl}) {
+(() => {
+    const converter = ({name, size, version, language, hash, url, metaurl}) => {
         var file = name ? `<file name="${name}">` : `<file>`;
         if (size) {
             file += `<size>${size}</size>`;
@@ -31,5 +24,10 @@ class Metalink4 {
             });
         }
         return file + `</file>`;
-    }
-}
+    };
+
+    self.metalink = (...args) => {
+        const content = args.map(converter).join('\n            ');
+        return '<?xml version="1.0" encoding="UTF-8"?>\n    <metalink xmlns="urn:ietf:params:xml:ns:metalink">\n        ' + content + '\n</metalink>';
+    };
+})();
