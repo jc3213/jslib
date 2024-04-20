@@ -2,14 +2,15 @@ class MatchPattern {
     constructor (hosts) {
         hosts?.forEach((host) => this.add(host));
     }
-    add (host) {
-        const result = this.make(host);
+    add (url) {
+        const result = this.make(url);
         this.hosts.push(host);
         this.matchpatterns.push(result);
         this.generator();
         return result;
     }
-    remove (host) {
+    remove (url) {
+        const host = new URL(url).hostname;
         const index = this.hosts.indexOf(host);
         if (index === -1) {
             return;
@@ -18,7 +19,8 @@ class MatchPattern {
         this.matchpatterns.splice(index, 1);
         this.generator();
     }
-    make (host) {
+    make (url) {
+        const host = new URL(url).hostname;
         if (this.caches[host]) {
             return this.caches[host];
         }
@@ -54,7 +56,8 @@ class MatchPattern {
             this.regexp = new RegExp('^(' + patterns.join('|').replace(/\./g, '\\.').replace(/\\?\.?\*\\?\.?/g, '.*') + ')$');
         }
     }
-    match (host) {
+    match (url) {
+        const host = new URL(url).hostname;
         return this.regexp.test(host);
     }
     caches = {};
