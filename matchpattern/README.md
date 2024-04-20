@@ -20,37 +20,32 @@ let matchPattern = new MatchPattern();
 
 ## Method
 - [add](#add)
-    - add [hostname](#hostname) to match patterns
+    - add [url](#url) to match patterns
 - [remove](#remove)
-    - remove [hostname](#hostname) from match patterns
+    - remove [url](#url) from match patterns
 - [match](#match)
-    - match [hostname](#hostname) with match patterns
+    - match [url](#url) with match patterns
 
 ### add
 ```javascript
-matchPattern.add('www.google.com'); // *.google.com
+matchPattern.add('https://www.google.com/'); // *.google.com
 ```
-- add `www.google.com` to match patterns
+- add `https://www.google.com/` to match patterns
 - returns `*.google.com`
 
 ### remove
 ```javascript
-matchPattern.remove('github.com');
+matchPattern.remove('https://github.com/');
 ```
-- remove `github.com` from match patterns
-- if `github.com` is not in match patterns, do nothing
+- remove `*.github.com` from match patterns
+- if `*.github.com` is not in match patterns, do nothing
 
 ### match
 ```javascript
-matchPattern.match('www.bing.com'); // false
+matchPattern.match('https://www.bing.com/'); // false
 ```
-- match `www.bing.com` with match patterns
-- returns `false`, if you haven't added any [hostname](#hostname) that is `*.bing.com`
+- match `https://www.bing.com/` with match patterns
+- returns `false`, if you haven't added any [url](#url) that is `*.bing.com`
 
-#### hostname
-- *Sub Domain*.*Second Level Domain*.*Top Level Domain*
-- `www.google.com`, or `github.com`
-
-```javascript
-let {hostname} = new URL(url);
-```
+#### url
+- Any available URL
