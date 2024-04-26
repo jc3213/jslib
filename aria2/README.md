@@ -47,6 +47,7 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc#password");
 - [url](#url)
 - [secret](#secret)
 - [onmessage](#onmessage)
+- [onclose](#onclose)
 
 ### scheme
 ```javascript
@@ -82,6 +83,15 @@ aria2.secret = secret; // set new secret token
 console.log(aria2.onmessage); // current message event listener
 aria2.onmessage = callback; // set new message event listener
 ```
+- Handle the event when `WebSocket` message is recieved
+- This is usually used for notification events of JSON-RPC
+
+### onclose
+```javascript
+console.log(aria2.onclose); // current message event listener
+aria2.onclose = callback; // set new message event listener
+```
+- Handle the event when `WebSocket` connection is closed
 
 #### Code Sample
 ```javascript
