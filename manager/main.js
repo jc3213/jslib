@@ -51,26 +51,20 @@ function managerOptions() {
 
 function managerOptionsSave() {
     options.forEach(({id, dataset}) => { localStorage[id] = window[id] ?? dataset.value; });
-    if ('manager_interval' in changes) {
+    if (changes['aria2Interval']) {
         clearInterval(aria2Alive);
-        aria2Alive = setInterval(updateManager, aria2Interval);
+        aria2Alive = setInterval(aria2ClientUpdate, aria2Interval);
     }
-    aria2UpdateRPC(changes);
-    changes = {};
-}
-
-function aria2UpdateRPC(changes) {
-    if ('jsonrpc_host' in changes) {
-        clearInterval(aria2Alive);
-        aria2RPC.disconnect();
-        return aria2ClientSetUp();
-    }
-    if ('jsonrpc_scheme' in changes) {
+    if (changes['aria2Scheme']) {
         aria2RPC.method = aria2Scheme;
     }
-    if ('jsonrpc_secret' in changes) {
+    if (changes['aria2Secret']) {
         aria2RPC.secret = aria2Secret;
     }
+    if (changes['aria2Url']) {
+        aria2RPC.url = aria2Url;
+    }
+    changes = {};
 }
 
 entry.addEventListener('change', (event) => {
