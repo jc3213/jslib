@@ -11,16 +11,17 @@ class Aria2WebSocket {
             websocket.onerror = (error) => reject(error);
         });
     }
-    disconnect () {
-        return this.websocket.then((websocket) => new Promise((resolve, reject) => {
-            websocket.onclose = (event) => resolve(event);
-            websocket.onerror = (error) => reject(error);
-            websocket.close();
-        }));
+    set onclose (callback) {
+        if (typeof callback !== 'function') { return; }
+        if (!this._onclose) { this.websocket.then( (websocket) => websocket.addEventListener('close', (event) => this._onclose(event)) ); }
+        this._onclose = callback;
+    }
+    get onclose () {
+        return this._onclose;
     }
     set onmessage (callback) {
         if (typeof callback !== 'function') { return; }
-        if (this._onmessage === undefined) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))) ); }
+        if (!this._onmessage) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))) ); }
         this._onmessage = callback;
     }
     get onmessage () {
