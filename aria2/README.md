@@ -24,17 +24,6 @@ let aria2 = new Aria2(jsonrpc, secret);
 let aria2 = new Aria2(jsonrpcWithSecret);
 ```
 
-#### Code Sample
-```javascript
-let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "password");
-```
-```javascript
-let aria2 = new Aria2("http://localhost:6800/jsonrpc", "password");
-```
-```javascript
-let aria2 = new Aria2("http://localhost:6800/jsonrpc#password");
-```
-
 - [scheme](#scheme) + [url](#url)
     - *required*
 - jsonrpc
@@ -100,55 +89,6 @@ aria2.onclose = callback; // set new message event listener
     - returns `${callback}`
     - It will run when WebSocket connection is closed
 
-#### Code Sample
-```javascript
-let tasks = {};
-let jsonrpc = {};
-let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
-aria2.onmessage = aria2WebsocketNotification;
-aria2.onclose = aria2ClientInitiate;
-
-function aria2ClientInitiate() {
-    tasks.active = {};
-    tasks.waiting = {};
-    tasks.stopped = {};
-    tasks.all = {};
-    aria2.call(
-        {method: 'aria2.getGlobalOption'},
-        {method: 'aria2.getVersion'},
-        {method: 'aria2.getGlobalStat'},
-        {method: 'aria2.tellActive'},
-        {method: 'aria2.tellWaiting', params: [0, 999]},
-        {method: 'aria2.tellStopped', params: [0, 999]}
-    ).then((response) => {
-        let [global, version, stats, active, waiting, stopped] = response;
-        jsonrpc.options = global.result;
-        jsonrpc.version = version.result;
-        active.result.forEach((result) => tasks.active[result.gid] = tasks.all[result.gid] = result);
-        waiting.result.forEach((result) => tasks.waiting[result.gid] = tasks.all[result.gid] = result);
-        stopped.result.forEach((result) => tasks.stopped[result.gid] = tasks.all[result.gid] = result);
-    }).catch((error) => {
-        retry = setTimeout(aria2JsonrpcInitiate, 50000);
-    });
-
-function aria2WebsocketNotification (response) {
-    if (!response.method) { return; }
-    let gid = response.params[0].gid;
-    switch (method) {
-        case 'aria2.onBtDownloadComplete':
-            break;
-       case 'aria2.onDownloadStart':
-            // When Download Start
-           break;
-       case 'aria2.onDownloadComplete':
-           // When Download Complete
-       default:
-            // For paused, waiting, complete, error, removed
-            break;
-    }
-}
-```
-
 ## Method
 - [call](#call)
     - Use `WebSocket` or `HTTP Post` based on [scheme](#scheme)
@@ -165,19 +105,59 @@ let response = aria2.call({ method, params });
 let response = aria2.call({ method, params }, { method, params }, ..., { method, params });
 ```
 
-#### Code Sample
-```javascript
-let response = aria2.call({ method: "aria2.tellActive" }, { method: "aria2.tellWating" }, { method: "aria2.tellStopped" });
-```
-```javascript
-let response = aria2.post({ method: "aria2.getVersion" });
-```
-```javascript
-let response = aria2.send({ method: "aria2.getGlobalOption" });
-```
 - response
     - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
 - method **required**
     - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 - params **optional**
     - JSON-RPC method call parameters
+
+### Code Sample
+```javascript
+let jsonrpc = {};
+let session = {};
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
+aria2.onmessage = aria2WebsocketNotification;
+aria2.onclose = aria2ClientInitiate;
+aria2ClientInitiate();
+
+function aria2ClientInitiate() {
+    session.all = {};
+    session.active = {};
+    session.waiting = {};
+    session.stopped = {};
+    aria2.call(
+        {method: 'aria2.getGlobalOption'},
+        {method: 'aria2.getVersion'},
+        {method: 'aria2.getGlobalStat'},
+        {method: 'aria2.tellActive'},
+        {method: 'aria2.tellWaiting', params: [0, 999]},
+        {method: 'aria2.tellStopped', params: [0, 999]}
+    ).then((response) => {
+        let [global, version, stats, active, waiting, stopped] = response;
+        jsonrpc.options = global.result;
+        jsonrpc.version = version.result;
+        active.result.forEach((result) => session.active[result.gid] = session.all[result.gid] = result);
+        waiting.result.forEach((result) => session.waiting[result.gid] = session.all[result.gid] = result);
+        stopped.result.forEach((result) => session.stopped[result.gid] = session.all[result.gid] = result);
+    }).catch((error) => {
+        retry = setTimeout(aria2JsonrpcInitiate, 50000);
+    });
+
+function aria2WebsocketNotification (response) {
+    if (!response.method) { return; }
+    let gid = response.params[0].gid;
+    switch (method) {
+        case 'aria2.onBtDownloadComplete':
+            break;
+       case 'aria2.onDownloadStart':
+            console.log("Session #" + gid + " has started!"
+            break;
+       case 'aria2.onDownloadComplete':
+           console.log("Session #" + gid + " has completed!"
+       default:
+            // For paused, waiting, complete, error, removed
+            break;
+    }
+}
+```
