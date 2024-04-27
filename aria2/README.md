@@ -155,7 +155,7 @@ function aria2WebsocketNotification (response) {
             console.log("Session #" + gid + " has started!"
             break;
        case 'aria2.onDownloadComplete':
-           console.log("Session #" + gid + " has completed!"
+            console.log("Session #" + gid + " has completed!"
        default:
             // For paused, waiting, complete, error, removed
             break;
