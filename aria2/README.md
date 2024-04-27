@@ -148,8 +148,8 @@ function aria2ClientInitiate() {
 async function aria2WebsocketNotification (response) {
     if (!response.method) { return; }
     let gid = response.params[0].gid;
-    let response = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
-    let result = response[0].result;
+    let res = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
+    let result = res[0].result;
     switch (response.method) {
         case 'aria2.onBtDownloadComplete':
             break;
@@ -166,13 +166,13 @@ async function aria2WebsocketNotification (response) {
             if (session.active[gid]) {
                 delete session.active[gid];
                 switch (result.status) {
-                    'waiting':
-                    'paused':
+                    case 'waiting':
+                    case 'paused':
                         session.waiting[gid] = result;
                         break;
-                    'complete':
-                    'removed':
-                    'error':
+                    case 'complete':
+                    case 'removed':
+                    case 'error':
                         session.stopped[gid] = result;
                         break;
                 }
