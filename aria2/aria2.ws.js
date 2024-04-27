@@ -2,9 +2,6 @@ class Aria2WebSocket {
     constructor (url, secret) {
         this.jsonrpc = url;
         this.secret = `token:${secret}`;
-        this.connect();
-    }
-    connect (url) {
         this.websocket =  new Promise((resolve, reject) => {
             const websocket = new WebSocket(this.jsonrpc);
             websocket.onopen = (event) => resolve(websocket);
