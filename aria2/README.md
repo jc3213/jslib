@@ -16,11 +16,7 @@
 ## Syntax
 ```javascript
 let aria2 = new Aria2(scheme, url, secret);
-```
-```javascript
 let aria2 = new Aria2(jsonrpc, secret);
-```
-```javascript
 let aria2 = new Aria2(jsonrpcWithSecret);
 ```
 
