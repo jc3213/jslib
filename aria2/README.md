@@ -163,17 +163,12 @@ async function aria2WebsocketNotification (response) {
                 delete session.active[gid];
                 switch (result.status) {
                     case 'waiting':
-                        console.log("The status of session #" + gid + " has been changed to \"waiting\"");
                     case 'paused':
-                        console.log("The status of session #" + gid + " has been changed to \"paused\"");
                         session.waiting[gid] = result;
                         break;
                     case 'complete':
-                        console.log("The status of session #" + gid + " has been changed to \"complete\"");
                     case 'removed':
-                        console.log("The status of session #" + gid + " has been changed to \"removed\"");
                     case 'error':
-                        console.log("The status of session #" + gid + " has been changed to \"errio\"");
                         session.stopped[gid] = result;
                         break;
                 }
