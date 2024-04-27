@@ -145,19 +145,38 @@ function aria2ClientInitiate() {
     });
 }
 
-function aria2WebsocketNotification (response) {
+async function aria2WebsocketNotification (response) {
     if (!response.method) { return; }
     let gid = response.params[0].gid;
-    switch (method) {
+    let response = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
+    let result = response[0].result;
+    switch (response.method) {
         case 'aria2.onBtDownloadComplete':
             break;
        case 'aria2.onDownloadStart':
-            console.log("Session #" + gid + " has started!"
+            console.log("The status of session #" + gid + " has been changed to \"active\"");
+            if (session.waiting[gid]) {
+                delete session.waiting[gid];
+                session.active[gid] = result;
+            }
             break;
        case 'aria2.onDownloadComplete':
-            console.log("Session #" + gid + " has completed!"
+            console.log("The status of session #" + gid + " has been changed to \"complete\"");
        default:
-            // For paused, waiting, complete, error, removed
+            if (session.active[gid]) {
+                delete session.active[gid];
+                switch (result.status) {
+                    'waiting':
+                    'paused':
+                        session.waiting[gid] = result;
+                        break;
+                    'complete':
+                    'removed':
+                    'error':
+                        session.stopped[gid] = result;
+                        break;
+                }
+            }
             break;
     }
 }
