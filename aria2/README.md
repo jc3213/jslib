@@ -150,25 +150,30 @@ async function aria2WebsocketNotification (response) {
         case 'aria2.onBtDownloadComplete':
             break;
        case 'aria2.onDownloadStart':
-            console.log("The status of session #" + gid + " has been changed to \"active\"");
+            console.log("The session #" + gid + " has started");
             if (session.waiting[gid]) {
                 delete session.waiting[gid];
                 session.active[gid] = result;
             }
             break;
        case 'aria2.onDownloadComplete':
-            console.log("The status of session #" + gid + " has been changed to \"complete\"");
+            console.log("The session #" + gid + " has completed");
        default:
             if (session.active[gid]) {
                 delete session.active[gid];
                 switch (result.status) {
                     case 'waiting':
+                        console.log("The status of session #" + gid + " has been changed to \"waiting\"");
                     case 'paused':
+                        console.log("The status of session #" + gid + " has been changed to \"paused\"");
                         session.waiting[gid] = result;
                         break;
                     case 'complete':
+                        console.log("The status of session #" + gid + " has been changed to \"complete\"");
                     case 'removed':
+                        console.log("The status of session #" + gid + " has been changed to \"removed\"");
                     case 'error':
+                        console.log("The status of session #" + gid + " has been changed to \"errio\"");
                         session.stopped[gid] = result;
                         break;
                 }
