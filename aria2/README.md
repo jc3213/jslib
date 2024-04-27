@@ -84,7 +84,10 @@ console.log(aria2.onmessage); // current message event listener
 aria2.onmessage = callback; // set new message event listener
 ```
 - Handle the event when `WebSocket` message is recieved
-- This is usually used for notification events of JSON-RPC
+- callback
+    - `function`, (response: object) => void
+    - returns `${callback}`
+    - Used for JSON-RPC over WebSocket notifications
 
 ### onclose
 ```javascript
@@ -92,19 +95,59 @@ console.log(aria2.onclose); // current message event listener
 aria2.onclose = callback; // set new message event listener
 ```
 - Handle the event when `WebSocket` connection is closed
-
-#### Code Sample
-```javascript
-aria2.onmessage = function (response) {
-    if (!response.method) { return; }
-    console.log(response);
-}
-```
-
 - callback
     - `function`, (response: object) => void
     - returns `${callback}`
-    - Used for JSON-RPC over WebSocket notifications
+    - It will run when WebSocket connection is closed
+
+#### Code Sample
+```javascript
+let tasks = {};
+let jsonrpc = {};
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
+aria2.onmessage = aria2WebsocketNotification;
+aria2.onclose = aria2ClientInitiate;
+
+function aria2ClientInitiate() {
+    tasks.active = {};
+    tasks.waiting = {};
+    tasks.stopped = {};
+    tasks.all = {};
+    aria2.call(
+        {method: 'aria2.getGlobalOption'},
+        {method: 'aria2.getVersion'},
+        {method: 'aria2.getGlobalStat'},
+        {method: 'aria2.tellActive'},
+        {method: 'aria2.tellWaiting', params: [0, 999]},
+        {method: 'aria2.tellStopped', params: [0, 999]}
+    ).then((response) => {
+        let [global, version, stats, active, waiting, stopped] = response;
+        jsonrpc.options = global.result;
+        jsonrpc.version = version.result;
+        active.result.forEach((result) => tasks.active[result.gid] = tasks.all[result.gid] = result);
+        waiting.result.forEach((result) => tasks.waiting[result.gid] = tasks.all[result.gid] = result);
+        stopped.result.forEach((result) => tasks.stopped[result.gid] = tasks.all[result.gid] = result);
+    }).catch((error) => {
+        retry = setTimeout(aria2JsonrpcInitiate, 50000);
+    });
+
+function aria2WebsocketNotification (response) {
+    if (!response.method) { return; }
+    let gid = response.params[0].gid;
+    switch (method) {
+        case 'aria2.onBtDownloadComplete':
+            break;
+       case 'aria2.onDownloadStart':
+            // When Download Start
+           break;
+       case 'aria2.onDownloadComplete':
+           // When Download Complete
+       default:
+            // For paused, waiting, complete, error, removed
+            break;
+    }
+}
+```
 
 ## Method
 - [call](#call)
