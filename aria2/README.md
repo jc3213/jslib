@@ -143,6 +143,7 @@ function aria2ClientInitiate() {
     }).catch((error) => {
         retry = setTimeout(aria2JsonrpcInitiate, 50000);
     });
+}
 
 function aria2WebsocketNotification (response) {
     if (!response.method) { return; }
