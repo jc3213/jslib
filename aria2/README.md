@@ -68,6 +68,7 @@ aria2.secret = secret; // set new secret token
 console.log(aria2.onmessage); // current message event listener
 aria2.onmessage = callback; // set new message event listener
 ```
+- Required version: [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)~
 - Handle the event when `WebSocket` message is recieved
 - callback
     - `function`, (response: object) => void
@@ -79,6 +80,7 @@ aria2.onmessage = callback; // set new message event listener
 console.log(aria2.onclose); // current message event listener
 aria2.onclose = callback; // set new message event listener
 ```
+- Required version: [0.6.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.6.0.js)~
 - Handle the event when `WebSocket` connection is closed
 - callback
     - `function`, (response: object) => void
@@ -96,8 +98,6 @@ aria2.onclose = callback; // set new message event listener
 ### call
 ```javascript
 let response = aria2.call({ method, params });
-```
-```javascript
 let response = aria2.call({ method, params }, { method, params }, ..., { method, params });
 ```
 
