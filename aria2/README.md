@@ -20,13 +20,6 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc", "secret"); // Requires 0.
 let aria2 = new Aria2("http://localhost:6800/jsonrpc#secret"); // Requires 0.5.0~
 ```
 
-- [scheme](#scheme) + [url](#url)
-    - *required*
-- jsonrpc
-    - *required*
-- [secret](#secret)
-    - *optional*
-
 ## Getter & Setter
 - [scheme](#scheme)
 - [url](#url)
