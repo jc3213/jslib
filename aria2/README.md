@@ -111,8 +111,6 @@ let response = aria2.batch([ [method, ...options] ]);
 let response = aria2.batch([ [method, ...options], [method, ...options] ]);
 ```
 - Deprecated since [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)
-- response
-    - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
 
 ### Code Sample
 ```javascript
