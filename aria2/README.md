@@ -15,9 +15,9 @@
 
 ## Syntax
 ```javascript
-let aria2 = new Aria2(scheme, url, secret);
-let aria2 = new Aria2(jsonrpc, secret);
-let aria2 = new Aria2(jsonrpcWithSecret);
+let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "secret");
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "secret"); // Requires 0.5.0~
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#secret"); // Requires 0.5.0~
 ```
 
 - [scheme](#scheme) + [url](#url)
@@ -39,6 +39,7 @@ let aria2 = new Aria2(jsonrpcWithSecret);
 console.log(aria2.scheme); // current scheme
 aria2.scheme = scheme; // set new scheme
 ```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
 - scheme
     - `http`, `https`, `ws`, and `wss`
 
@@ -47,18 +48,21 @@ aria2.scheme = scheme; // set new scheme
 console.log(aria2.url); // current url
 aria2.url = url; // set new url
 ```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
 - url
     - `${hostname}:${port}/jsonrpc`
 - hostname
     - `www.example.com`
 - port
     - `6800` *default*
+    - `443` for SSL
 
 ### secret
 ```javascript
 console.log(aria2.secret); // current secret token
 aria2.secret = secret; // set new secret token
 ```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
 - secret
     - `string`, secret token of aria2 json-rpc
     - returns `token:${secret}`
@@ -97,16 +101,25 @@ aria2.onclose = callback; // set new message event listener
 
 ### call
 ```javascript
-let response = aria2.call({ method, params });
-let response = aria2.call({ method, params }, { method, params }, ..., { method, params });
+let response = aria2.call( method, ...options ); // Requires 0.1.0~0.2.0
+let response = aria2.call( { method, params } ); // Requires 0.3.0~
+let response = aria2.call( { method, params }, { method, params }, ..., { method, params } ); // Requires 0.3.0~
 ```
-
 - response
     - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
 - method **required**
     - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
 - params **optional**
     - JSON-RPC method call parameters
+ 
+### batch
+```javascript
+let response = aria2.batch([ [method, ...options] ]);
+let response = aria2.batch([ [method, ...options], [method, ...options] ]);
+```
+- Deprecated since [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)
+- response
+    - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
 
 ### Code Sample
 ```javascript
