@@ -145,7 +145,8 @@ function aria2ClientInitiate() {
     });
 }
 
-async function aria2WebsocketNotification (response) {
+async function aria2WebsocketNotification (event) {
+    let response = JSON.parse(event.data);
     if (!response.method) { return; }
     let gid = response.params[0].gid;
     let res = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
