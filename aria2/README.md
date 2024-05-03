@@ -76,7 +76,8 @@ aria2.onmessage = callback; // set new message event listener
 - Required version: [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)~
 - Handle the event when `WebSocket` message is recieved
 - callback
-    - `function`, (response: object) => void
+    - `function`, (response: object) => void [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)~[0.6.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.6.0.js)
+    - `function`, (event) => void [0.7.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.7.0.js)~
     - returns `${callback}`
     - Used for JSON-RPC over WebSocket notifications
 
