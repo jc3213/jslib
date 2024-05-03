@@ -89,7 +89,7 @@ aria2.onclose = callback; // set new message event listener
 - Required version: [0.6.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.6.0.js)~
 - Handle the event when `WebSocket` connection is closed
 - callback
-    - `function`, (response: object) => void
+    - `function`, (event) => void
     - returns `${callback}`
     - It will run when WebSocket connection is closed
 
