@@ -1,0 +1,177 @@
+## Usage
+
+### Download
+[0.3.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.3.0.js)
+[0.4.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.4.0.js)
+[0.5.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.5.0.js)
+[0.6.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.6.0.js)
+
+## Syntax
+```javascript
+let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "mysecret");
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "mysecret"); // Requires 0.5.0~
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret"); // Requires 0.5.0~
+```
+
+## Getter & Setter
+- [scheme](#scheme)
+- [url](#url)
+- [secret](#secret)
+- [onmessage](#onmessage)
+- [onclose](#onclose)
+
+## Method
+- [call](#call)
+    - Use `WebSocket` or `HTTP Post` based on [scheme](#scheme)
+- [send](#call)
+    - Use `WebSocket` method only
+- [post](#call)
+    - Use `HTTP Post` method only
+
+### scheme
+```javascript
+console.log(aria2.scheme); // current scheme
+aria2.scheme = scheme; // set new scheme
+```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
+- scheme
+    - `http`, `https`, `ws`, and `wss`
+
+### url
+```javascript
+console.log(aria2.url); // current url
+aria2.url = url; // set new url
+```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
+- url
+    - `${hostname}:${port}/jsonrpc`
+- hostname
+    - `www.example.com`
+- port
+    - `6800` *default*
+    - `443` for SSL
+
+### secret
+```javascript
+console.log(aria2.secret); // current secret token
+aria2.secret = secret; // set new secret token
+```
+- Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
+- secret
+    - `string`, secret token of aria2 json-rpc
+    - returns `token:${secret}`
+
+### onmessage
+```javascript
+console.log(aria2.onmessage); // current message event listener
+aria2.onmessage = callback; // set new message event listener
+```
+- Handle the event when `WebSocket` message is recieved
+- callback
+    - `function`, (response: object) => void
+    - returns `${callback}`
+    - Used for JSON-RPC over WebSocket notifications
+
+### onclose
+```javascript
+console.log(aria2.onclose); // current message event listener
+aria2.onclose = callback; // set new message event listener
+```
+- Required version: [0.6.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.6.0.js)~
+- Handle the event when `WebSocket` connection is closed
+- callback
+    - `function`, (event) => void
+    - returns `${callback}`
+    - It will run when WebSocket connection is closed
+
+### call
+```javascript
+let response = aria2.call( method, ...options ); // Requires 0.1.0~0.2.0
+let response = aria2.call( { method, params } ); // Requires 0.3.0~
+let response = aria2.call( { method, params }, { method, params }, ..., { method, params } ); // Requires 0.3.0~
+```
+- response
+    - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
+- method **required**
+    - Read [RPC method calls](https://aria2.github.io/manual/en/html/aria2c.html#methods)
+- params **optional**
+    - JSON-RPC method call parameters
+ 
+### batch
+```javascript
+let response = aria2.batch([ [method, ...options] ]);
+let response = aria2.batch([ [method, ...options], [method, ...options] ]);
+```
+- Deprecated since [0.3.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.3.0.js)
+
+### Code Sample
+```javascript
+let jsonrpc = {};
+let session = {};
+let retry;
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
+aria2.onmessage = aria2WebsocketNotification;
+aria2.onclose = aria2ClientInitiate;
+aria2ClientInitiate();
+
+function aria2ClientInitiate() {
+    session.all = {};
+    session.active = {};
+    session.waiting = {};
+    session.stopped = {};
+    aria2.call(
+        {method: 'aria2.getGlobalOption'},
+        {method: 'aria2.getVersion'},
+        {method: 'aria2.getGlobalStat'},
+        {method: 'aria2.tellActive'},
+        {method: 'aria2.tellWaiting', params: [0, 999]},
+        {method: 'aria2.tellStopped', params: [0, 999]}
+    ).then((response) => {
+        let [global, version, stats, active, waiting, stopped] = response;
+        jsonrpc.options = global.result;
+        jsonrpc.version = version.result;
+        jsonrpc.stat = stats.result;
+        active.result.forEach((result) => session.active[result.gid] = session.all[result.gid] = result);
+        waiting.result.forEach((result) => session.waiting[result.gid] = session.all[result.gid] = result);
+        stopped.result.forEach((result) => session.stopped[result.gid] = session.all[result.gid] = result);
+    }).catch((error) => {
+        retry = setTimeout(aria2JsonrpcInitiate, 5000);
+    });
+}
+
+async function aria2WebsocketNotification(response) {
+    if (!response.method) { return; }
+    let gid = response.params[0].gid;
+    let res = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
+    let result = res[0].result;
+    switch (response.method) {
+        case 'aria2.onBtDownloadComplete':
+            break;
+       case 'aria2.onDownloadStart':
+            console.log("The session #" + gid + " has started");
+            if (session.waiting[gid]) {
+                delete session.waiting[gid];
+                session.active[gid] = result;
+            }
+            break;
+       case 'aria2.onDownloadComplete':
+            console.log("The session #" + gid + " has completed");
+       default:
+            if (session.active[gid]) {
+                delete session.active[gid];
+                switch (result.status) {
+                    case 'waiting':
+                    case 'paused':
+                        session.waiting[gid] = result;
+                        break;
+                    case 'complete':
+                    case 'removed':
+                    case 'error':
+                        session.stopped[gid] = result;
+                        break;
+                }
+            }
+            break;
+    }
+}
+```
