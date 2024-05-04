@@ -66,7 +66,8 @@ aria2.secret = secret; // set new secret token
 - Required version: [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~
 - secret
     - `string`, secret token of aria2 json-rpc
-    - returns `token:${secret}`
+    - returns `token:${secret}` [0.4.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.4.0.js)~[0.6.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.6.0.js)
+    - returns `${secret}` [0.7.0](https://jc3213.github.io/jslib/aria2/archived/aria2_0.7.0.js)~
 
 ### onmessage
 ```javascript
