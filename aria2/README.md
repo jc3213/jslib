@@ -158,7 +158,14 @@ async function aria2UpdateStats() {
     active.result.forEach((result) => session.active[result.gid] = session.all[result.gid] = result);
 }
 
-async function aria2WebsocketNotification (event) {
+async function aria2PurgeDownload() {
+    let response = await aria2RPC.call({method: 'aria2.purgeDownloadResult'});
+    session.all = {...session.active, ...session.waiting};
+    session.stopped = {};
+    jsonrpc.stat['numStopped'] = '0';
+}
+
+async function aria2WebsocketNotification(event) {
     let response = JSON.parse(event.data);
     if (!response.method) { return; }
     let gid = response.params[0].gid;
