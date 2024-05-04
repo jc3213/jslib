@@ -117,12 +117,15 @@ let response = aria2.batch([ [method, ...options], [method, ...options] ]);
 ```javascript
 let jsonrpc = {};
 let session = {};
+let retry;
+let update;
 let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
 aria2.onmessage = aria2WebsocketNotification;
 aria2.onclose = aria2ClientInitiate;
 aria2ClientInitiate();
 
 function aria2ClientInitiate() {
+    clearInterval(update);
     session.all = {};
     session.active = {};
     session.waiting = {};
@@ -138,12 +141,21 @@ function aria2ClientInitiate() {
         let [global, version, stats, active, waiting, stopped] = response;
         jsonrpc.options = global.result;
         jsonrpc.version = version.result;
+        jsonrpc.stat = stats.result;
         active.result.forEach((result) => session.active[result.gid] = session.all[result.gid] = result);
         waiting.result.forEach((result) => session.waiting[result.gid] = session.all[result.gid] = result);
         stopped.result.forEach((result) => session.stopped[result.gid] = session.all[result.gid] = result);
+        update = setInterval(aria2UpdateStats, 10000);
     }).catch((error) => {
-        retry = setTimeout(aria2JsonrpcInitiate, 50000);
+        retry = setTimeout(aria2JsonrpcInitiate, 5000);
     });
+}
+
+async function aria2UpdateStats() {
+    let response = await aria2RPC.call({method: 'aria2.getGlobalStat'}, {method: 'aria2.tellActive'});
+    let [stats, active] = response;
+    jsonrpc.stat = stats.result;
+    active.result.forEach((result) => session.active[result.gid] = session.all[result.gid] = result);
 }
 
 async function aria2WebsocketNotification (event) {
