@@ -4,16 +4,6 @@
 [0.1.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.1.0.js)
 [0.2.0](https://jc3213.github.io/jslib/aria2/archive/aria2_0.2.0.js)
 
-### HTML
-```HTML
-<script src="https://jc3213.github.io/jslib/aria2/aria2.js"></script>
-```
-
-### TamperMonkey
-```javascript
-// @require https://jc3213.github.io/jslib/aria2/aria2.js
-```
-
 ## Syntax
 ```javascript
 let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "mysecret");
