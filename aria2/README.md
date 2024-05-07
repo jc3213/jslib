@@ -111,6 +111,7 @@ aria2.onclose = aria2ClientInitiate;
 aria2ClientInitiate();
 
 function aria2ClientInitiate() {
+    clearTimeout(retry);
     clearInterval(update);
     session.all = {};
     session.active = {};
