@@ -7,7 +7,7 @@ class Aria2WebSocket {
     }
     connect () {
         this.websocket = new Promise((resolve, reject) => {
-            const websocket = new WebSocket(this.jsonrpc);
+            let websocket = new WebSocket(this.jsonrpc);
             websocket.onopen = (event) => resolve(websocket);
             websocket.onclose = (error) => setTimeout(this.connect.bind(this), 5000);
         });
@@ -29,12 +29,11 @@ class Aria2WebSocket {
         return this._onmessage;
     }
     send (...messages) {
-        const message = JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.params, ...params] }) ));
         return new Promise((resolve, reject) => {
             this.websocket.then((websocket) => {
                 websocket.onmessage = (event) => resolve(JSON.parse(event.data));
                 websocket.onerror = (error) => reject(error);
-                websocket.send(message);
+                websocket.send( JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.params, ...params] }) )) );
             });
         });
     }
