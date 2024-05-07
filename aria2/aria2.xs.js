@@ -5,7 +5,7 @@ class Aria2XMLRequest {
         this.params = secret ? ['token:' + secret] : [];
     }
     get (...messages) {
-        return fetch(this.jsonrpc + '?params=' + btoa(this.json(messages))).then((response) => {
+        return fetch(this.jsonrpc + '?params=' + btoa(unescape(encodeURIComponent(this.json(messages))))).then((response) => {
             if (response.ok) { return response.json(); } throw new Error(response.statusText);
         });
     }
