@@ -34,18 +34,14 @@ class Aria2 {
         return this.jsonrpc.secret;
     }
     connect () {
-        this.socket?.then((ws) => {
-            ws.abort = true;
-            ws.close();
-        });
+        this.socket?.then( (ws) => ws.close() );
         this.socket = new Promise((resolve, reject) => {
             let ws = new WebSocket(this.jsonrpc.ws);
             ws.abort = false;
             ws.onopen = (event) => resolve(ws);
             ws.onclose = (event) => {
-                if (ws.abort) { return ws = null; }
+                if (event.wasClean) { return; }
                 setTimeout(this.connect.bind(this), 5000);
-                reject(event);
             };
         });
         this.listener('message', this.jsonrpc.onmessage);
