@@ -89,9 +89,8 @@ aria2.onclose = callback; // set new message event listener
 
 ### call
 ```javascript
-let response = aria2.call( method, ...options ); // Requires 0.1.0~0.2.0
-let response = aria2.call( { method, params } ); // Requires 0.3.0~
-let response = aria2.call( { method, params }, { method, params }, ..., { method, params } ); // Requires 0.3.0~
+let response = aria2.call( { method, params } );
+let response = aria2.call( { method, params }, { method, params }, ..., { method, params } );
 ```
 - response
     - `Promise` object, return an array that contains the response from jsonrpc if fulfilled
@@ -152,8 +151,7 @@ async function aria2PurgeDownload() {
     jsonrpc.stat['numStopped'] = '0';
 }
 
-async function aria2WebsocketNotification(event) {
-    let response = JSON.parse(event.data);
+async function aria2WebsocketNotification(response) {
     if (!response.method) { return; }
     let gid = response.params[0].gid;
     let res = await aria2.call({method: 'aria2.tellStatus', params: [gid]});
