@@ -37,12 +37,8 @@ class Aria2 {
         this.socket?.then( (ws) => ws.close() );
         this.socket = new Promise((resolve, reject) => {
             let ws = new WebSocket(this.jsonrpc.ws);
-            ws.abort = false;
             ws.onopen = (event) => resolve(ws);
-            ws.onclose = (event) => {
-                if (event.wasClean) { return; }
-                setTimeout(this.connect.bind(this), 5000);
-            };
+            ws.onclose = (event) => { if (!event.wasClean) { setTimeout(this.connect.bind(this), 5000); } };
         });
         this.listener('message', this.jsonrpc.onmessage);
         this.listener('close', this.jsonrpc.onclose);
