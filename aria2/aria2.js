@@ -42,10 +42,10 @@ class Aria2 {
             let ws = new WebSocket(this.jsonrpc.ws);
             ws.abort = false;
             ws.onopen = (event) => resolve(ws);
-            ws.onerror = reject;
             ws.onclose = (event) => {
                 if (ws.abort) { return ws = null; }
                 setTimeout(this.connect.bind(this), 5000);
+                reject(event);
             };
         });
         this.listener('message', this.jsonrpc.onmessage);
