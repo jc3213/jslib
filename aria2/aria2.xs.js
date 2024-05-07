@@ -1,7 +1,8 @@
 class Aria2XMLRequest {
     constructor (url, secret) {
         this.jsonrpc = url;
-        this.secret = `token:${secret}`;
+        this.secret = secret;
+        this.params = secret ? ['token:' + secret] : [];
     }
     get (...messages) {
         return fetch(this.jsonrpc + '?params=' + btoa(this.json(messages))).then((response) => {
@@ -14,6 +15,6 @@ class Aria2XMLRequest {
         });
     }
     json (array) {
-        return JSON.stringify(array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) ));
+        return JSON.stringify(array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.params, ...params] }) ));
     }
 }
