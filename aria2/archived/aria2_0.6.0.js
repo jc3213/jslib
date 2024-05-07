@@ -36,6 +36,7 @@ class Aria2 {
             const websocket = new WebSocket(this._jsonrpc.replace('http', 'ws'));
             websocket.onopen = (event) => resolve(websocket);
             websocket.onerror = (error) => reject(error);
+            websocket.onclose = (event) => setTimeout(() => this.connect(), 5000);
             if (typeof this._onmessage === 'function') { websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))); }
             if (typeof this._onclose === 'function') { websocket.addEventListener('close', this._onclose); }
         });
