@@ -6,35 +6,37 @@ class Aria2WebSocket {
         this.connect();
     }
     connect () {
-        this.websocket = new Promise((resolve, reject) => {
-            let websocket = new WebSocket(this.jsonrpc);
-            websocket.onopen = (event) => resolve(websocket);
-            websocket.onclose = (error) => setTimeout(this.connect.bind(this), 5000);
+        this.socket?.then( (ws) => ws.close() );
+        this.socket = new Promise((resolve, reject) => {
+            let ws = new WebSocket(this.jsonrpc.ws);
+            ws.onopen = (event) => resolve(ws);
+            ws.onmessage = (event) => {
+                let response = JSON.parse(event.data);
+                response.method ? this._onmessage(response) : ws.resolve(response);
+            };
+            ws.onclose = (event) => {
+                if (!event.wasClean) { setTimeout(() => this.connect(), 5000); }
+                this._onclose(event);
+            };
         });
     }
-    set onclose (callback) {
-        if (typeof callback !== 'function') { return; }
-        if (!this._onclose) { this.websocket.then( (websocket) => websocket.addEventListener('close', (event) => this._onclose(event)) ); }
-        this._onclose = callback;
-    }
-    get onclose () {
-        return this._onclose;
-    }
     set onmessage (callback) {
-        if (typeof callback !== 'function') { return; }
-        if (!this._onmessage) { this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => this._onmessage(JSON.parse(event.data))) ); }
-        this._onmessage = callback;
+        this._onmessage = typeof callback === 'function' ? callback : () => null;
     }
     get onmessage () {
         return this._onmessage;
     }
+    set onclose (callback) {
+        this._onclose = typeof callback === 'function' ? callback : () => null;
+    }
+    get onclose () {
+        return this._onclose;
+    }
     send (...messages) {
-        return new Promise((resolve, reject) => {
-            this.websocket.then((websocket) => {
-                websocket.onmessage = (event) => resolve(JSON.parse(event.data));
-                websocket.onerror = (error) => reject(error);
-                websocket.send( JSON.stringify(messages.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.params, ...params] }) )) );
-            });
-        });
+        return this.socket.then((ws) => new Promise((resolve, reject) => {
+            ws.resolve = resolve;
+            ws.onerror = reject;
+            ws.send( JSON.stringify( array.map( ({method, params = []}) => ({id: '', jsonrpc: '2.0', method, params: [...this.jsonrpc.params, ...params]}) ) ) );
+        }));
     }
 }
