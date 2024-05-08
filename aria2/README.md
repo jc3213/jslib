@@ -72,7 +72,7 @@ aria2.onmessage = callback; // set new message event listener
 ```
 - Handle the event when `WebSocket` message is recieved
 - callback
-    - `function`, (event) => void
+    - `function`, (response) => void
     - returns `${callback}`
     - Used for JSON-RPC over WebSocket notifications
 
