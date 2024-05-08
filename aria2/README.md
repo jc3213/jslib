@@ -16,8 +16,8 @@
 ## Syntax
 ```javascript
 let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "mysecret");
-let aria2 = new Aria2("http://localhost:6800/jsonrpc", "mysecret"); // Requires 0.5.0~
-let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret"); // Requires 0.5.0~
+let aria2 = new Aria2("http://localhost:6800/jsonrpc", "mysecret");
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
 ```
 
 ## Getter & Setter
