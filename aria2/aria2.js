@@ -61,21 +61,21 @@ class Aria2 {
     get onclose () {
         return this.jsonrpc.onclose;
     }
-    send (...messages) {
+    send (...args) {
         return this.socket.then((ws) => new Promise((resolve, reject) => {
             ws.resolve = resolve;
             ws.onerror = reject;
-            ws.send(this.json(messages));
+            ws.send(this.json(args));
         }));
     }
-    post (...messages) {
-        return fetch(this.jsonrpc.path, {method: 'POST', body: this.json(messages)}).then((response) => {
+    post (...args) {
+        return fetch(this.jsonrpc.path, {method: 'POST', body: this.json(args)}).then((response) => {
             if (response.ok) { return response.json(); }
             throw new Error(response.statusText);
         });
     }
-    json (array) {
-        let json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.jsonrpc.params, ...params] }) );
+    json (args) {
+        let json = args.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [...this.jsonrpc.params, ...params] }) );
         return JSON.stringify(json);
     }
 }
