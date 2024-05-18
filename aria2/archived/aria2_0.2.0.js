@@ -2,13 +2,13 @@ class Aria2 {
     constructor (scheme, url, secret) {
         this.url = url;
         this.secret = 'token:' + secret;
-        this.method = scheme;
+        this.scheme = scheme;
         this.connect();
     }
-    set method (scheme) {
-        const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
+    set scheme (scheme) {
+        this.call = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send }[scheme];
+        if (!this.call) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
         this.jsonrpc = scheme + '://' + this.url;
-        if (!(this.call = methods[scheme])) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
     }
     connect () {
         this.websocket = new Promise((resolve, reject) => {
@@ -23,10 +23,6 @@ class Aria2 {
     set onmessage (callback) {
         this.websocket.then( (websocket) => websocket.addEventListener('message', (event) => callback(JSON.parse(event.data))) );
     }
-    json (array) {
-        const json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) );
-        return JSON.stringify(json);
-    }
     send (...messages) {
         return this.websocket.then((websocket) => new Promise((resolve, reject) => {
             websocket.onmessage = (event) => resolve(JSON.parse(event.data));
@@ -39,5 +35,9 @@ class Aria2 {
             if (response.ok) { return response.json(); }
             throw new Error(response.statusText);
         });
+    }
+    json (array) {
+        const json = array.map( ({method, params = []}) => ({ id: '', jsonrpc: '2.0', method, params: [this.secret, ...params] }) );
+        return JSON.stringify(json);
     }
 }
