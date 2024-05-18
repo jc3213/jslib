@@ -5,11 +5,10 @@ class Aria2 {
         this.secret = secret;
     }
     set scheme (scheme) {
-        const methods = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send };
-        if (methods[scheme] === undefined) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
+        this.call = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send }[scheme];
+        if (!this.call) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
         this._scheme = scheme;
         this._jsonrpc = scheme + '://' + this._url;
-        this.call = methods[scheme];
     }
     get scheme () {
         return this._scheme;
