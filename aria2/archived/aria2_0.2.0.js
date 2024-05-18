@@ -6,7 +6,7 @@ class Aria2 {
         this.connect();
     }
     set scheme (scheme) {
-        this.call = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send }[scheme];
+        this.call = { 'http': this.post, 'https': this.post, 'ws': this.send, 'wss': this.send }[ scheme ];
         if (!this.call) { throw new Error('Invalid method: ' + scheme + ' is not supported!'); }
         this.jsonrpc = scheme + '://' + this.url;
     }
