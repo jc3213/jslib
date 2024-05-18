@@ -15,9 +15,9 @@
 
 ## Syntax
 ```javascript
-let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "mysecret");
 let aria2 = new Aria2("http://localhost:6800/jsonrpc", "mysecret");
-let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
+let aria2 = new Aria2("http", "localhost:6800/jsonrpc", "mysecret"); // Requires 0.2.0~
+let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret"); // Requires 0.4.0~
 ```
 
 ## Getter & Setter
@@ -40,6 +40,7 @@ let aria2 = new Aria2("http://localhost:6800/jsonrpc#mysecret");
 console.log(aria2.scheme); // current scheme
 aria2.scheme = scheme; // set new scheme
 ```
+- Requires 0.2.0~
 - scheme
     - `http`, `https`, `ws`, and `wss`
 
@@ -48,6 +49,7 @@ aria2.scheme = scheme; // set new scheme
 console.log(aria2.url); // current url
 aria2.url = url; // set new url
 ```
+- Requires 0.3.0~
 - url
     - `${hostname}:${port}/jsonrpc`
 - hostname
@@ -61,6 +63,7 @@ aria2.url = url; // set new url
 console.log(aria2.secret); // current secret token
 aria2.secret = secret; // set new secret token
 ```
+- Requires 0.3.0~
 - secret
     - `string`, secret token of aria2 json-rpc
     - returns `${secret}`
@@ -70,6 +73,7 @@ aria2.secret = secret; // set new secret token
 console.log(aria2.onmessage); // current message event listener
 aria2.onmessage = callback; // set new message event listener
 ```
+- Requires 0.2.0~
 - Handle the event when `WebSocket` message is recieved
 - callback
     - `function`, (response) => void
@@ -81,6 +85,7 @@ aria2.onmessage = callback; // set new message event listener
 console.log(aria2.onclose); // current message event listener
 aria2.onclose = callback; // set new message event listener
 ```
+- Requires 0.5.0~
 - Handle the event when `WebSocket` connection is closed
 - callback
     - `function`, (event) => void
