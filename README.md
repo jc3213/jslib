@@ -1,6 +1,6 @@
 ## JavaScript Library
 - [aria2.js - aria2 JSON-RPC Ultility](https://github.com/jc3213/aria2.js)
-- [Promise File Reader](https://github.com/jc3213/promisefilereader)
+- [promisefilereader.js - Promise based FileReader wrapper](https://github.com/jc3213/promisefilereader.js)
 - [metalink.js - matalink generater](https://github.com/jc3213/metalink.js)
 
 ## Javascript UI
