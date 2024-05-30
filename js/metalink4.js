@@ -1,37 +1,36 @@
 class Metalink {
     constructor (...args) {
-        let result = '';
         let encoder = new TextEncoder();
-        args.forEach((obj) => result += this.meta4(obj));
-        this.text = '<?xml version="1.0" encoding="UTF-8"?>\n<metalink xmlns="urn:ietf:params:xml:ns:metalink">' + result + '\n</metalink>';
+        let metalink = ['<?xml version="1.0" encoding="UTF-8"?>\n<metalink xmlns="urn:ietf:params:xml:ns:metalink">', ...args.map(this.meta4), '</metalink>'];
+        this.text = metalink.join('\n');
         this.lines = this.text.split(/\n\s*/);
         this.arrayBuffer = encoder.encode(this.text);
         this.dataURL = 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(this.text)));
         this.blob = new Blob([this.text], {type: 'application/metalink+xml; charset=utf-8'});
     }
     meta4 ({name, size, version, language, hashes, urls, metaurls}) {
-        let lnsp = '\n        ';
-        let file = name ? '<file name="' + name + '">' : '<file>';
+        let file = '    ';
+        file += name ? '<file name="' + name + '">' : '<file>';
         if (size) {
-            file += lnsp + '<size>' + size + '</size>';
+            file += '\n        <size>' + size + '</size>';
         }
         if (version) {
-            file += lnsp + '<version>' + version + '</version>';
+            file += '\n        <version>' + version + '</version>';
         }
         if (language) {
-            file += lnsp + '<language>' + language + '</language>';
+            file += '\n        <language>' + language + '</language>';
         }
-        hashes?.forEach(({type, hash}) => file += lnsp + '<hash type="' + type + '">' + hash + '</hash>');
+        hashes?.forEach(({type, hash}) => file += '\n        <hash type="' + type + '">' + hash + '</hash>');
         urls.forEach((url) => {
             if (typeof url === 'string') {
-                file += lnsp + '<url>' + url + '</url>';
+                file += '\n        <url>' + url + '</url>';
             }
             else if (typeof url === 'object') {
-                file += url.location ?  lnsp + '<location="' + url.location + '">' + url.url + '</url>' : lnsp + '<url>' + url.url + '</url>';
+                file += url.location ?  '\n        <location="' + url.location + '">' + url.url + '</url>' : '\n        <url>' + url.url + '</url>';
             }
         });
-        metaurls?.forEach(({type, url}) => file += lnsp + '<metaurl metatype="' + type + '">' + url + '</metaurl>');
-        return '\n    ' + file + '\n    </file>';
+        metaurls?.forEach(({type, url}) => file += '\n        <metaurl metatype="' + type + '">' + url + '</metaurl>');
+        return file + '\n    </file>';
     }
     save (filename) {
         if (!filename) {
