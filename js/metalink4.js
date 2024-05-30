@@ -8,8 +8,9 @@ class Metalink {
         this.dataURL = 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(this.text)));
         this.blob = new Blob([this.text], {type: 'application/metalink+xml; charset=utf-8'});
     }
-    meta4 ({name, size, version, language, hashes, urls, metaurls}) {
+    meta4 (arg) {
         let file = '    ';
+        let {name, size, version, language, hash = [], url, metaurl = []} = arg;
         file += name ? '<file name="' + name + '">' : '<file>';
         if (size) {
             file += '\n        <size>' + size + '</size>';
@@ -20,16 +21,19 @@ class Metalink {
         if (language) {
             file += '\n        <language>' + language + '</language>';
         }
-        hashes?.forEach(({type, hash}) => file += '\n        <hash type="' + type + '">' + hash + '</hash>');
-        urls.forEach((url) => {
-            if (typeof url === 'string') {
-                file += '\n        <url>' + url + '</url>';
-            }
-            else if (typeof url === 'object') {
-                file += url.location ?  '\n        <location="' + url.location + '">' + url.url + '</url>' : '\n        <url>' + url.url + '</url>';
+        let hashes = Array.isArray(hash) ? hash : [hash];
+        hashes.forEach(({type, hash}) => file += '\n        <hash type="' + type + '">' + hash + '</hash>');
+        let urls = Array.isArray(url) ? url : [url];
+        urls.forEach((arg) => {
+            if (typeof arg === 'object') {
+                let {location, url} = arg;
+                file += location ?  '\n        <location="' + location + '">' + url + '</url>' : '\n        <url>' + url + '</url>';
+            } else if (typeof arg === 'string') {
+                file += '\n        <url>' + arg + '</url>';
             }
         });
-        metaurls?.forEach(({type, url}) => file += '\n        <metaurl metatype="' + type + '">' + url + '</metaurl>');
+        let metaurls = Array.isArray(metaurl) ? metaurl : [metaurl];
+        metaurls.forEach(({type, url}) => file += '\n        <metaurl metatype="' + type + '">' + url + '</metaurl>');
         return file + '\n    </file>';
     }
     save (filename) {
