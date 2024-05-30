@@ -4,7 +4,7 @@
 - [metalink.js - matalink generater](https://github.com/jc3213/metalink.js)
 
 ## Javascript UI
-- [JSUI](/ui/)
+- [JSUI](ui/)
 
 ## Code Sample
 - [Aria2 Task Manager](https://jc3213.github.io/aria2.app/)
