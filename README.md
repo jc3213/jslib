@@ -7,10 +7,10 @@
 ## Javascript UI
 - [JSUI](ui/)
 
-## Code Sample
+## Application
 - [Aria2 Task Manager](https://jc3213.github.io/aria2.app/)
-    - **Aria2 JSON RPC**
+    - [aria2.js](https://github.com/jc3213/aria2.js)
 - [Sample page](//jc3213.github.io/jslib/sample/sample.html)
     - **JSUI**
     - **URL Components**
-    - **Promise File Reader**
+    - [promisefilereader.js](https://github.com/jc3213/promisefilereader.js)
