@@ -1,14 +1,16 @@
 class Gacha {
-    constructor(pickup, threshold) {
-        this.pickup = pickup;
-        this.threshold = threshold;
-        this.rarity = { sr: 0.3, ssr: 0.05 };
-        this.pools = { r: Array.from({ length: 50 }, (_, i) => 'r' + i), sr: Array.from({ length: 15 }, (_, i) => 'sr' + i), ssr: Array.from({ length: 5 }, (_, i) => 'ssr' + i) };
+    constructor() {
+        this.rarity = { sr: 0.3, ssr: 0.05, pickup: 0.0007 };
+        this.pools = { r: this.pool(50), sr: this.pool(15), ssr: this.pool(5) };
+        this.threshold = 200;
         this.reset();
     }
     reset () {
         this.total = 0;
         this.result = { r: 0, sr: 0, ssr: 0, up: 0, pickup: [], logs: [] };
+    }
+    pool (length) {
+        return Array.from({ length }, (_, i) => 'r' + (i + 1));
     }
     card (type) {
         let pool = this.pools[type];
@@ -24,7 +26,7 @@ class Gacha {
             if (this.total === this.threshold) { break; }
             this.total ++;
             let random = Math.random();
-            if (random < this.pickup) {
+            if (random < this.rarity.pickup) {
                 this.result.up ++;
                 this.result.logs.push('pickup');
                 this.result.pickup.push(this.total);
