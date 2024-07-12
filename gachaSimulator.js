@@ -8,7 +8,9 @@ class Gacha {
     }
     reset () {
         this.total = 0;
-        this.result = { r: 0, sr: 0, ssr: 0, up: 0, bingo: [], logs: [] };
+        this.result = [];
+        this.count = { r: 0, sr: 0, ssr: 0, up: 0 };
+        this.bingo = { r: [], sr: [], ssr: [], up: [] };
     }
     pickup (min) {
         this.rarity.up = this.rarity.ssr / this.pools.ssr.length;
@@ -21,8 +23,9 @@ class Gacha {
         let pool = this.pools[type];
         let card = pool[Math.floor(Math.random() * pool.length)];
         console.log('Got ' + type.toUpperCase() + ' card: ' + card);
-        this.result[type] ++;
-        this.result.logs.push(card);
+        this.count[type] ++;
+        this.bingo[type].push(this.total);
+        this.result.push(card);
     }
     roll (number) {
         let times = number | 0;
@@ -32,9 +35,9 @@ class Gacha {
             this.total ++;
             let random = Math.random();
             if (random < this.rarity.up) {
-                this.result.up ++;
-                this.result.logs.push('pickup');
-                this.result.bingo.push(this.total);
+                this.count.up ++;
+                this.bingo.up.push(this.total);
+                this.result.push('pickup');
                 console.log('Got pickup card, roll counts ' + this.total);
             } else if (random < this.rarity.ssr) {
                 this.card('ssr');
@@ -44,7 +47,7 @@ class Gacha {
                 this.card('r');
             }
             if (this.total === this.threshold) {
-                console.log('Gacha threshold at ' + this.threshold + ' rolls;\nGot ' + this.result.up + ' pickup cards at "' + this.result.bingo.join(', ') + '";\nGot ' + this.result.r + ' R cards, ' + this.result.sr + ' SR cards, ' + this.result.ssr + ' SSR cards;');
+                console.log('Gacha threshold at ' + this.threshold + ' rolls;\nGot ' + this.count.up + ' pickup cards at "' + this.bingo.up.join(', ') + '";\nGot ' + this.count.r + ' R cards, ' + this.count.sr + ' SR cards, ' + this.count.ssr + ' SSR cards;');
             }
         }
     }
