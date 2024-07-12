@@ -1,31 +1,30 @@
 class Gacha {
-    constructor(posibility, threshold) {
-        this.posibility = posibility;
+    constructor(pickup, threshold) {
+        this.pickup = pickup;
         this.threshold = threshold;
+        this.sr = 0.3;
+        this.ssr = 0.05;
         this.reset();
     }
     reset () {
-        this.count = 0;
-        this.result = { r: 0, sr: 0, ssr: 0, pickup: 0 };
-        this.pickup = [];
+        this.total = 0;
+        this.result = { r: 0, sr: 0, ssr: 0, up: 0, pickup: [] };
     }
     roll (number) {
         let times = number | 0;
         if (times < 1) { times = 1; }
         for (let i = 0; i < times; i ++) {
-            this.count ++;
-            let result = Math.random();
-            if (result < this.posibility) {
-                this.result.pickup ++;
-                this.pickup.push(this.count);
-                console.log('Got pickup card at ' + this.count);
+            this.total ++;
+            let random = Math.random();
+            if (random < this.pickup) {
+                this.result.up ++;
+                this.result.pickup.push(this.total);
+                console.log('Got pickup card at ' + this.total);
             } else {
-                let ssr = 0.05;
-                let sr = 0.30;
-                if (result > sr) {
+                if (random > this.sr) {
                     this.result.r ++;
                     console.log('Got an R card!');
-                } else if (result > ssr) {
+                } else if (random > this.ssr) {
                     this.result.sr ++;
                     console.log('Got an SR card!');
                 } else {
@@ -33,8 +32,8 @@ class Gacha {
                     console.log('Got an SSR card!');
                 }
             }
-            if (this.count === this.threshold) {
-                console.log('Gacha threshold at ' + this.threshold + 'rolls;\nGot ' + this.result.pickup + ' pickup cards at "' + this.pickup.join(', ') + '";\nGot ' + this.result.r + ' R cards, ' + this.result.sr + ' SR cards, ' + this.result.ssr + ' SSR cards;');
+            if (this.total === this.threshold) {
+                console.log('Gacha threshold at ' + this.threshold + ' rolls;\nGot ' + this.result.up + ' pickup cards at "' + this.result.pickup.join(', ') + '";\nGot ' + this.result.r + ' R cards, ' + this.result.sr + ' SR cards, ' + this.result.ssr + ' SSR cards;');
                 this.reset();
                 break;
             }
