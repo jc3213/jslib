@@ -10,10 +10,10 @@ class Gacha {
         this.pickup = [];
     }
     roll (number) {
-        let time = number | 0;
-        if (time < 1) { time = 1; }
-        for (let i = 0; i < time; i++) {
-            this.count++;
+        let times = number | 0;
+        if (times < 1) { times = 1; }
+        for (let i = 0; i < times; i ++) {
+            this.count ++;
             let result = Math.random();
             if (result < this.posibility) {
                 this.result.pickup ++;
